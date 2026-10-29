@@ -68,8 +68,24 @@ def create_app(settings: APISettings) -> FastAPI:
             pass
         yield
 
+    # Own the public wording: Python 3.12 and 3.13+ use different HTTP reason
+    # phrases for 413/422, which otherwise changes the generated panel contract.
+    error_descriptions = {
+        400: "Bad Request",
+        401: "Unauthorized",
+        403: "Forbidden",
+        404: "Not Found",
+        405: "Method Not Allowed",
+        409: "Conflict",
+        413: "Content Too Large",
+        415: "Unsupported Media Type",
+        422: "Unprocessable Content",
+        500: "Internal Server Error",
+        503: "Service Unavailable",
+    }
     error_models = {
-        code: {"model": ErrorEnvelope} for code in (400, 401, 403, 404, 405, 409, 413, 415, 422, 500, 503)
+        code: {"model": ErrorEnvelope, "description": description}
+        for code, description in error_descriptions.items()
     }
     app = FastAPI(
         title="CanovaTwin X",
