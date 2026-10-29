@@ -29,7 +29,11 @@ gizli değerleri çıkartarak bildirin. Değerlendirme tamamlanmadan yayımlamay
 
 ## Geliştirme önlemleri
 
-İki aşamalı doğrulama, kişiye özel erişim, en az yetki, private depo,
+İki aşamalı doğrulama, kişiye özel erişim, en az yetki, korumalı ana dal,
 kilitli bağımlılıklar, salt okuma izinli CI ve PR incelemesi hedef düzendir.
 Bağımlılık taraması ve gizli bilgi taraması bilinen örüntülerle sınırlıdır;
 başarılı testler veya boş tarama raporu güvenlik garantisi değildir.
+
+Depo public ve MIT lisanslıdır. Yalnızca paylaşılabilir kaynak kodu, belgeler
+ve sentetik örnekler yayımlanır; şirket verisi veya erişim bilgisi için bu
+depo kullanılmaz. Secret scanning ve push protection açık tutulmalıdır.
