@@ -1,16 +1,16 @@
 # Organizasyon deposu çalışma düzeni
 
 Hedef organizasyon: **CanovaTwin Labs** (`canovatwin-labs`).
-Hedef depo: **canovatwin-x**, private. Ana dal: `main`.
-Bu belge hedef ayarları tanımlar; canlı sistemde doğrulanmış sonuçlar
+Depo: **canovatwin-x**, public ve MIT lisanslı. Ana dal: `main`.
+Bu belge çalışma düzenini ve önerileri tanımlar; canlı sistemde doğrulanmış sonuçlar
 [devir raporunda](GITHUB_HANDOFF_REPORT.md) ayrıca kaydedilir.
 
 ## Erişim ve hesaplar
 
 - `mirackeser`: organizasyon sahibi ve ilk kaynak kodu yüklemesinin yazarı.
 - `cansukalkan`: kendi hesabıyla katkı veren ekip üyesi; bu depoda Write yeterlidir.
-- Organizasyon varsayılan depo erişimi: None. Üyelik tek başına tüm depolara
-  erişim vermemeli; erişim depo veya ekip üzerinden açıkça atanmalıdır.
+- Organizasyon genelindeki erişim ayarları bu değişikliğin kapsamı dışındadır.
+  Yeni özel depolarda erişim en az yetkiyle ayrıca belirlenmelidir.
 - Her iki hesapta iki aşamalı doğrulama ve kurtarma kodlarının güvenli saklanması.
   Mevcut üyeleri çıkarabilecek bir 2FA kuralı önce hesaplar hazırlandıktan sonra uygulanır.
 - GitHub CLI/SSH kimliği geliştiriciye özeldir. Hiçbir anahtar sohbete, Git
@@ -18,9 +18,10 @@ Bu belge hedef ayarları tanımlar; canlı sistemde doğrulanmış sonuçlar
 
 ## Depo ayarları
 
-1. Private görünürlüğü ve organizasyon sahipliğini doğrulayın.
-2. Issues ve Pull Requests kullanın; henüz gerekmeyen Wiki/Pages/Discussions
-   servislerini açmayın. Otomatik yayın veya deploy bu aşamanın kapsamında değildir.
+1. Public görünürlüğü, MIT lisansını ve organizasyon sahipliğini doğrulayın.
+   Tüm commitler herkes tarafından okunabilir; özel veriler hiçbir dala eklenmez.
+2. Mevcut Issues, Pull Requests, Discussions, milestone ve proje panosunu
+   kullanın. Otomatik paket yayını veya deploy bu aşamanın kapsamında değildir.
 3. Squash merge ve birleştirilmiş dalı otomatik silme günlük iş akışını sade tutar.
 4. Actions varsayılan token izni read-only olmalı; PR oluşturma/onaylama izni
    gerekmemeli. Akışlar tam commit SHA'sına sabitlenir; PR kodu için
@@ -28,13 +29,13 @@ Bu belge hedef ayarları tanımlar; canlı sistemde doğrulanmış sonuçlar
 5. Dependabot haftalık güncellemeleri inceleme PR'ı açar; otomatik merge yoktur.
 6. Ücretli güvenlik ürünü, harcama limiti veya abonelik bu kurulumda açılmaz.
 
-## Dal koruması sınırı
+## Ana dal ve inceleme
 
-GitHub Free organizasyonlarda private depolar için korumalı dal özelliği yoktur.
-GitHub Team/Enterprise erişimi sağlanırsa `main` için bir onay, son değişiklikten
-sonra eski onayın düşmesi, çözümlenmiş konuşmalar ve başarılı Quality kontrolleri
-zorunlu kılınmalı; force push/silme engellenmelidir. Ücretli plan yokken bunlar
-ekip prosedürüdür, sunucu tarafından zorlanan güvenlik kontrolü değildir.
+Public depo için GitHub Free planında dal koruması kullanılabilir. `main` için
+bir başka geliştiricinin onayı, son değişiklikte önceki onayın düşmesi ve başarılı
+kalite kontrolleri gereklidir. Force push ve dal silme kapalı tutulur. Yönetici
+istisnası varsa incelemeyi aşmak için kullanılmaz; gerçek ayarlar devir raporunda
+belirtilir. Kendi PR'ını başka hesaba geçerek onaylamak bağımsız inceleme değildir.
 
 Kaynak: https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-protected-branches
 
@@ -42,7 +43,7 @@ Kaynak: https://docs.github.com/en/repositories/configuring-branches-and-merges-
 
 İlk yükleme öncesi paylaşılacak dosyalar ve gizli bilgi taraması incelenir.
 İlk commit mevcut sürümün tamamını içerir; geçmiş sprintler için yapay tarihçe
-üretilmez. Yüklemeden sonra yerel/uzak commit kimliği, private görünürlük,
+üretilmez. Yüklemeden sonra yerel/uzak commit kimliği, seçilen görünürlük,
 dosya içeriği, gerçek CI sonucu ve erişim ayarları doğrulanır.
 
 ## Yeni geliştiricinin başlaması

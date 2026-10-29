@@ -28,8 +28,8 @@ Uygulama sürümü **0.7.0**, analiz motoru **0.4.0**. 12 uzmanlı çekirdek, ye
 
 ## Ekip çalışması ve güvenlik
 
-Katkı akışı [CONTRIBUTING.md](CONTRIBUTING.md), güvenlik ve açık bildirme
-kuralları [SECURITY.md](SECURITY.md) içinde. İlk sürüm bir araştırma prototipidir;
+Katkı akışı [CONTRIBUTING.md](../CONTRIBUTING.md), güvenlik ve açık bildirme
+kuralları [SECURITY.md](../SECURITY.md) içinde. İlk sürüm bir araştırma prototipidir;
 şirket onayı, gerçek tesis doğrulaması veya üretime hazır olma iddiası taşımaz.
 İlk plandaki açık işler ve öncelikler [ROADMAP.md](ROADMAP.md) içinde izlenir.
 Organizasyon deposuna geçiş adımları [GITHUB_SETUP.md](GITHUB_SETUP.md) içinde.
