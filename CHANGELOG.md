@@ -25,6 +25,13 @@ of stored analyses. The engine version only changes when diagnostic behaviour ch
 ### Changed
 - README licensing and distribution statement updated: the repository is public
   and released under the MIT License.
+- Contribution and security documentation aligned with the public repository;
+  MIT license metadata and distribution files included in Python packages.
+
+### Fixed
+- OpenAPI error descriptions no longer depend on Python's HTTP reason phrases;
+  Python 3.12 now generates the same panel contract as Python 3.13 and 3.14.
+- Added the missing repository handoff report linked from the README.
 
 ## [0.7.0] - 2026-10-29 (engine 0.4.0)
 

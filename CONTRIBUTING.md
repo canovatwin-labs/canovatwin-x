@@ -34,8 +34,9 @@ farklı kavramlardır; kimlik doğrulama herkesin kendi hesabıyla yapılır.
 Hedef erişim: `mirackeser` organizasyon sahibi; `cansukalkan` organizasyon üyesi
 ve yalnızca bu depoda Write. Günlük geliştirme için Admin yetkisi gerekmez.
 Bu belge kendi başına GitHub üzerinde yetki veya dal koruması etkinleştirmez.
-Free/private planda zorunlu PR onayı ve korumalı dal kuralları bulunmuyorsa
-inceleme kuralı ekip prosedürüdür; teknik olarak zorunlu hale geldiği söylenmez.
+Depo public olduğu için GitHub Free planında dal koruması kullanılabilir.
+`main` bir başka geliştiricinin onayını gerektirir. Başarılı CI kontrolünün
+zorunlu olup olmadığı canlı depo ayarlarından ayrıca doğrulanır.
 
 ## Veri ve kapsam
 
@@ -44,7 +45,8 @@ inceleme kuralı ekip prosedürüdür; teknik olarak zorunlu hale geldiği söyl
   gönderilmez. `.gitignore` tek başına gizli bilgi denetimi değildir.
 - LLM çağrısı ve fiziksel cihaz komutu mevcut kapsamda yoktur.
 - Sprint raporu, çalışan/planlanan rol ayrımı ve test kanıtı her teslimde güncellenir.
-- Bir açık kaynak lisansı henüz seçilmemiştir; dış dağıtım veya yayın öncesi
-  hak sahipleri ve kullanım koşulları netleştirilmelidir.
+- Proje public olarak [MIT lisansı](LICENSE) altında yayımlanır. Üçüncü taraf
+  içerik ve bağımlılıklar kendi lisanslarına tabidir; kaynakların kullanım
+  ve paylaşım izinleri ayrıca doğrulanır.
 
 Ayrıntılı kapanış kapısı: [DEVELOPMENT.md](docs/DEVELOPMENT.md).
