@@ -1,0 +1,43 @@
+name: Dependency audit
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    paths:
+      - uv.lock
+      - pyproject.toml
+      - web/package.json
+      - web/package-lock.json
+      - .github/workflows/dependency-audit.yml
+  schedule:
+    - cron: '17 7 * * 1'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    name: Known dependency vulnerabilities
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
+      - uses: astral-sh/setup-uv@94527f2e458b27549849d47d273a16bec83a01e9 # v7
+        with:
+          version: '0.13.4'
+          python-version: '3.14'
+          enable-cache: false
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version: '22'
+      - name: Audit Python lockfile including development tools
+        run: |
+          uv export --locked --extra dev --no-emit-project --no-hashes --output-file "$RUNNER_TEMP/audit-requirements.txt"
+          uvx pip-audit==2.10.1 -r "$RUNNER_TEMP/audit-requirements.txt" --no-deps --disable-pip
+      - name: Audit frontend lockfile including development tools
+        working-directory: web
+        run: npm audit

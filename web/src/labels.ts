@@ -1,0 +1,66 @@
+export const labels: Record<string, string> = {
+  open: 'Açık',
+  investigating: 'İnceleniyor',
+  closed: 'Kapalı',
+  completed: 'Tamamlandı',
+  blocked: 'Engellendi',
+  clear: 'Belirti yok',
+  needs_review: 'İnceleme gerekli',
+  insufficient_data: 'Veri yetersiz',
+  failed: 'Başarısız',
+  active: 'Uygulanmış',
+  planned: 'Planlı',
+  candidate: 'Aday neden',
+  uncertain: 'Belirsiz aday',
+  retained: 'Korundu',
+  weak: 'Zayıf',
+  inconclusive: 'Sonuçsuz',
+  incident_created: 'Olay oluşturuldu',
+  analysis_saved: 'Analiz kaydedildi',
+  status_changed: 'Durum değişti',
+  illustrative_only: 'Yalnızca örnek',
+  reduction_in_model: 'Modelde azalma',
+  no_material_reduction: 'Belirgin azalma yok',
+  synthetic: 'Sentetik ölçüm',
+  historical_snapshot: 'Dondurulmuş geçmiş',
+  document_snapshot: 'Dondurulmuş doküman',
+  simulation: 'Simülasyon',
+  FAULT_F01: 'Fan performans kaybı',
+  FAULT_F02: 'Sensör sapması',
+  FAULT_F03: 'Eksik sensör verisi',
+  FAULT_F04: 'IT yükü artışı',
+  FAULT_F05: 'Soğutma kaybı',
+  FAULT_F06: 'Hava akışı kısıtlaması',
+  FAULT_F07: 'Fan komutu / geri bildirim uyumsuzluğu',
+  FAULT_F08: 'Haberleşme kaybı',
+  FAULT_F09: 'Kontrol salınımı',
+  FAULT_F10: 'Birleşik arıza',
+};
+export const label = (value: string | null | undefined) => (value ? (labels[value] ?? value) : '—');
+export const date = (value: string) =>
+  new Intl.DateTimeFormat('tr-TR', { dateStyle: 'short', timeStyle: 'medium' }).format(
+    new Date(value),
+  );
+export const number = (value: number | null | undefined, digits = 2) =>
+  value == null ? '—' : value.toLocaleString('tr-TR', { maximumFractionDigits: digits });
+export const scenarios = [
+  ['normal', 'Normal çalışma'],
+  ['fan_loss', 'Fan performans kaybı'],
+  ['sensor_bias', 'Sensör sapması'],
+  ['sensor_missing', 'Eksik sensör verisi'],
+  ['load_surge', 'IT yükü artışı'],
+  ['cooling_loss', 'Soğutma kaybı'],
+  ['airflow_restriction', 'Hava akışı kısıtlaması'],
+  ['fan_mismatch', 'Fan uyumsuzluğu'],
+  ['communication_loss', 'Haberleşme kaybı'],
+  ['control_oscillation', 'Kontrol salınımı'],
+  ['combined', 'Birleşik arıza'],
+] as const;
+export const groups: Record<string, string> = {
+  A: 'Sensör ve veri',
+  B: 'Arıza ve kök neden',
+  C: 'Bakım ve güvenilirlik',
+  D: 'Dijital ikiz',
+  E: 'PLC ve doğrulama',
+  F: 'Bilgi ve raporlama',
+};

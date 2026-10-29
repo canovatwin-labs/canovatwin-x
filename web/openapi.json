@@ -1,0 +1,4801 @@
+{
+  "components": {
+    "schemas": {
+      "AgentDefinition": {
+        "additionalProperties": false,
+        "properties": {
+          "activation_stage": {
+            "anyOf": [
+              {
+                "enum": [
+                  6,
+                  12
+                ],
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Activation Stage"
+          },
+          "agent_id": {
+            "pattern": "^[A-F]0[1-6]$",
+            "title": "Agent Id",
+            "type": "string"
+          },
+          "allowed_tools": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Allowed Tools",
+            "type": "array"
+          },
+          "execution": {
+            "enum": [
+              "deterministic",
+              "unimplemented"
+            ],
+            "title": "Execution",
+            "type": "string"
+          },
+          "group": {
+            "enum": [
+              "A",
+              "B",
+              "C",
+              "D",
+              "E",
+              "F"
+            ],
+            "title": "Group",
+            "type": "string"
+          },
+          "input_schema": {
+            "default": "AnalysisContext/v1",
+            "title": "Input Schema",
+            "type": "string"
+          },
+          "name": {
+            "title": "Name",
+            "type": "string"
+          },
+          "output_schema": {
+            "title": "Output Schema",
+            "type": "string"
+          },
+          "purpose": {
+            "title": "Purpose",
+            "type": "string"
+          },
+          "read_only": {
+            "const": true,
+            "default": true,
+            "title": "Read Only",
+            "type": "boolean"
+          },
+          "status": {
+            "enum": [
+              "active",
+              "planned"
+            ],
+            "title": "Status",
+            "type": "string"
+          },
+          "version": {
+            "const": "1.0",
+            "default": "1.0",
+            "title": "Version",
+            "type": "string"
+          }
+        },
+        "required": [
+          "agent_id",
+          "name",
+          "group",
+          "purpose",
+          "status",
+          "activation_stage",
+          "execution",
+          "allowed_tools",
+          "output_schema"
+        ],
+        "title": "AgentDefinition",
+        "type": "object"
+      },
+      "AgentOutput": {
+        "additionalProperties": false,
+        "properties": {
+          "agent_id": {
+            "pattern": "^[A-F]0[1-6]$",
+            "title": "Agent Id",
+            "type": "string"
+          },
+          "incident_id": {
+            "maxLength": 100,
+            "minLength": 1,
+            "title": "Incident Id",
+            "type": "string"
+          },
+          "payload": {
+            "discriminator": {
+              "mapping": {
+                "anomaly": "#/components/schemas/AnomalyResult",
+                "critique": "#/components/schemas/CritiqueResult",
+                "diagnosis": "#/components/schemas/DiagnosisResult",
+                "history": "#/components/schemas/HistoricalResult",
+                "missing_data": "#/components/schemas/MissingDataResult",
+                "quality": "#/components/schemas/QualityResult",
+                "report": "#/components/schemas/TechnicalReport",
+                "retrieval": "#/components/schemas/RetrievalResult",
+                "signals": "#/components/schemas/SignalResult",
+                "simulation": "#/components/schemas/SimulationResult",
+                "simulation_validation": "#/components/schemas/SimulationValidationResult",
+                "verification": "#/components/schemas/VerificationResult"
+              },
+              "propertyName": "kind"
+            },
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/QualityResult"
+              },
+              {
+                "$ref": "#/components/schemas/SignalResult"
+              },
+              {
+                "$ref": "#/components/schemas/AnomalyResult"
+              },
+              {
+                "$ref": "#/components/schemas/DiagnosisResult"
+              },
+              {
+                "$ref": "#/components/schemas/VerificationResult"
+              },
+              {
+                "$ref": "#/components/schemas/TechnicalReport"
+              },
+              {
+                "$ref": "#/components/schemas/MissingDataResult"
+              },
+              {
+                "$ref": "#/components/schemas/HistoricalResult"
+              },
+              {
+                "$ref": "#/components/schemas/RetrievalResult"
+              },
+              {
+                "$ref": "#/components/schemas/CritiqueResult"
+              },
+              {
+                "$ref": "#/components/schemas/SimulationResult"
+              },
+              {
+                "$ref": "#/components/schemas/SimulationValidationResult"
+              }
+            ],
+            "title": "Payload"
+          },
+          "schema_version": {
+            "const": "1.0",
+            "default": "1.0",
+            "title": "Schema Version",
+            "type": "string"
+          },
+          "task_id": {
+            "maxLength": 100,
+            "minLength": 1,
+            "title": "Task Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "agent_id",
+          "task_id",
+          "incident_id",
+          "payload"
+        ],
+        "title": "AgentOutput",
+        "type": "object"
+      },
+      "AgentRun": {
+        "additionalProperties": false,
+        "properties": {
+          "agent_id": {
+            "pattern": "^[A-F]0[1-6]$",
+            "title": "Agent Id",
+            "type": "string"
+          },
+          "elapsed_ms": {
+            "minimum": 0.0,
+            "title": "Elapsed Ms",
+            "type": "number"
+          },
+          "error_code": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Error Code"
+          },
+          "status": {
+            "enum": [
+              "completed",
+              "failed"
+            ],
+            "title": "Status",
+            "type": "string"
+          },
+          "task_id": {
+            "maxLength": 100,
+            "minLength": 1,
+            "title": "Task Id",
+            "type": "string"
+          },
+          "tool_calls": {
+            "minimum": 0.0,
+            "title": "Tool Calls",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "agent_id",
+          "task_id",
+          "status",
+          "tool_calls",
+          "elapsed_ms"
+        ],
+        "title": "AgentRun",
+        "type": "object"
+      },
+      "AnalysisRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "as_of": {
+            "format": "date-time",
+            "title": "As Of",
+            "type": "string"
+          },
+          "clock_mode": {
+            "default": "replay",
+            "enum": [
+              "replay",
+              "realtime"
+            ],
+            "title": "Clock Mode",
+            "type": "string"
+          },
+          "research": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ResearchInputs"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null
+          },
+          "schema_version": {
+            "const": "1.0",
+            "default": "1.0",
+            "title": "Schema Version",
+            "type": "string"
+          },
+          "window": {
+            "$ref": "#/components/schemas/TelemetryWindow"
+          }
+        },
+        "required": [
+          "window",
+          "as_of"
+        ],
+        "title": "AnalysisRequest",
+        "type": "object"
+      },
+      "AnalysisRun": {
+        "additionalProperties": false,
+        "properties": {
+          "clock_mode": {
+            "enum": [
+              "replay",
+              "realtime"
+            ],
+            "title": "Clock Mode",
+            "type": "string"
+          },
+          "commands": {
+            "default": [],
+            "maxItems": 0,
+            "minItems": 0,
+            "title": "Commands",
+            "type": "array"
+          },
+          "evidence": {
+            "items": {
+              "$ref": "#/components/schemas/Evidence"
+            },
+            "title": "Evidence",
+            "type": "array"
+          },
+          "failure": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/RunFailure"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "incident_id": {
+            "maxLength": 100,
+            "minLength": 1,
+            "title": "Incident Id",
+            "type": "string"
+          },
+          "llm_calls": {
+            "const": 0,
+            "default": 0,
+            "title": "Llm Calls",
+            "type": "integer"
+          },
+          "mode": {
+            "const": "simulation",
+            "default": "simulation",
+            "title": "Mode",
+            "type": "string"
+          },
+          "outputs": {
+            "items": {
+              "$ref": "#/components/schemas/AgentOutput"
+            },
+            "title": "Outputs",
+            "type": "array"
+          },
+          "report": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/TechnicalReport"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "schema_version": {
+            "const": "1.0",
+            "default": "1.0",
+            "title": "Schema Version",
+            "type": "string"
+          },
+          "status": {
+            "enum": [
+              "completed",
+              "blocked"
+            ],
+            "title": "Status",
+            "type": "string"
+          },
+          "total_tool_calls": {
+            "minimum": 0.0,
+            "title": "Total Tool Calls",
+            "type": "integer"
+          },
+          "trace": {
+            "items": {
+              "$ref": "#/components/schemas/AgentRun"
+            },
+            "title": "Trace",
+            "type": "array"
+          }
+        },
+        "required": [
+          "incident_id",
+          "clock_mode",
+          "status",
+          "report",
+          "outputs",
+          "trace",
+          "evidence",
+          "total_tool_calls"
+        ],
+        "title": "AnalysisRun",
+        "type": "object"
+      },
+      "AnalyzeBody": {
+        "additionalProperties": false,
+        "properties": {
+          "policy": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Policy"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null
+          },
+          "request": {
+            "$ref": "#/components/schemas/AnalysisRequest"
+          }
+        },
+        "required": [
+          "request"
+        ],
+        "title": "AnalyzeBody",
+        "type": "object"
+      },
+      "AnomalyResult": {
+        "additionalProperties": false,
+        "properties": {
+          "detected": {
+            "title": "Detected",
+            "type": "boolean"
+          },
+          "kind": {
+            "const": "anomaly",
+            "default": "anomaly",
+            "title": "Kind",
+            "type": "string"
+          },
+          "observations": {
+            "items": {
+              "$ref": "#/components/schemas/Observation"
+            },
+            "title": "Observations",
+            "type": "array"
+          }
+        },
+        "required": [
+          "detected",
+          "observations"
+        ],
+        "title": "AnomalyResult",
+        "type": "object"
+      },
+      "AuditEvent": {
+        "additionalProperties": false,
+        "properties": {
+          "action": {
+            "enum": [
+              "incident_created",
+              "analysis_saved",
+              "status_changed"
+            ],
+            "title": "Action",
+            "type": "string"
+          },
+          "actor": {
+            "maxLength": 100,
+            "minLength": 1,
+            "title": "Actor",
+            "type": "string"
+          },
+          "event_id": {
+            "minimum": 1.0,
+            "title": "Event Id",
+            "type": "integer"
+          },
+          "incident_id": {
+            "maxLength": 100,
+            "minLength": 1,
+            "title": "Incident Id",
+            "type": "string"
+          },
+          "new_status": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/IncidentStatus"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "old_status": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/IncidentStatus"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "reason": {
+            "title": "Reason",
+            "type": "string"
+          },
+          "recorded_at": {
+            "format": "date-time",
+            "title": "Recorded At",
+            "type": "string"
+          },
+          "revision": {
+            "minimum": 1.0,
+            "title": "Revision",
+            "type": "integer"
+          },
+          "run_id": {
+            "anyOf": [
+              {
+                "maxLength": 100,
+                "minLength": 1,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Run Id"
+          }
+        },
+        "required": [
+          "event_id",
+          "incident_id",
+          "run_id",
+          "recorded_at",
+          "actor",
+          "action",
+          "old_status",
+          "new_status",
+          "reason",
+          "revision"
+        ],
+        "title": "AuditEvent",
+        "type": "object"
+      },
+      "CritiqueResult": {
+        "additionalProperties": false,
+        "properties": {
+          "kind": {
+            "const": "critique",
+            "default": "critique",
+            "title": "Kind",
+            "type": "string"
+          },
+          "reviews": {
+            "items": {
+              "$ref": "#/components/schemas/HypothesisReview"
+            },
+            "title": "Reviews",
+            "type": "array"
+          }
+        },
+        "required": [
+          "reviews"
+        ],
+        "title": "CritiqueResult",
+        "type": "object"
+      },
+      "DiagnosisResult": {
+        "additionalProperties": false,
+        "properties": {
+          "hypotheses": {
+            "items": {
+              "$ref": "#/components/schemas/Hypothesis"
+            },
+            "title": "Hypotheses",
+            "type": "array"
+          },
+          "kind": {
+            "const": "diagnosis",
+            "default": "diagnosis",
+            "title": "Kind",
+            "type": "string"
+          }
+        },
+        "required": [
+          "hypotheses"
+        ],
+        "title": "DiagnosisResult",
+        "type": "object"
+      },
+      "DocumentHit": {
+        "additionalProperties": false,
+        "properties": {
+          "content_hash": {
+            "title": "Content Hash",
+            "type": "string"
+          },
+          "document_id": {
+            "maxLength": 100,
+            "minLength": 1,
+            "title": "Document Id",
+            "type": "string"
+          },
+          "end": {
+            "exclusiveMinimum": 0.0,
+            "title": "End",
+            "type": "integer"
+          },
+          "excerpt": {
+            "maxLength": 600,
+            "minLength": 1,
+            "title": "Excerpt",
+            "type": "string"
+          },
+          "matched_terms": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Matched Terms",
+            "type": "array"
+          },
+          "score": {
+            "exclusiveMinimum": 0.0,
+            "maximum": 1.0,
+            "title": "Score",
+            "type": "number"
+          },
+          "start": {
+            "minimum": 0.0,
+            "title": "Start",
+            "type": "integer"
+          },
+          "title": {
+            "title": "Title",
+            "type": "string"
+          },
+          "version": {
+            "title": "Version",
+            "type": "string"
+          }
+        },
+        "required": [
+          "document_id",
+          "title",
+          "version",
+          "content_hash",
+          "start",
+          "end",
+          "excerpt",
+          "score",
+          "matched_terms"
+        ],
+        "title": "DocumentHit",
+        "type": "object"
+      },
+      "ErrorDetail": {
+        "additionalProperties": false,
+        "properties": {
+          "code": {
+            "title": "Code",
+            "type": "string"
+          },
+          "issues": {
+            "default": [],
+            "items": {
+              "$ref": "#/components/schemas/FieldIssue"
+            },
+            "title": "Issues",
+            "type": "array"
+          },
+          "message": {
+            "title": "Message",
+            "type": "string"
+          }
+        },
+        "required": [
+          "code",
+          "message"
+        ],
+        "title": "ErrorDetail",
+        "type": "object"
+      },
+      "ErrorEnvelope": {
+        "additionalProperties": false,
+        "properties": {
+          "error": {
+            "$ref": "#/components/schemas/ErrorDetail"
+          },
+          "request_id": {
+            "maxLength": 100,
+            "minLength": 1,
+            "title": "Request Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "request_id",
+          "error"
+        ],
+        "title": "ErrorEnvelope",
+        "type": "object"
+      },
+      "Evidence": {
+        "additionalProperties": false,
+        "properties": {
+          "evidence_id": {
+            "maxLength": 100,
+            "minLength": 1,
+            "title": "Evidence Id",
+            "type": "string"
+          },
+          "metric": {
+            "maxLength": 100,
+            "minLength": 1,
+            "title": "Metric",
+            "type": "string"
+          },
+          "producer": {
+            "pattern": "^[A-F]0[1-6]$",
+            "title": "Producer",
+            "type": "string"
+          },
+          "sample_ids": {
+            "items": {
+              "maxLength": 100,
+              "minLength": 1,
+              "type": "string"
+            },
+            "maxItems": 600,
+            "minItems": 1,
+            "title": "Sample Ids",
+            "type": "array"
+          },
+          "source": {
+            "default": "synthetic",
+            "enum": [
+              "synthetic",
+              "historical_snapshot",
+              "document_snapshot",
+              "simulation"
+            ],
+            "title": "Source",
+            "type": "string"
+          },
+          "unit": {
+            "title": "Unit",
+            "type": "string"
+          },
+          "value": {
+            "title": "Value",
+            "type": "number"
+          }
+        },
+        "required": [
+          "evidence_id",
+          "producer",
+          "metric",
+          "value",
+          "unit",
+          "sample_ids"
+        ],
+        "title": "Evidence",
+        "type": "object"
+      },
+      "FaultCode": {
+        "enum": [
+          "FAULT_F01",
+          "FAULT_F02",
+          "FAULT_F03",
+          "FAULT_F04",
+          "FAULT_F05",
+          "FAULT_F06",
+          "FAULT_F07",
+          "FAULT_F08",
+          "FAULT_F09",
+          "FAULT_F10"
+        ],
+        "title": "FaultCode",
+        "type": "string"
+      },
+      "FieldIssue": {
+        "additionalProperties": false,
+        "properties": {
+          "code": {
+            "title": "Code",
+            "type": "string"
+          },
+          "location": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "title": "Location",
+            "type": "array"
+          },
+          "message": {
+            "title": "Message",
+            "type": "string"
+          }
+        },
+        "required": [
+          "location",
+          "code",
+          "message"
+        ],
+        "title": "FieldIssue",
+        "type": "object"
+      },
+      "GenerationMetadata": {
+        "additionalProperties": false,
+        "description": "Experiment provenance, deliberately outside AnalysisRequest/agent inputs.",
+        "properties": {
+          "conditions": {
+            "$ref": "#/components/schemas/OperatingConditions"
+          },
+          "count": {
+            "maximum": 600.0,
+            "minimum": 30.0,
+            "title": "Count",
+            "type": "integer"
+          },
+          "generator_version": {
+            "const": "dynamic-1.0",
+            "default": "dynamic-1.0",
+            "title": "Generator Version",
+            "type": "string"
+          },
+          "scenario": {
+            "$ref": "#/components/schemas/Scenario"
+          },
+          "seed": {
+            "title": "Seed",
+            "type": "integer"
+          },
+          "start": {
+            "format": "date-time",
+            "title": "Start",
+            "type": "string"
+          }
+        },
+        "required": [
+          "scenario",
+          "count",
+          "seed",
+          "start",
+          "conditions"
+        ],
+        "title": "GenerationMetadata",
+        "type": "object"
+      },
+      "Health": {
+        "additionalProperties": false,
+        "properties": {
+          "api_version": {
+            "default": "1.0",
+            "title": "Api Version",
+            "type": "string"
+          },
+          "application_version": {
+            "default": "0.7.0",
+            "title": "Application Version",
+            "type": "string"
+          },
+          "mode": {
+            "const": "simulation",
+            "default": "simulation",
+            "title": "Mode",
+            "type": "string"
+          },
+          "status": {
+            "const": "ok",
+            "default": "ok",
+            "title": "Status",
+            "type": "string"
+          }
+        },
+        "title": "Health",
+        "type": "object"
+      },
+      "HistoricalCase": {
+        "additionalProperties": false,
+        "properties": {
+          "assessment": {
+            "const": "unconfirmed",
+            "default": "unconfirmed",
+            "title": "Assessment",
+            "type": "string"
+          },
+          "asset_id": {
+            "maxLength": 100,
+            "minLength": 1,
+            "title": "Asset Id",
+            "type": "string"
+          },
+          "candidate_faults": {
+            "items": {
+              "$ref": "#/components/schemas/FaultCode"
+            },
+            "maxItems": 10,
+            "title": "Candidate Faults",
+            "type": "array"
+          },
+          "engine_version": {
+            "maxLength": 50,
+            "minLength": 1,
+            "title": "Engine Version",
+            "type": "string"
+          },
+          "incident_id": {
+            "maxLength": 100,
+            "minLength": 1,
+            "title": "Incident Id",
+            "type": "string"
+          },
+          "observation_codes": {
+            "items": {
+              "maxLength": 100,
+              "minLength": 1,
+              "type": "string"
+            },
+            "maxItems": 30,
+            "title": "Observation Codes",
+            "type": "array"
+          },
+          "run_id": {
+            "maxLength": 100,
+            "minLength": 1,
+            "title": "Run Id",
+            "type": "string"
+          },
+          "window_end": {
+            "format": "date-time",
+            "title": "Window End",
+            "type": "string"
+          },
+          "window_start": {
+            "format": "date-time",
+            "title": "Window Start",
+            "type": "string"
+          }
+        },
+        "required": [
+          "run_id",
+          "incident_id",
+          "asset_id",
+          "window_start",
+          "window_end",
+          "engine_version",
+          "observation_codes",
+          "candidate_faults"
+        ],
+        "title": "HistoricalCase",
+        "type": "object"
+      },
+      "HistoricalMatch": {
+        "additionalProperties": false,
+        "properties": {
+          "assessment": {
+            "const": "unconfirmed",
+            "default": "unconfirmed",
+            "title": "Assessment",
+            "type": "string"
+          },
+          "candidate_faults": {
+            "items": {
+              "$ref": "#/components/schemas/FaultCode"
+            },
+            "title": "Candidate Faults",
+            "type": "array"
+          },
+          "run_id": {
+            "maxLength": 100,
+            "minLength": 1,
+            "title": "Run Id",
+            "type": "string"
+          },
+          "score": {
+            "exclusiveMinimum": 0.0,
+            "maximum": 1.0,
+            "title": "Score",
+            "type": "number"
+          },
+          "shared_observations": {
+            "items": {
+              "maxLength": 100,
+              "minLength": 1,
+              "type": "string"
+            },
+            "title": "Shared Observations",
+            "type": "array"
+          }
+        },
+        "required": [
+          "run_id",
+          "score",
+          "shared_observations",
+          "candidate_faults"
+        ],
+        "title": "HistoricalMatch",
+        "type": "object"
+      },
+      "HistoricalResult": {
+        "additionalProperties": false,
+        "properties": {
+          "evidence": {
+            "items": {
+              "$ref": "#/components/schemas/Evidence"
+            },
+            "title": "Evidence",
+            "type": "array"
+          },
+          "excluded_count": {
+            "minimum": 0.0,
+            "title": "Excluded Count",
+            "type": "integer"
+          },
+          "kind": {
+            "const": "history",
+            "default": "history",
+            "title": "Kind",
+            "type": "string"
+          },
+          "matches": {
+            "items": {
+              "$ref": "#/components/schemas/HistoricalMatch"
+            },
+            "maxItems": 3,
+            "title": "Matches",
+            "type": "array"
+          }
+        },
+        "required": [
+          "matches",
+          "excluded_count",
+          "evidence"
+        ],
+        "title": "HistoricalResult",
+        "type": "object"
+      },
+      "Hypothesis": {
+        "additionalProperties": false,
+        "properties": {
+          "assessment": {
+            "default": "candidate",
+            "enum": [
+              "candidate",
+              "uncertain"
+            ],
+            "title": "Assessment",
+            "type": "string"
+          },
+          "contradicting_evidence": {
+            "default": [],
+            "items": {
+              "maxLength": 100,
+              "minLength": 1,
+              "type": "string"
+            },
+            "title": "Contradicting Evidence",
+            "type": "array"
+          },
+          "explanation": {
+            "title": "Explanation",
+            "type": "string"
+          },
+          "fault_code": {
+            "$ref": "#/components/schemas/FaultCode"
+          },
+          "supporting_evidence": {
+            "items": {
+              "maxLength": 100,
+              "minLength": 1,
+              "type": "string"
+            },
+            "minItems": 1,
+            "title": "Supporting Evidence",
+            "type": "array"
+          }
+        },
+        "required": [
+          "fault_code",
+          "explanation",
+          "supporting_evidence"
+        ],
+        "title": "Hypothesis",
+        "type": "object"
+      },
+      "HypothesisReview": {
+        "additionalProperties": false,
+        "properties": {
+          "contradicting_evidence": {
+            "items": {
+              "maxLength": 100,
+              "minLength": 1,
+              "type": "string"
+            },
+            "title": "Contradicting Evidence",
+            "type": "array"
+          },
+          "document_refs": {
+            "items": {
+              "maxLength": 100,
+              "minLength": 1,
+              "type": "string"
+            },
+            "title": "Document Refs",
+            "type": "array"
+          },
+          "fault_code": {
+            "$ref": "#/components/schemas/FaultCode"
+          },
+          "historical_refs": {
+            "items": {
+              "maxLength": 100,
+              "minLength": 1,
+              "type": "string"
+            },
+            "title": "Historical Refs",
+            "type": "array"
+          },
+          "reason": {
+            "title": "Reason",
+            "type": "string"
+          },
+          "supporting_evidence": {
+            "items": {
+              "maxLength": 100,
+              "minLength": 1,
+              "type": "string"
+            },
+            "title": "Supporting Evidence",
+            "type": "array"
+          },
+          "verdict": {
+            "enum": [
+              "retained",
+              "weak",
+              "inconclusive"
+            ],
+            "title": "Verdict",
+            "type": "string"
+          }
+        },
+        "required": [
+          "fault_code",
+          "verdict",
+          "reason",
+          "supporting_evidence",
+          "contradicting_evidence",
+          "historical_refs",
+          "document_refs"
+        ],
+        "title": "HypothesisReview",
+        "type": "object"
+      },
+      "IncidentStatus": {
+        "enum": [
+          "open",
+          "investigating",
+          "closed"
+        ],
+        "title": "IncidentStatus",
+        "type": "string"
+      },
+      "IncidentSummary": {
+        "additionalProperties": false,
+        "properties": {
+          "asset_id": {
+            "maxLength": 100,
+            "minLength": 1,
+            "title": "Asset Id",
+            "type": "string"
+          },
+          "created_at": {
+            "format": "date-time",
+            "title": "Created At",
+            "type": "string"
+          },
+          "incident_id": {
+            "maxLength": 100,
+            "minLength": 1,
+            "title": "Incident Id",
+            "type": "string"
+          },
+          "latest_analysis_status": {
+            "enum": [
+              "completed",
+              "blocked"
+            ],
+            "title": "Latest Analysis Status",
+            "type": "string"
+          },
+          "latest_report_status": {
+            "anyOf": [
+              {
+                "enum": [
+                  "clear",
+                  "needs_review",
+                  "insufficient_data"
+                ],
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Latest Report Status"
+          },
+          "latest_run_id": {
+            "maxLength": 100,
+            "minLength": 1,
+            "title": "Latest Run Id",
+            "type": "string"
+          },
+          "revision": {
+            "minimum": 1.0,
+            "title": "Revision",
+            "type": "integer"
+          },
+          "run_count": {
+            "minimum": 1.0,
+            "title": "Run Count",
+            "type": "integer"
+          },
+          "status": {
+            "$ref": "#/components/schemas/IncidentStatus"
+          },
+          "updated_at": {
+            "format": "date-time",
+            "title": "Updated At",
+            "type": "string"
+          }
+        },
+        "required": [
+          "incident_id",
+          "asset_id",
+          "status",
+          "revision",
+          "created_at",
+          "updated_at",
+          "run_count",
+          "latest_run_id",
+          "latest_analysis_status",
+          "latest_report_status"
+        ],
+        "title": "IncidentSummary",
+        "type": "object"
+      },
+      "MissingDataResult": {
+        "additionalProperties": false,
+        "properties": {
+          "estimated_lost_samples": {
+            "minimum": 0.0,
+            "title": "Estimated Lost Samples",
+            "type": "integer"
+          },
+          "evidence": {
+            "items": {
+              "$ref": "#/components/schemas/Evidence"
+            },
+            "title": "Evidence",
+            "type": "array"
+          },
+          "fields": {
+            "items": {
+              "$ref": "#/components/schemas/MissingField"
+            },
+            "title": "Fields",
+            "type": "array"
+          },
+          "kind": {
+            "const": "missing_data",
+            "default": "missing_data",
+            "title": "Kind",
+            "type": "string"
+          },
+          "limitation": {
+            "title": "Limitation",
+            "type": "string"
+          },
+          "observations": {
+            "items": {
+              "$ref": "#/components/schemas/Observation"
+            },
+            "title": "Observations",
+            "type": "array"
+          },
+          "stale_stream": {
+            "title": "Stale Stream",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "fields",
+          "estimated_lost_samples",
+          "stale_stream",
+          "observations",
+          "evidence",
+          "limitation"
+        ],
+        "title": "MissingDataResult",
+        "type": "object"
+      },
+      "MissingField": {
+        "additionalProperties": false,
+        "properties": {
+          "longest_missing_s": {
+            "minimum": 0.0,
+            "title": "Longest Missing S",
+            "type": "number"
+          },
+          "missing_count": {
+            "maximum": 600.0,
+            "minimum": 1.0,
+            "title": "Missing Count",
+            "type": "integer"
+          },
+          "sensor": {
+            "maxLength": 100,
+            "minLength": 1,
+            "title": "Sensor",
+            "type": "string"
+          }
+        },
+        "required": [
+          "sensor",
+          "missing_count",
+          "longest_missing_s"
+        ],
+        "title": "MissingField",
+        "type": "object"
+      },
+      "Observation": {
+        "additionalProperties": false,
+        "properties": {
+          "code": {
+            "maxLength": 100,
+            "minLength": 1,
+            "title": "Code",
+            "type": "string"
+          },
+          "evidence_ids": {
+            "items": {
+              "maxLength": 100,
+              "minLength": 1,
+              "type": "string"
+            },
+            "minItems": 1,
+            "title": "Evidence Ids",
+            "type": "array"
+          },
+          "message": {
+            "title": "Message",
+            "type": "string"
+          }
+        },
+        "required": [
+          "code",
+          "message",
+          "evidence_ids"
+        ],
+        "title": "Observation",
+        "type": "object"
+      },
+      "OperatingConditions": {
+        "additionalProperties": false,
+        "properties": {
+          "ambient_c": {
+            "default": 30.0,
+            "maximum": 40,
+            "minimum": 18,
+            "title": "Ambient C",
+            "type": "number"
+          },
+          "baseline_load_kw": {
+            "default": 4.2,
+            "maximum": 8,
+            "minimum": 2,
+            "title": "Baseline Load Kw",
+            "type": "number"
+          },
+          "fan_response_s": {
+            "default": 6.0,
+            "maximum": 20,
+            "minimum": 1,
+            "title": "Fan Response S",
+            "type": "number"
+          },
+          "workload": {
+            "default": "cyclic",
+            "enum": [
+              "steady",
+              "cyclic",
+              "batch"
+            ],
+            "title": "Workload",
+            "type": "string"
+          }
+        },
+        "title": "OperatingConditions",
+        "type": "object"
+      },
+      "Page_AuditEvent_": {
+        "additionalProperties": false,
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/AuditEvent"
+            },
+            "title": "Items",
+            "type": "array"
+          },
+          "limit": {
+            "title": "Limit",
+            "type": "integer"
+          },
+          "offset": {
+            "title": "Offset",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "items",
+          "limit",
+          "offset"
+        ],
+        "title": "Page[AuditEvent]",
+        "type": "object"
+      },
+      "Page_IncidentSummary_": {
+        "additionalProperties": false,
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/IncidentSummary"
+            },
+            "title": "Items",
+            "type": "array"
+          },
+          "limit": {
+            "title": "Limit",
+            "type": "integer"
+          },
+          "offset": {
+            "title": "Offset",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "items",
+          "limit",
+          "offset"
+        ],
+        "title": "Page[IncidentSummary]",
+        "type": "object"
+      },
+      "Page_RunSummary_": {
+        "additionalProperties": false,
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/RunSummary"
+            },
+            "title": "Items",
+            "type": "array"
+          },
+          "limit": {
+            "title": "Limit",
+            "type": "integer"
+          },
+          "offset": {
+            "title": "Offset",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "items",
+          "limit",
+          "offset"
+        ],
+        "title": "Page[RunSummary]",
+        "type": "object"
+      },
+      "Policy": {
+        "additionalProperties": false,
+        "properties": {
+          "fan_error_pct": {
+            "default": 10.0,
+            "exclusiveMinimum": 0,
+            "maximum": 100,
+            "title": "Fan Error Pct",
+            "type": "number"
+          },
+          "fan_variation_pct": {
+            "default": 25.0,
+            "exclusiveMinimum": 0,
+            "maximum": 100,
+            "title": "Fan Variation Pct",
+            "type": "number"
+          },
+          "future_tolerance_s": {
+            "default": 5.0,
+            "minimum": 0,
+            "title": "Future Tolerance S",
+            "type": "number"
+          },
+          "high_inlet_c": {
+            "default": 27.0,
+            "title": "High Inlet C",
+            "type": "number"
+          },
+          "load_increase_kw": {
+            "default": 1.0,
+            "exclusiveMinimum": 0,
+            "title": "Load Increase Kw",
+            "type": "number"
+          },
+          "max_age_s": {
+            "default": 60.0,
+            "minimum": 0,
+            "title": "Max Age S",
+            "type": "number"
+          },
+          "max_agents": {
+            "default": 6,
+            "maximum": 12,
+            "minimum": 1,
+            "title": "Max Agents",
+            "type": "integer"
+          },
+          "max_elapsed_s": {
+            "default": 5.0,
+            "exclusiveMinimum": 0,
+            "maximum": 60,
+            "title": "Max Elapsed S",
+            "type": "number"
+          },
+          "max_gap_s": {
+            "default": 5.0,
+            "exclusiveMinimum": 0,
+            "title": "Max Gap S",
+            "type": "number"
+          },
+          "max_tool_calls": {
+            "default": 6,
+            "maximum": 20,
+            "minimum": 1,
+            "title": "Max Tool Calls",
+            "type": "integer"
+          },
+          "max_tools_per_agent": {
+            "default": 1,
+            "maximum": 5,
+            "minimum": 1,
+            "title": "Max Tools Per Agent",
+            "type": "integer"
+          },
+          "max_window_s": {
+            "default": 3600.0,
+            "exclusiveMinimum": 0,
+            "title": "Max Window S",
+            "type": "number"
+          },
+          "min_airflow_efficiency": {
+            "default": 0.8,
+            "exclusiveMinimum": 0,
+            "maximum": 1,
+            "title": "Min Airflow Efficiency",
+            "type": "number"
+          },
+          "min_cooling_efficiency": {
+            "default": 0.8,
+            "exclusiveMinimum": 0,
+            "maximum": 1,
+            "title": "Min Cooling Efficiency",
+            "type": "number"
+          },
+          "nominal_airflow_m3s": {
+            "default": 2.5,
+            "exclusiveMinimum": 0,
+            "title": "Nominal Airflow M3S",
+            "type": "number"
+          },
+          "nominal_cooling_kw": {
+            "default": 10.0,
+            "exclusiveMinimum": 0,
+            "title": "Nominal Cooling Kw",
+            "type": "number"
+          },
+          "sensor_disagreement_c": {
+            "default": 2.0,
+            "exclusiveMinimum": 0,
+            "title": "Sensor Disagreement C",
+            "type": "number"
+          },
+          "temperature_rise_c": {
+            "default": 1.0,
+            "exclusiveMinimum": 0,
+            "title": "Temperature Rise C",
+            "type": "number"
+          }
+        },
+        "title": "Policy",
+        "type": "object"
+      },
+      "Principal": {
+        "additionalProperties": false,
+        "properties": {
+          "actor": {
+            "enum": [
+              "api-reader",
+              "api-writer"
+            ],
+            "title": "Actor",
+            "type": "string"
+          },
+          "role": {
+            "enum": [
+              "reader",
+              "writer"
+            ],
+            "title": "Role",
+            "type": "string"
+          }
+        },
+        "required": [
+          "role",
+          "actor"
+        ],
+        "title": "Principal",
+        "type": "object"
+      },
+      "QualityResult": {
+        "additionalProperties": false,
+        "properties": {
+          "evidence": {
+            "items": {
+              "$ref": "#/components/schemas/Evidence"
+            },
+            "title": "Evidence",
+            "type": "array"
+          },
+          "issues": {
+            "items": {
+              "$ref": "#/components/schemas/Observation"
+            },
+            "title": "Issues",
+            "type": "array"
+          },
+          "kind": {
+            "const": "quality",
+            "default": "quality",
+            "title": "Kind",
+            "type": "string"
+          },
+          "usable": {
+            "title": "Usable",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "usable",
+          "issues",
+          "evidence"
+        ],
+        "title": "QualityResult",
+        "type": "object"
+      },
+      "Readiness": {
+        "additionalProperties": false,
+        "properties": {
+          "active_agents": {
+            "title": "Active Agents",
+            "type": "integer"
+          },
+          "api_version": {
+            "default": "1.0",
+            "title": "Api Version",
+            "type": "string"
+          },
+          "application_version": {
+            "default": "0.7.0",
+            "title": "Application Version",
+            "type": "string"
+          },
+          "database": {
+            "const": "ready",
+            "default": "ready",
+            "title": "Database",
+            "type": "string"
+          },
+          "engine_version": {
+            "title": "Engine Version",
+            "type": "string"
+          },
+          "mode": {
+            "const": "simulation",
+            "default": "simulation",
+            "title": "Mode",
+            "type": "string"
+          },
+          "registered_agents": {
+            "title": "Registered Agents",
+            "type": "integer"
+          },
+          "status": {
+            "const": "ok",
+            "default": "ok",
+            "title": "Status",
+            "type": "string"
+          }
+        },
+        "required": [
+          "engine_version",
+          "registered_agents",
+          "active_agents"
+        ],
+        "title": "Readiness",
+        "type": "object"
+      },
+      "RecordedAnalysis": {
+        "additionalProperties": false,
+        "properties": {
+          "actor": {
+            "maxLength": 100,
+            "minLength": 1,
+            "title": "Actor",
+            "type": "string"
+          },
+          "engine_version": {
+            "maxLength": 50,
+            "minLength": 1,
+            "title": "Engine Version",
+            "type": "string"
+          },
+          "generation": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/GenerationMetadata"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "policy": {
+            "$ref": "#/components/schemas/Policy"
+          },
+          "recorded_at": {
+            "format": "date-time",
+            "title": "Recorded At",
+            "type": "string"
+          },
+          "replay_of": {
+            "anyOf": [
+              {
+                "maxLength": 100,
+                "minLength": 1,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Replay Of"
+          },
+          "request": {
+            "$ref": "#/components/schemas/AnalysisRequest"
+          },
+          "result": {
+            "$ref": "#/components/schemas/AnalysisRun"
+          },
+          "run_id": {
+            "maxLength": 100,
+            "minLength": 1,
+            "title": "Run Id",
+            "type": "string"
+          },
+          "schema_version": {
+            "const": "1.0",
+            "default": "1.0",
+            "title": "Schema Version",
+            "type": "string"
+          }
+        },
+        "required": [
+          "run_id",
+          "recorded_at",
+          "actor",
+          "engine_version",
+          "request",
+          "policy",
+          "result"
+        ],
+        "title": "RecordedAnalysis",
+        "type": "object"
+      },
+      "ReplayBody": {
+        "additionalProperties": false,
+        "properties": {},
+        "title": "ReplayBody",
+        "type": "object"
+      },
+      "ReplayOutcome": {
+        "additionalProperties": false,
+        "properties": {
+          "differences": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Differences",
+            "type": "array"
+          },
+          "matches": {
+            "title": "Matches",
+            "type": "boolean"
+          },
+          "record": {
+            "$ref": "#/components/schemas/RecordedAnalysis"
+          }
+        },
+        "required": [
+          "record",
+          "matches",
+          "differences"
+        ],
+        "title": "ReplayOutcome",
+        "type": "object"
+      },
+      "ResearchInputs": {
+        "additionalProperties": false,
+        "properties": {
+          "documents": {
+            "default": [],
+            "items": {
+              "$ref": "#/components/schemas/TechnicalDocument"
+            },
+            "maxItems": 8,
+            "title": "Documents",
+            "type": "array"
+          },
+          "expected_interval_s": {
+            "default": 1.0,
+            "maximum": 60,
+            "minimum": 0.1,
+            "title": "Expected Interval S",
+            "type": "number"
+          },
+          "historical_cases": {
+            "default": [],
+            "items": {
+              "$ref": "#/components/schemas/HistoricalCase"
+            },
+            "maxItems": 20,
+            "title": "Historical Cases",
+            "type": "array"
+          },
+          "profile": {
+            "const": "mvp12",
+            "default": "mvp12",
+            "title": "Profile",
+            "type": "string"
+          },
+          "simulation": {
+            "$ref": "#/components/schemas/SimulationParameters",
+            "default": {
+              "ambient_conductance_kw_per_k": 0.1,
+              "horizon_s": 60,
+              "max_mae_c": 0.5,
+              "max_rmse_c": 0.75,
+              "thermal_capacity_kj_per_k": 120.0
+            }
+          }
+        },
+        "title": "ResearchInputs",
+        "type": "object"
+      },
+      "ResearchSummary": {
+        "additionalProperties": false,
+        "properties": {
+          "document_hits": {
+            "default": [],
+            "items": {
+              "$ref": "#/components/schemas/DocumentHit"
+            },
+            "title": "Document Hits",
+            "type": "array"
+          },
+          "historical_matches": {
+            "default": [],
+            "items": {
+              "$ref": "#/components/schemas/HistoricalMatch"
+            },
+            "title": "Historical Matches",
+            "type": "array"
+          },
+          "hypothesis_reviews": {
+            "default": [],
+            "items": {
+              "$ref": "#/components/schemas/HypothesisReview"
+            },
+            "title": "Hypothesis Reviews",
+            "type": "array"
+          },
+          "missing_fields": {
+            "default": [],
+            "items": {
+              "$ref": "#/components/schemas/MissingField"
+            },
+            "title": "Missing Fields",
+            "type": "array"
+          },
+          "model_adequate": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Model Adequate"
+          },
+          "model_mae_c": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Model Mae C"
+          },
+          "model_rmse_c": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Model Rmse C"
+          },
+          "simulation_cases": {
+            "default": [],
+            "items": {
+              "$ref": "#/components/schemas/SimulationCase"
+            },
+            "title": "Simulation Cases",
+            "type": "array"
+          },
+          "stale_stream": {
+            "default": false,
+            "title": "Stale Stream",
+            "type": "boolean"
+          }
+        },
+        "title": "ResearchSummary",
+        "type": "object"
+      },
+      "RetrievalResult": {
+        "additionalProperties": false,
+        "properties": {
+          "evidence": {
+            "items": {
+              "$ref": "#/components/schemas/Evidence"
+            },
+            "title": "Evidence",
+            "type": "array"
+          },
+          "hits": {
+            "items": {
+              "$ref": "#/components/schemas/DocumentHit"
+            },
+            "maxItems": 3,
+            "title": "Hits",
+            "type": "array"
+          },
+          "kind": {
+            "const": "retrieval",
+            "default": "retrieval",
+            "title": "Kind",
+            "type": "string"
+          },
+          "method": {
+            "const": "lexical_snapshot_search",
+            "default": "lexical_snapshot_search",
+            "title": "Method",
+            "type": "string"
+          }
+        },
+        "required": [
+          "hits",
+          "evidence"
+        ],
+        "title": "RetrievalResult",
+        "type": "object"
+      },
+      "RunFailure": {
+        "additionalProperties": false,
+        "properties": {
+          "code": {
+            "title": "Code",
+            "type": "string"
+          },
+          "message": {
+            "title": "Message",
+            "type": "string"
+          }
+        },
+        "required": [
+          "code",
+          "message"
+        ],
+        "title": "RunFailure",
+        "type": "object"
+      },
+      "RunSummary": {
+        "additionalProperties": false,
+        "properties": {
+          "engine_version": {
+            "title": "Engine Version",
+            "type": "string"
+          },
+          "incident_id": {
+            "maxLength": 100,
+            "minLength": 1,
+            "title": "Incident Id",
+            "type": "string"
+          },
+          "recorded_at": {
+            "format": "date-time",
+            "title": "Recorded At",
+            "type": "string"
+          },
+          "replay_of": {
+            "anyOf": [
+              {
+                "maxLength": 100,
+                "minLength": 1,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Replay Of"
+          },
+          "report_status": {
+            "anyOf": [
+              {
+                "enum": [
+                  "clear",
+                  "needs_review",
+                  "insufficient_data"
+                ],
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Report Status"
+          },
+          "run_id": {
+            "maxLength": 100,
+            "minLength": 1,
+            "title": "Run Id",
+            "type": "string"
+          },
+          "status": {
+            "enum": [
+              "completed",
+              "blocked"
+            ],
+            "title": "Status",
+            "type": "string"
+          }
+        },
+        "required": [
+          "run_id",
+          "incident_id",
+          "recorded_at",
+          "engine_version",
+          "status",
+          "report_status",
+          "replay_of"
+        ],
+        "title": "RunSummary",
+        "type": "object"
+      },
+      "Scenario": {
+        "enum": [
+          "normal",
+          "fan_loss",
+          "sensor_bias",
+          "sensor_missing",
+          "load_surge",
+          "cooling_loss",
+          "airflow_restriction",
+          "fan_mismatch",
+          "communication_loss",
+          "control_oscillation",
+          "combined"
+        ],
+        "title": "Scenario",
+        "type": "string"
+      },
+      "ScenarioBody": {
+        "additionalProperties": false,
+        "properties": {
+          "capture_history": {
+            "default": true,
+            "title": "Capture History",
+            "type": "boolean"
+          },
+          "conditions": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/OperatingConditions"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null
+          },
+          "count": {
+            "default": 120,
+            "maximum": 600,
+            "minimum": 30,
+            "title": "Count",
+            "type": "integer"
+          },
+          "documents": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/TechnicalDocument"
+                },
+                "maxItems": 8,
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Documents"
+          },
+          "profile": {
+            "default": "mvp12",
+            "enum": [
+              "core6",
+              "mvp12"
+            ],
+            "title": "Profile",
+            "type": "string"
+          },
+          "scenario": {
+            "default": "normal",
+            "enum": [
+              "normal",
+              "fan_loss",
+              "sensor_bias",
+              "sensor_missing",
+              "load_surge",
+              "cooling_loss",
+              "airflow_restriction",
+              "fan_mismatch",
+              "communication_loss",
+              "control_oscillation",
+              "combined"
+            ],
+            "title": "Scenario",
+            "type": "string"
+          },
+          "seed": {
+            "default": 42,
+            "title": "Seed",
+            "type": "integer"
+          },
+          "start": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Start"
+          }
+        },
+        "title": "ScenarioBody",
+        "type": "object"
+      },
+      "SensorSample": {
+        "additionalProperties": false,
+        "properties": {
+          "airflow_m3s": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Airflow M3S"
+          },
+          "ambient_c": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Ambient C"
+          },
+          "cooling_kw": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Cooling Kw"
+          },
+          "fan_command_pct": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Fan Command Pct"
+          },
+          "fan_feedback_pct": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Fan Feedback Pct"
+          },
+          "humidity_pct": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Humidity Pct"
+          },
+          "inlet_c": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Inlet C"
+          },
+          "it_load_kw": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "It Load Kw"
+          },
+          "reference_inlet_c": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Reference Inlet C"
+          },
+          "return_c": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Return C"
+          },
+          "sample_id": {
+            "maxLength": 100,
+            "minLength": 1,
+            "title": "Sample Id",
+            "type": "string"
+          },
+          "supply_c": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Supply C"
+          },
+          "timestamp": {
+            "format": "date-time",
+            "title": "Timestamp",
+            "type": "string"
+          }
+        },
+        "required": [
+          "sample_id",
+          "timestamp",
+          "inlet_c",
+          "reference_inlet_c",
+          "return_c",
+          "supply_c",
+          "ambient_c",
+          "humidity_pct",
+          "fan_command_pct",
+          "fan_feedback_pct",
+          "airflow_m3s",
+          "it_load_kw",
+          "cooling_kw"
+        ],
+        "title": "SensorSample",
+        "type": "object"
+      },
+      "SignalResult": {
+        "additionalProperties": false,
+        "properties": {
+          "evidence": {
+            "items": {
+              "$ref": "#/components/schemas/Evidence"
+            },
+            "title": "Evidence",
+            "type": "array"
+          },
+          "kind": {
+            "const": "signals",
+            "default": "signals",
+            "title": "Kind",
+            "type": "string"
+          }
+        },
+        "required": [
+          "evidence"
+        ],
+        "title": "SignalResult",
+        "type": "object"
+      },
+      "SimulationAssessment": {
+        "additionalProperties": false,
+        "properties": {
+          "assessment": {
+            "enum": [
+              "illustrative_only",
+              "reduction_in_model",
+              "no_material_reduction"
+            ],
+            "title": "Assessment",
+            "type": "string"
+          },
+          "scenario_id": {
+            "maxLength": 100,
+            "minLength": 1,
+            "title": "Scenario Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "scenario_id",
+          "assessment"
+        ],
+        "title": "SimulationAssessment",
+        "type": "object"
+      },
+      "SimulationCase": {
+        "additionalProperties": false,
+        "properties": {
+          "cooling_kw": {
+            "minimum": 0.0,
+            "title": "Cooling Kw",
+            "type": "number"
+          },
+          "fault_codes": {
+            "items": {
+              "$ref": "#/components/schemas/FaultCode"
+            },
+            "title": "Fault Codes",
+            "type": "array"
+          },
+          "final_c": {
+            "title": "Final C",
+            "type": "number"
+          },
+          "load_kw": {
+            "minimum": 0.0,
+            "title": "Load Kw",
+            "type": "number"
+          },
+          "reduction_vs_baseline_c": {
+            "title": "Reduction Vs Baseline C",
+            "type": "number"
+          },
+          "scenario_id": {
+            "maxLength": 100,
+            "minLength": 1,
+            "title": "Scenario Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "scenario_id",
+          "fault_codes",
+          "load_kw",
+          "cooling_kw",
+          "final_c",
+          "reduction_vs_baseline_c"
+        ],
+        "title": "SimulationCase",
+        "type": "object"
+      },
+      "SimulationParameters": {
+        "additionalProperties": false,
+        "properties": {
+          "ambient_conductance_kw_per_k": {
+            "default": 0.1,
+            "maximum": 10,
+            "minimum": 0,
+            "title": "Ambient Conductance Kw Per K",
+            "type": "number"
+          },
+          "horizon_s": {
+            "default": 60,
+            "maximum": 120,
+            "minimum": 10,
+            "title": "Horizon S",
+            "type": "integer"
+          },
+          "max_mae_c": {
+            "default": 0.5,
+            "exclusiveMinimum": 0,
+            "maximum": 10,
+            "title": "Max Mae C",
+            "type": "number"
+          },
+          "max_rmse_c": {
+            "default": 0.75,
+            "exclusiveMinimum": 0,
+            "maximum": 10,
+            "title": "Max Rmse C",
+            "type": "number"
+          },
+          "thermal_capacity_kj_per_k": {
+            "default": 120.0,
+            "maximum": 100000,
+            "minimum": 10,
+            "title": "Thermal Capacity Kj Per K",
+            "type": "number"
+          }
+        },
+        "title": "SimulationParameters",
+        "type": "object"
+      },
+      "SimulationResult": {
+        "additionalProperties": false,
+        "properties": {
+          "baseline_final_c": {
+            "title": "Baseline Final C",
+            "type": "number"
+          },
+          "cases": {
+            "items": {
+              "$ref": "#/components/schemas/SimulationCase"
+            },
+            "maxItems": 4,
+            "title": "Cases",
+            "type": "array"
+          },
+          "evidence": {
+            "items": {
+              "$ref": "#/components/schemas/Evidence"
+            },
+            "title": "Evidence",
+            "type": "array"
+          },
+          "kind": {
+            "const": "simulation",
+            "default": "simulation",
+            "title": "Kind",
+            "type": "string"
+          },
+          "limitation": {
+            "title": "Limitation",
+            "type": "string"
+          },
+          "predicted_reference_c": {
+            "items": {
+              "type": "number"
+            },
+            "maxItems": 600,
+            "minItems": 3,
+            "title": "Predicted Reference C",
+            "type": "array"
+          }
+        },
+        "required": [
+          "predicted_reference_c",
+          "baseline_final_c",
+          "cases",
+          "evidence",
+          "limitation"
+        ],
+        "title": "SimulationResult",
+        "type": "object"
+      },
+      "SimulationValidationResult": {
+        "additionalProperties": false,
+        "properties": {
+          "assessments": {
+            "items": {
+              "$ref": "#/components/schemas/SimulationAssessment"
+            },
+            "title": "Assessments",
+            "type": "array"
+          },
+          "evidence": {
+            "items": {
+              "$ref": "#/components/schemas/Evidence"
+            },
+            "title": "Evidence",
+            "type": "array"
+          },
+          "kind": {
+            "const": "simulation_validation",
+            "default": "simulation_validation",
+            "title": "Kind",
+            "type": "string"
+          },
+          "mae_c": {
+            "minimum": 0.0,
+            "title": "Mae C",
+            "type": "number"
+          },
+          "model_adequate": {
+            "title": "Model Adequate",
+            "type": "boolean"
+          },
+          "rmse_c": {
+            "minimum": 0.0,
+            "title": "Rmse C",
+            "type": "number"
+          }
+        },
+        "required": [
+          "mae_c",
+          "rmse_c",
+          "model_adequate",
+          "assessments",
+          "evidence"
+        ],
+        "title": "SimulationValidationResult",
+        "type": "object"
+      },
+      "StatusBody": {
+        "additionalProperties": false,
+        "properties": {
+          "expected_revision": {
+            "minimum": 1,
+            "title": "Expected Revision",
+            "type": "integer"
+          },
+          "reason": {
+            "maxLength": 2000,
+            "minLength": 1,
+            "title": "Reason",
+            "type": "string"
+          },
+          "target": {
+            "$ref": "#/components/schemas/IncidentStatus"
+          }
+        },
+        "required": [
+          "target",
+          "expected_revision",
+          "reason"
+        ],
+        "title": "StatusBody",
+        "type": "object"
+      },
+      "TechnicalDocument": {
+        "additionalProperties": false,
+        "properties": {
+          "content": {
+            "maxLength": 12000,
+            "minLength": 1,
+            "title": "Content",
+            "type": "string"
+          },
+          "content_hash": {
+            "default": "",
+            "pattern": "^$|^[a-f0-9]{64}$",
+            "title": "Content Hash",
+            "type": "string"
+          },
+          "document_id": {
+            "maxLength": 100,
+            "minLength": 1,
+            "title": "Document Id",
+            "type": "string"
+          },
+          "source_kind": {
+            "default": "user_supplied",
+            "enum": [
+              "demo_reference",
+              "user_supplied"
+            ],
+            "title": "Source Kind",
+            "type": "string"
+          },
+          "title": {
+            "maxLength": 200,
+            "minLength": 1,
+            "title": "Title",
+            "type": "string"
+          },
+          "version": {
+            "maxLength": 50,
+            "minLength": 1,
+            "title": "Version",
+            "type": "string"
+          }
+        },
+        "required": [
+          "document_id",
+          "title",
+          "version",
+          "content"
+        ],
+        "title": "TechnicalDocument",
+        "type": "object"
+      },
+      "TechnicalReport": {
+        "additionalProperties": false,
+        "properties": {
+          "evidence_ids": {
+            "items": {
+              "maxLength": 100,
+              "minLength": 1,
+              "type": "string"
+            },
+            "title": "Evidence Ids",
+            "type": "array"
+          },
+          "human_review_required": {
+            "title": "Human Review Required",
+            "type": "boolean"
+          },
+          "hypotheses": {
+            "items": {
+              "$ref": "#/components/schemas/Hypothesis"
+            },
+            "title": "Hypotheses",
+            "type": "array"
+          },
+          "incident_id": {
+            "maxLength": 100,
+            "minLength": 1,
+            "title": "Incident Id",
+            "type": "string"
+          },
+          "kind": {
+            "const": "report",
+            "default": "report",
+            "title": "Kind",
+            "type": "string"
+          },
+          "limitations": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Limitations",
+            "type": "array"
+          },
+          "observations": {
+            "items": {
+              "$ref": "#/components/schemas/Observation"
+            },
+            "title": "Observations",
+            "type": "array"
+          },
+          "research": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ResearchSummary"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "schema_version": {
+            "const": "1.0",
+            "default": "1.0",
+            "title": "Schema Version",
+            "type": "string"
+          },
+          "status": {
+            "enum": [
+              "clear",
+              "needs_review",
+              "insufficient_data"
+            ],
+            "title": "Status",
+            "type": "string"
+          },
+          "summary": {
+            "title": "Summary",
+            "type": "string"
+          }
+        },
+        "required": [
+          "incident_id",
+          "status",
+          "summary",
+          "observations",
+          "hypotheses",
+          "evidence_ids",
+          "limitations",
+          "human_review_required"
+        ],
+        "title": "TechnicalReport",
+        "type": "object"
+      },
+      "TelemetryWindow": {
+        "additionalProperties": false,
+        "properties": {
+          "asset_id": {
+            "default": "synthetic-unit-01",
+            "maxLength": 100,
+            "minLength": 1,
+            "title": "Asset Id",
+            "type": "string"
+          },
+          "samples": {
+            "items": {
+              "$ref": "#/components/schemas/SensorSample"
+            },
+            "maxItems": 600,
+            "minItems": 3,
+            "title": "Samples",
+            "type": "array"
+          },
+          "source": {
+            "const": "synthetic",
+            "default": "synthetic",
+            "title": "Source",
+            "type": "string"
+          }
+        },
+        "required": [
+          "samples"
+        ],
+        "title": "TelemetryWindow",
+        "type": "object"
+      },
+      "VerificationResult": {
+        "additionalProperties": false,
+        "properties": {
+          "checked_evidence_ids": {
+            "items": {
+              "maxLength": 100,
+              "minLength": 1,
+              "type": "string"
+            },
+            "title": "Checked Evidence Ids",
+            "type": "array"
+          },
+          "errors": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Errors",
+            "type": "array"
+          },
+          "kind": {
+            "const": "verification",
+            "default": "verification",
+            "title": "Kind",
+            "type": "string"
+          },
+          "passed": {
+            "title": "Passed",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "passed",
+          "checked_evidence_ids",
+          "errors"
+        ],
+        "title": "VerificationResult",
+        "type": "object"
+      }
+    },
+    "securitySchemes": {
+      "LocalBearer": {
+        "scheme": "bearer",
+        "type": "http"
+      }
+    }
+  },
+  "info": {
+    "title": "CanovaTwin X",
+    "version": "0.7.0"
+  },
+  "openapi": "3.1.0",
+  "paths": {
+    "/api/v1/agents": {
+      "get": {
+        "operationId": "agents_api_v1_agents_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/AgentDefinition"
+                  },
+                  "title": "Response Agents Api V1 Agents Get",
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Bad Request"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "405": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Method Not Allowed"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "413": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Content Too Large"
+          },
+          "415": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Unsupported Media Type"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Unprocessable Content"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Internal Server Error"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Service Unavailable"
+          }
+        },
+        "security": [
+          {
+            "LocalBearer": []
+          }
+        ],
+        "summary": "Agents"
+      }
+    },
+    "/api/v1/analyses": {
+      "post": {
+        "operationId": "analyze_api_v1_analyses_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AnalyzeBody"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RecordedAnalysis"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Bad Request"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "405": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Method Not Allowed"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "413": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Content Too Large"
+          },
+          "415": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Unsupported Media Type"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Unprocessable Content"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Internal Server Error"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Service Unavailable"
+          }
+        },
+        "security": [
+          {
+            "LocalBearer": []
+          }
+        ],
+        "summary": "Analyze"
+      }
+    },
+    "/api/v1/analyses/scenario": {
+      "post": {
+        "operationId": "analyze_scenario_api_v1_analyses_scenario_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ScenarioBody"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RecordedAnalysis"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Bad Request"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "405": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Method Not Allowed"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "413": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Content Too Large"
+          },
+          "415": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Unsupported Media Type"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Unprocessable Content"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Internal Server Error"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Service Unavailable"
+          }
+        },
+        "security": [
+          {
+            "LocalBearer": []
+          }
+        ],
+        "summary": "Analyze Scenario"
+      }
+    },
+    "/api/v1/health": {
+      "get": {
+        "operationId": "readiness_api_v1_health_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Readiness"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Bad Request"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "405": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Method Not Allowed"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "413": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Content Too Large"
+          },
+          "415": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Unsupported Media Type"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Unprocessable Content"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Internal Server Error"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Service Unavailable"
+          }
+        },
+        "security": [
+          {
+            "LocalBearer": []
+          }
+        ],
+        "summary": "Readiness"
+      }
+    },
+    "/api/v1/incidents": {
+      "get": {
+        "operationId": "incidents_api_v1_incidents_get",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "status",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "$ref": "#/components/schemas/IncidentStatus"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Status"
+            }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "default": 20,
+              "maximum": 100,
+              "minimum": 1,
+              "title": "Limit",
+              "type": "integer"
+            }
+          },
+          {
+            "in": "query",
+            "name": "offset",
+            "required": false,
+            "schema": {
+              "default": 0,
+              "minimum": 0,
+              "title": "Offset",
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Page_IncidentSummary_"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Bad Request"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "405": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Method Not Allowed"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "413": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Content Too Large"
+          },
+          "415": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Unsupported Media Type"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Unprocessable Content"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Internal Server Error"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Service Unavailable"
+          }
+        },
+        "security": [
+          {
+            "LocalBearer": []
+          }
+        ],
+        "summary": "Incidents"
+      }
+    },
+    "/api/v1/incidents/{incident_id}": {
+      "get": {
+        "operationId": "incident_api_v1_incidents__incident_id__get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "incident_id",
+            "required": true,
+            "schema": {
+              "maxLength": 100,
+              "minLength": 1,
+              "pattern": "^[A-Za-z0-9_-]+$",
+              "title": "Incident Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IncidentSummary"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Bad Request"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "405": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Method Not Allowed"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "413": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Content Too Large"
+          },
+          "415": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Unsupported Media Type"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Unprocessable Content"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Internal Server Error"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Service Unavailable"
+          }
+        },
+        "security": [
+          {
+            "LocalBearer": []
+          }
+        ],
+        "summary": "Incident"
+      }
+    },
+    "/api/v1/incidents/{incident_id}/audit": {
+      "get": {
+        "operationId": "audit_api_v1_incidents__incident_id__audit_get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "incident_id",
+            "required": true,
+            "schema": {
+              "maxLength": 100,
+              "minLength": 1,
+              "pattern": "^[A-Za-z0-9_-]+$",
+              "title": "Incident Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "default": 20,
+              "maximum": 100,
+              "minimum": 1,
+              "title": "Limit",
+              "type": "integer"
+            }
+          },
+          {
+            "in": "query",
+            "name": "offset",
+            "required": false,
+            "schema": {
+              "default": 0,
+              "minimum": 0,
+              "title": "Offset",
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Page_AuditEvent_"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Bad Request"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "405": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Method Not Allowed"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "413": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Content Too Large"
+          },
+          "415": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Unsupported Media Type"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Unprocessable Content"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Internal Server Error"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Service Unavailable"
+          }
+        },
+        "security": [
+          {
+            "LocalBearer": []
+          }
+        ],
+        "summary": "Audit"
+      }
+    },
+    "/api/v1/incidents/{incident_id}/runs": {
+      "get": {
+        "operationId": "incident_runs_api_v1_incidents__incident_id__runs_get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "incident_id",
+            "required": true,
+            "schema": {
+              "maxLength": 100,
+              "minLength": 1,
+              "pattern": "^[A-Za-z0-9_-]+$",
+              "title": "Incident Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "default": 20,
+              "maximum": 100,
+              "minimum": 1,
+              "title": "Limit",
+              "type": "integer"
+            }
+          },
+          {
+            "in": "query",
+            "name": "offset",
+            "required": false,
+            "schema": {
+              "default": 0,
+              "minimum": 0,
+              "title": "Offset",
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Page_RunSummary_"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Bad Request"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "405": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Method Not Allowed"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "413": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Content Too Large"
+          },
+          "415": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Unsupported Media Type"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Unprocessable Content"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Internal Server Error"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Service Unavailable"
+          }
+        },
+        "security": [
+          {
+            "LocalBearer": []
+          }
+        ],
+        "summary": "Incident Runs"
+      }
+    },
+    "/api/v1/incidents/{incident_id}/status": {
+      "post": {
+        "operationId": "change_status_api_v1_incidents__incident_id__status_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "incident_id",
+            "required": true,
+            "schema": {
+              "maxLength": 100,
+              "minLength": 1,
+              "pattern": "^[A-Za-z0-9_-]+$",
+              "title": "Incident Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/StatusBody"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IncidentSummary"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Bad Request"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "405": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Method Not Allowed"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "413": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Content Too Large"
+          },
+          "415": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Unsupported Media Type"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Unprocessable Content"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Internal Server Error"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Service Unavailable"
+          }
+        },
+        "security": [
+          {
+            "LocalBearer": []
+          }
+        ],
+        "summary": "Change Status"
+      }
+    },
+    "/api/v1/runs/{run_id}": {
+      "get": {
+        "operationId": "analysis_run_api_v1_runs__run_id__get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "run_id",
+            "required": true,
+            "schema": {
+              "maxLength": 100,
+              "minLength": 1,
+              "pattern": "^[A-Za-z0-9_-]+$",
+              "title": "Run Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RecordedAnalysis"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Bad Request"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "405": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Method Not Allowed"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "413": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Content Too Large"
+          },
+          "415": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Unsupported Media Type"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Unprocessable Content"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Internal Server Error"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Service Unavailable"
+          }
+        },
+        "security": [
+          {
+            "LocalBearer": []
+          }
+        ],
+        "summary": "Analysis Run"
+      }
+    },
+    "/api/v1/runs/{run_id}/replay": {
+      "post": {
+        "operationId": "replay_api_v1_runs__run_id__replay_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "run_id",
+            "required": true,
+            "schema": {
+              "maxLength": 100,
+              "minLength": 1,
+              "pattern": "^[A-Za-z0-9_-]+$",
+              "title": "Run Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ReplayBody"
+              }
+            }
+          },
+          "required": false
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReplayOutcome"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Bad Request"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "405": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Method Not Allowed"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "413": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Content Too Large"
+          },
+          "415": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Unsupported Media Type"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Unprocessable Content"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Internal Server Error"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Service Unavailable"
+          }
+        },
+        "security": [
+          {
+            "LocalBearer": []
+          }
+        ],
+        "summary": "Replay"
+      }
+    },
+    "/api/v1/session": {
+      "get": {
+        "operationId": "session_api_v1_session_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Principal"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Bad Request"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "405": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Method Not Allowed"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "413": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Content Too Large"
+          },
+          "415": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Unsupported Media Type"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Unprocessable Content"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Internal Server Error"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Service Unavailable"
+          }
+        },
+        "security": [
+          {
+            "LocalBearer": []
+          }
+        ],
+        "summary": "Session"
+      }
+    },
+    "/health": {
+      "get": {
+        "operationId": "health_health_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Health"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Bad Request"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "405": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Method Not Allowed"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "413": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Content Too Large"
+          },
+          "415": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Unsupported Media Type"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Unprocessable Content"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Internal Server Error"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Service Unavailable"
+          }
+        },
+        "summary": "Health"
+      }
+    }
+  }
+}

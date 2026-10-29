@@ -1,0 +1,11 @@
+import type { components } from './schema';
+export type Schema = components['schemas'];
+export type RecordAnalysis = Schema['RecordedAnalysis'];
+export type Incident = Schema['IncidentSummary'];
+export type Run = Schema['RunSummary'];
+export type Audit = Schema['AuditEvent'];
+export type Agent = Schema['AgentDefinition'];
+export type Sample = Schema['SensorSample'];
+export type Status = Schema['IncidentStatus'];
+export type Principal = Schema['Principal'];
+export type Page<T> = { items: T[]; limit: number; offset: number };

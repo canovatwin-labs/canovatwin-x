@@ -1,0 +1,9 @@
+include README.md pyproject.toml uv.lock setup.py
+recursive-include docs *.md
+recursive-include scripts *.py
+recursive-include tests *.py *.json
+recursive-include src/canovatwin/web *.html *.js *.css *.svg *.png *.webp *.ico *.woff *.woff2
+include web/package.json web/package-lock.json web/openapi.json web/index.html web/tsconfig.json web/vite.config.ts web/.prettierrc.json web/.prettierignore
+recursive-include web/src *.ts *.tsx *.css
+recursive-include web/tests *.ts *.tsx *.json
+recursive-include web/public *.svg

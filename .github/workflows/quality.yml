@@ -1,0 +1,57 @@
+name: Quality
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: quality-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    name: Python ${{ matrix.python }} / panel / package
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        python: ['3.12', '3.13', '3.14']
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
+      - uses: astral-sh/setup-uv@94527f2e458b27549849d47d273a16bec83a01e9 # v7
+        with:
+          version: '0.13.4'
+          python-version: ${{ matrix.python }}
+          enable-cache: false
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version: '22'
+      - name: Install locked dependencies
+        run: |
+          uv sync --locked --extra dev --no-editable
+          npm ci --prefix web
+      - name: Verify generated API contract
+        run: |
+          npm run types --prefix web
+          git diff --exit-code -- web/openapi.json web/src/api/schema.ts
+      - name: Lint, tests, coverage and production panel
+        run: .venv/bin/python scripts/check.py --panel
+      - name: Build and inspect distribution
+        run: |
+          uv build
+          .venv/bin/python scripts/verify_package.py dist/*.whl
+      - name: Exercise installed wheel over real HTTP
+        run: |
+          uv venv "$RUNNER_TEMP/canovatwin-smoke"
+          uv export --locked --no-dev --no-emit-project --no-hashes --output-file "$RUNNER_TEMP/runtime.txt"
+          uv pip install --python "$RUNNER_TEMP/canovatwin-smoke/bin/python" -r "$RUNNER_TEMP/runtime.txt" dist/*.whl
+          cd "$RUNNER_TEMP"
+          "$RUNNER_TEMP/canovatwin-smoke/bin/python" -I "$GITHUB_WORKSPACE/scripts/smoke_api.py"

@@ -1,0 +1,5 @@
+node_modules
+src/api/schema.ts
+openapi.json
+tests/fixtures/*.json
+package-lock.json
