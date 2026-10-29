@@ -1,6 +1,6 @@
 # CanovaTwin X — Güncel yetenek ve tamamlanma durumu
 
-**29 Ekim 2026 · Uygulama 0.7.0 / Motor 0.4.0 · Sprint 6 tamamlandı**
+**30 Ekim 2026 · Uygulama 0.7.0 / Motor 0.4.0 · Sprint 6 tamamlandı**
 
 Çalışan çıktı: sentetik veriyle yerel web paneli, API ve CLI ile kullanılabilen, kanıta dayalı rapor ve kalıcı inceleme geçmişi üreten 12 uzmanlı karar destek çekirdeği. Katalog 36 rol içerir. Bu belge tamamlanmış özelliği, kısmi katmanı ve planlı rolü birbirinden ayırır; tamamlanma yüzdesi iddiası taşımaz.
 
@@ -127,10 +127,18 @@ Python testlerinin bulunması bu PLC uzmanlarının tamamlandığı anlamına ge
 
 ## Doğrulama ve sınırlar
 
-435 Python testi ve 39 arayüz testi geçti; kod/biçim, TypeScript ve üretim derlemesi temiz. Python toplam satır+dal kapsamı %97,85; bu oran arayüz kapsam oranı veya bilimsel teşhis başarısı değildir. 11 senaryo × 3 iş yükü profili için kayıt, replay ve beklenen rapor/aday davranışları doğrulandı. Normal örnekler belirti yok; veri kesintileri veri yetersiz; diğer arızalar beklenen adayları içeren inceleme sonucu verdi. Ek adaylar bulunabilir.
+437 Python testi ve 39 arayüz testi geçti; kod/biçim, TypeScript ve üretim derlemesi temiz. Python toplam satır+dal kapsamı %97,85; bu oran arayüz kapsam oranı veya bilimsel teşhis başarısı değildir. 11 senaryo × 3 iş yükü profili için kayıt, replay ve beklenen rapor/aday davranışları doğrulandı. Normal örnekler belirti yok; veri kesintileri veri yetersiz; diğer arızalar beklenen adayları içeren inceleme sonucu verdi. Ek adaylar bulunabilir.
 
 Temiz ortamda kurulu dağıtım paketi ve gerçek HTTP üzerinden 22 referans + 33 dinamik birleşim, kimlik/yetki, kalıcı kayıt, durum, replay, sürüm/şema, panel varlıkları ve dört eşzamanlı yazma doğrulandı. Önceki sprintin kayıtları yeni deney metadatası olmadan okunup yeniden analiz edilebilir. WebKit'te dinamik ayarlarla deney, iletişim eskimesi uyarısı, üç grafik, replay, oturum temizliği ve dar/yatay/geniş ekran akışları kontrol edildi. Mobil tablodaki yatay taşma giderildi.
 
 Henüz yapılmayanlar: açık HVAC veri setleriyle çalışma, LLM/klasik ML baseline karşılaştırması, Macro-F1/Top-3 doğruluk, bilimsel güven aralıkları, gerçek şirket verisi ve donanım validasyonu. Tüm ajanlar bu sürümde deterministik araç kullanır; eğitilmiş model veya 36 LLM çağrısı yoktur.
 
 Üretim emniyet sistemi, tam kurumsal ürün veya gerçek tesis dijital ikizi doğruluğu iddiası yoktur. Şubat 2027 sonrası şirketin izin verdiği donanıma salt okunur adaptör eklemek ileri kapsamdır.
+
+## GitHub kalite kapısı — 30 Ekim
+
+Public/MIT organizasyon deposu, ayrı hesaplarla katkı ve inceleme düzeni kuruldu.
+Python 3.12 sözleşme farkı giderildi; üç Python sürümünde Linux CI doğrulandı.
+Ana dalda üç kalite kontrolü zorunlu; mevcut yönetici istisnası korunuyor.
+Ayrıntılar ve sınırlar [GitHub devir raporunda](GITHUB_HANDOFF_REPORT.md).
+Bu altyapı adımı yeni uzman veya saha yeteneği eklemedi.

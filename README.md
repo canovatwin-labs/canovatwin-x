@@ -157,6 +157,7 @@ Use a feature branch, a focused pull request and review by the other developer.
 Contributors authenticate with their own accounts; credentials and authorship
 are never shared. Read [CONTRIBUTING.md](CONTRIBUTING.md) before pushing changes.
 
-This repository is intended to remain private during development. An open-source
-license has not been selected; external distribution requires agreement from
-the rights holders. Third-party packages retain their respective licenses.
+This repository is public and released under the [MIT License](LICENSE).
+Third-party packages retain their respective licenses. Company telemetry,
+device configurations and confidential documents must never be committed here.
+See the [Code of Conduct](CODE_OF_CONDUCT.md) and [Changelog](CHANGELOG.md).
