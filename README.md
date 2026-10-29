@@ -7,7 +7,7 @@ reduced thermal model, deterministic specialist roles, evidence verification,
 and a local investigation workspace. The current release runs entirely on
 synthetic data, without cloud services or LLM calls.
 
-Developed within **CanovaTwin Labs**. Current application: **0.7.0** ·
+Developed within **CanovaTwin Labs**. Current application: **0.8.0** ·
 Analysis engine: **0.4.0** · Status: **research prototype**.
 
 [Current status](docs/PROJECT_STATUS.md) · [Roadmap](docs/ROADMAP.md) ·
@@ -68,7 +68,7 @@ locked dependencies instead of requiring external infrastructure.
 ## Quick start
 
 Prerequisites: Python **3.12+** and [uv](https://docs.astral.sh/uv/).
-Node.js **22** is the CI target for frontend development; Node is not required
+Node.js **22.22.2+ on the 22.x line** is the CI target for frontend development; Node is not required
 to serve the included panel. Commands below assume macOS/Linux and the
 repository root.
 
@@ -121,6 +121,25 @@ A configured workflow is not a successful CI run: inspect the actual checks
 on each pull request. Local test evidence is recorded in the
 [sprint reports](docs/SPRINT_6_REPORT.md) and
 [repository handoff report](docs/GITHUB_HANDOFF_REPORT.md).
+
+## Reproducible experiments
+
+Compare a simple threshold baseline, `core6` and `mvp12` on the same synthetic
+telemetry, using seed-disjoint development, validation and test sets:
+
+```sh
+.venv/bin/canovatwin-evaluate run examples/evaluation/synthetic-v1.json --split test --output-dir .local/evaluation/run-001
+```
+
+The bundled manifest defines 66 cases across three splits; selecting `test`
+evaluates 22 cases with three methods. Each run exports its manifest, per-case
+CSV, complete JSON results and a readable Markdown summary. Existing run
+folders are never overwritten. Fault onset, severity, noise and missing-sensor
+fraction can be varied without changing the original dynamic generator.
+
+This provides a reproducible **synthetic benchmark**, not independent field
+validation or a trained model. Read [the evaluation protocol](docs/EVALUATION.md)
+for denominators, abstentions, data isolation, limitations and interpretation.
 
 ## Repository layout
 

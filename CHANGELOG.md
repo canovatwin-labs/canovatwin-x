@@ -33,6 +33,22 @@ of stored analyses. The engine version only changes when diagnostic behaviour ch
   Python 3.12 now generates the same panel contract as Python 3.13 and 3.14.
 - Added the missing repository handoff report linked from the README.
 
+## [0.8.0] - 2026-10-30 (engine 0.4.0)
+
+Sprint 7: reproducible synthetic evaluation foundation.
+
+### Added
+- Versioned seed-disjoint manifests with configuration/content leakage checks.
+- Evaluation-only fault onset, severity, noise and missing-sensor variation.
+- Independent threshold baseline alongside core6 and mvp12 comparisons.
+- Per-case results, explicit alarm/candidate metrics, blocked-run coverage,
+  latency, role count and model metrics; JSON/CSV/Markdown exports via `canovatwin-evaluate`.
+- Installed-wheel evaluation smoke test in CI and 33 historical generator checksums.
+
+### Notes
+- This is a synthetic benchmark, not field validation, semantic RAG or learned ML.
+- Node development requirements align with the merged jsdom 30 update.
+
 ## [0.7.0] - 2026-10-29 (engine 0.4.0)
 
 Sprint 6: dynamic synthetic operation and a fuller investigation panel.
