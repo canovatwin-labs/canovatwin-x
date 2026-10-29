@@ -35,19 +35,25 @@ onaylama veya dal korumasını aşarak birleştirme yapılmaz.
   senaryo/profil birleşimi**, kimlik doğrulama, okuma/yazma ayrımı, geçmiş,
   olay durumu, replay, revizyon çatışması ve **4 eşzamanlı yazma** başarılı.
 - Wheel: mevcut panelin 4 dosyası birebir aynı; MIT metadata ve LICENSE doğrulandı.
-- Gitleaks: mevcut 8 commitlik erişilebilir geçmişte bulgu yok. Bu, tüm olası
+- Gitleaks: incelenen erişilebilir commit geçmişinde bulgu yok. Bu, tüm olası
   gizli bilgilerin bulunacağını veya ürünün güvenlik sertifikası olduğunu göstermez.
 
 ## GitHub durumu ve sınırlar
 
 İncelemede Python 3.13/3.14 CI başarılı, 3.12 sözleşme kontrolü başarısızdı.
-Bu düzeltmenin uzaktaki kontrol sonuçları PR'ın Checks alanından izlenir;
-başarısız veya bekleyen kontrol başarılı sayılmaz.
+Düzeltme commit'i `0307e5e` için [Quality çalışmasında](https://github.com/canovatwin-labs/canovatwin-x/actions/runs/40961724150)
+Python 3.12, 3.13 ve 3.14 kontrollerinin tamamı geçti.
+[Bağımlılık taraması](https://github.com/canovatwin-labs/canovatwin-x/actions/runs/40961724224)
+da başarılı. Sonraki commitlerin güncel sonucu PR'ın Checks alanından izlenir;
+bekleyen kontrol başarılı sayılmaz.
 
 - Secret scanning, push protection ve Dependabot security updates etkin.
 - Actions token varsayılanı read-only; PR onaylama yetkisi kapalı.
 - Ana dal başka bir geliştiriciden bir onay ister; yeni commit eski onayı düşürür.
-  Force push ve silme kapalı. İnceleme başlangıcında zorunlu status check yoktu.
+  Force push ve silme kapalı. Eksik olan üç zorunlu Python kalite kontrolü
+  eklendi; yalnızca GitHub Actions uygulamasının bildirdiği sonuçlar kabul edilir.
+  Dalın güncel olması, doğrusal geçmiş ve çözümlenmiş konuşma kuralları etkin.
+  Mevcut yönetici istisnası korunmuştur; bu çalışmada kullanılmadı.
 - Organizasyon genel izinleri değiştirilmedi. `cansukalkan` mevcut durumda
   organizasyon yöneticisidir; günlük katkı için Write yeterli olsa da bu işlem
   kullanıcının seçtiği yönetici rolünü değiştirmez.
