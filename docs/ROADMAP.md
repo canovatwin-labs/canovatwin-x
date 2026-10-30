@@ -1,7 +1,7 @@
 # Ürün ve araştırma yol haritası
 
-Bu belge özgün proje kapsamı ile çalışan 0.12.0 sürümü arasındaki farkı açık tutar.
-Yerel Sprint 1–11'in kapanmış olması, ilk önerideki bütün araştırma programının
+Bu belge özgün proje kapsamı ile çalışan 0.13.0 sürümü arasındaki farkı açık tutar.
+Yerel Sprint 1–12'nin kapanmış olması, ilk önerideki bütün araştırma programının
 veya 36 rolün tamamlandığı anlamına gelmez.
 
 ## Mevcut temel
@@ -41,6 +41,11 @@ Sprint 9 doğrulanmış CSV penceresini `declared_external` kökeniyle yalnızca
 keşif amaçlı altı uzmanlı incelemeye bağladı. Etiketler bilinmiyor ve insan
 incelemesi zorunlu. Bu teknik yolun bulunması, bağımsız veri seti doğrulaması
 veya başarı ölçümü anlamına gelmez.
+
+Sprint 12, AAU Zenodo v5 sunucu odası kaydındaki iki küçük gerçek ölçüm CSV'sini
+lisans/sürüm/hash beyanıyla doğruladı ve zaman ayrımlı keşif incelemesine soktu.
+İki kanal ve etiketsiz veri nedeniyle çekimser sonuç çıktı; gerçek veri üzerinde
+bir uçtan uca kalite yolu var, fakat arıza tanı başarısı hâlâ ölçülemedi.
 
 ## Öncelik 2 — Daha gerçekçi dijital ikiz ve telemetri
 

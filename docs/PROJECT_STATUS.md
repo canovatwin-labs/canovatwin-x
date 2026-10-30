@@ -1,6 +1,6 @@
 # CanovaTwin X — Güncel yetenek ve tamamlanma durumu
 
-**30 Ekim 2026 · Uygulama 0.12.0 / Motor 0.4.0 · Sprint 11 geliştirme dalında**
+**31 Ekim 2026 · Uygulama 0.13.0 / Motor 0.4.0 · Sprint 12 geliştirme dalında**
 
 Çalışan çıktı: sentetik veriyle yerel web paneli, API ve CLI ile kullanılabilen, kanıta dayalı rapor ve kalıcı inceleme geçmişi üreten 12 uzmanlı karar destek çekirdeği. Katalog 36 rol içerir. Bu belge tamamlanmış özelliği, kısmi katmanı ve planlı rolü birbirinden ayırır; tamamlanma yüzdesi iddiası taşımaz.
 
@@ -31,6 +31,8 @@
 17. Çevrimdışı sentetik telemetri akışında ölçüm ve geliş zamanlarını ayrı tutar; sınırlı sıra bozulmasını düzenler, geç/çift kayıtları ve tampon dolmasını açıkça reddeder. Bağlantı ve tazelik durumunu ayrı raporlar, yalnızca sıralanmış ve kesinleştirilmiş ölçümlerden analiz penceresi oluşturur. Bu bellek içi toplayıcı tek başına ağ, PLC veya kalıcı kayıt içermez.
 
 18. Ayrı SQLite olay günlüğüyle sentetik akışa yeniden açılış sonrası devam eder. Kabul edilen işlemler atomik kaydedilir; olay sırası ve hash zinciri okunurken doğrulanır. Bozuk kayıt, eşzamanlı yazar ve başarısız disk yazısı açıkça durdurulur. Bu, canlı bağlantı veya saldırgana dayanıklı imzalı denetim günlüğü değildir.
+
+19. CC BY 4.0 lisanslı AAU sunucu odası Zenodo v5 kaydının iki küçük yardımcı CSV dosyasını çevrimdışı ve yayıncı checksum'larıyla doğrulayarak 1.521 gerçek eşzamanlı sıcaklık çiftini içe alır. Açık saat dilimi varsayımı ve zaman ayrımlı train/validation/test raporu üretir. İki kanal dışında ölçüm ve arıza etiketi olmadığından keşif incelemesi çekimser kalır; saha teşhis puanı oluşturulmaz.
 
 ## Yedi katmanın durumu
 
@@ -145,13 +147,15 @@ Python testlerinin bulunması bu PLC uzmanlarının tamamlandığı anlamına ge
 
 - Sprint 11: ayrı SQLite olay günlüğü, atomik yazma, hash zinciriyle bozulma kontrolü, yeniden açılışta deterministik akış kurtarma ve eşzamanlı yazar reddi. Canlı gateway yok.
 
+- Sprint 12: lisansı ve sürümü kayıtlı bağımsız AAU sunucu odası sıcaklıklarını kaynak hash'leriyle içe alma, aynı anda ölçülmüş iki kanal ve zaman ayrımlı deney kümeleri; sınırlı keşif analizi ve açık yetersiz veri sonucu. Arıza etiketi ve saha teşhis puanı yok.
+
 ## Doğrulama ve sınırlar
 
-540 Python testi ve 39 arayüz testi geçti; kod/biçim, TypeScript ve üretim derlemesi temiz. Python toplam satır+dal kapsamı %96,44; bu oran arayüz kapsam oranı veya bilimsel teşhis başarısı değildir. Dış veri doğrulama ve keşif incelemesi için 17, akış toplayıcısı için 7, kalıcı günlük için 9 odaklı test normal ve hata sınırlarını kapsar. 11 senaryo × 3 iş yükü profili için kayıt, replay ve beklenen rapor/aday davranışları önceki testlerle korunuyor.
+549 Python testi ve 39 arayüz testi geçti; kod/biçim, TypeScript ve üretim derlemesi temiz. Python toplam satır+dal kapsamı %95,58; bu oran arayüz kapsam oranı veya bilimsel teşhis başarısı değildir. Dış veri doğrulama/inceleme için 17, AAU adaptörü için 9, akış toplayıcısı için 7, kalıcı günlük için 9 odaklı test normal ve hata sınırlarını kapsar. 11 senaryo × 3 iş yükü profili için kayıt, replay ve beklenen rapor/aday davranışları önceki testlerle korunuyor.
 
 Temiz ortamda kurulu dağıtım paketi ve gerçek HTTP üzerinden 22 referans + 33 dinamik birleşim, kimlik/yetki, kalıcı kayıt, durum, replay, sürüm/şema, panel varlıkları ve dört eşzamanlı yazma doğrulandı. Aynı kurulu pakette 66 yöntem/vaka değerlendirmesi tamamlandı; Sprint 7'nin süreler dışındaki sonuç hash'i değişmedi. Dış veri CLI'si üç parçalı yerel test dosyasında içe alma ve keşif incelemesi yaptı. Önceki sprintin kayıtları yeni deney metadatası olmadan okunup yeniden analiz edilebilir. WebKit'te Sprint 6 kapsamında dinamik ayarlarla deney, iletişim eskimesi uyarısı, üç grafik, replay, oturum temizliği ve dar/yatay/geniş ekran akışları kontrol edildi. Sprint 9 yeni panel akışı eklemedi.
 
-Henüz yapılmayanlar: açık HVAC veri setini seçip lisansını ve sensör anlamını doğrulayarak gerçekten içe alma, dış veride bağımsız etiketli değerlendirme, LLM/klasik ML baseline karşılaştırması, bağımsız veri üzerinde Macro-F1/Top-3 doğruluk, bilimsel güven aralıkları, gerçek şirket verisi ve donanım validasyonu. Tüm ajanlar bu sürümde deterministik araç kullanır; eğitilmiş model veya 36 LLM çağrısı yoktur.
+Henüz yapılmayanlar: çok kanallı ve arıza etiketli bağımsız HVAC veri kümesiyle teşhis doğrulaması, LLM/klasik ML baseline karşılaştırması, bağımsız veri üzerinde Macro-F1/Top-3 doğruluk, bilimsel güven aralıkları, gerçek şirket verisi ve donanım validasyonu. AAU veri kümesinin saat dilimi varsayımı yayıncı tarafından doğrulanmış değildir. Tüm ajanlar bu sürümde deterministik araç kullanır; eğitilmiş model veya 36 LLM çağrısı yoktur.
 
 Üretim emniyet sistemi, tam kurumsal ürün veya gerçek tesis dijital ikizi doğruluğu iddiası yoktur. Şubat 2027 sonrası şirketin izin verdiği donanıma salt okunur adaptör eklemek ileri kapsamdır.
 
