@@ -33,6 +33,15 @@ class GenerationMetadata(Contract):
     conditions: OperatingConditions
 
 
+class ExperimentVariation(Contract):
+    """Evaluation-only injection controls; never part of an AnalysisRequest."""
+
+    onset_fraction: float = Field(default=1 / 3, ge=0.1, le=0.85)
+    severity: float = Field(default=1.0, ge=0.25, le=1)
+    sensor_noise_c: float = Field(default=0.04, ge=0, le=0.5)
+    missing_fraction: float = Field(default=1.0, ge=0.2, le=1)
+
+
 def lag(current: float, target: float, tau_s: float) -> float:
     """Exact first-order step response over one second; cannot overshoot."""
     return target + (current - target) * exp(-1.0 / tau_s)
@@ -51,6 +60,15 @@ def workload_kw(time_s: int, conditions: OperatingConditions) -> float:
 
 
 def generate_operating_case(metadata: GenerationMetadata) -> ScenarioCase:
+    return _generate(metadata, None)
+
+
+def generate_experiment_case(metadata: GenerationMetadata, variation: ExperimentVariation) -> ScenarioCase:
+    variation = ExperimentVariation.model_validate(variation.model_dump())
+    return _generate(metadata, variation)
+
+
+def _generate(metadata: GenerationMetadata, variation: ExperimentVariation | None) -> ScenarioCase:
     metadata = GenerationMetadata.model_validate(metadata.model_dump())
     conditions = metadata.conditions
     scenario = metadata.scenario
@@ -60,7 +78,11 @@ def generate_operating_case(metadata: GenerationMetadata) -> ScenarioCase:
     fan = 49.0
     cooling = 4.9
     sensor = temperature
-    onset = metadata.count // 3
+    onset = metadata.count // 3 if variation is None else int(metadata.count * variation.onset_fraction)
+    severity = 1.0 if variation is None else variation.severity
+    noise = 0.04 if variation is None else variation.sensor_noise_c
+    # Missing readings must not alter the physical workload/noise random stream.
+    missing_rng = Random(metadata.seed ^ 0x435458)
     samples = []
     for i in range(metadata.count):
         active = i >= onset
@@ -68,29 +90,33 @@ def generate_operating_case(metadata: GenerationMetadata) -> ScenarioCase:
         ambient = conditions.ambient_c + 1.5 * sin(2 * pi * i / 600)
         command = min(100.0, max(20.0, 49.0 + 15 * (temperature - config.target_inlet_c)))
         if active and scenario == Scenario.CONTROL_OSCILLATION:
-            command = 60.0 + 35.0 * sin(2 * pi * (i - onset) / 10)
+            command = 60.0 + 35.0 * severity * sin(2 * pi * (i - onset) / 10)
         target_fan = command
         if scenario in (Scenario.FAN_LOSS, Scenario.COMBINED):
-            target_fan *= 1 - 0.55 * ramp
+            target_fan *= 1 - 0.55 * severity * ramp
         elif scenario == Scenario.FAN_MISMATCH:
-            target_fan += (20 - target_fan) * ramp
+            target_fan += (20 - target_fan) * severity * ramp
         fan = lag(fan, target_fan, conditions.fan_response_s)
         flow = config.nominal_airflow_m3s * fan / 100
         if scenario == Scenario.AIRFLOW_RESTRICTION:
-            flow *= 1 - 0.55 * ramp
+            flow *= 1 - 0.55 * severity * ramp
         flow_capacity = config.nominal_cooling_kw * flow / config.nominal_airflow_m3s
         target_cooling = flow_capacity
         if scenario in (Scenario.COOLING_LOSS, Scenario.COMBINED):
-            target_cooling *= 1 - 0.6 * ramp
+            target_cooling *= 1 - 0.6 * severity * ramp
         cooling = min(flow_capacity, lag(cooling, target_cooling, 10.0))
         load = workload_kw(i, conditions) + rng.uniform(-0.04, 0.04)
         if scenario == Scenario.LOAD_SURGE:
-            load += 4.2 * ramp
+            load += 4.2 * severity * ramp
         sensor = lag(sensor, temperature, 2.0)
-        inlet = sensor + rng.uniform(-0.04, 0.04)
+        inlet = sensor + rng.uniform(-noise, noise)
         if scenario == Scenario.SENSOR_BIAS:
-            inlet += 5.0 * ramp
-        if active and scenario == Scenario.SENSOR_MISSING:
+            inlet += 5.0 * severity * ramp
+        if (
+            active
+            and scenario == Scenario.SENSOR_MISSING
+            and (variation is None or missing_rng.random() < variation.missing_fraction)
+        ):
             inlet = None
         if not (active and scenario == Scenario.COMMUNICATION_LOSS):
             samples.append(

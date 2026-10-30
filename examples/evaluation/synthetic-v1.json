@@ -1,0 +1,1329 @@
+{
+  "schema_version": "1.0",
+  "generator_version": "evaluation-1.0",
+  "dataset_id": "synthetic-evaluation-v1",
+  "source": "canovatwin-synthetic",
+  "license": "MIT",
+  "cases": [
+    {
+      "case_id": "case-001",
+      "split": "train",
+      "scenario": "normal",
+      "seed": 1000,
+      "count": 240,
+      "start": "2026-10-30T00:00:00Z",
+      "conditions": {
+        "workload": "steady",
+        "baseline_load_kw": 4.2,
+        "ambient_c": 26.0,
+        "fan_response_s": 6.0
+      },
+      "variation": {
+        "onset_fraction": 0.2,
+        "severity": 0.4,
+        "sensor_noise_c": 0.03,
+        "missing_fraction": 0.5
+      }
+    },
+    {
+      "case_id": "case-002",
+      "split": "train",
+      "scenario": "fan_loss",
+      "seed": 1000,
+      "count": 240,
+      "start": "2026-10-30T00:00:00Z",
+      "conditions": {
+        "workload": "steady",
+        "baseline_load_kw": 4.2,
+        "ambient_c": 26.0,
+        "fan_response_s": 6.0
+      },
+      "variation": {
+        "onset_fraction": 0.2,
+        "severity": 0.4,
+        "sensor_noise_c": 0.03,
+        "missing_fraction": 0.5
+      }
+    },
+    {
+      "case_id": "case-003",
+      "split": "train",
+      "scenario": "sensor_bias",
+      "seed": 1000,
+      "count": 240,
+      "start": "2026-10-30T00:00:00Z",
+      "conditions": {
+        "workload": "steady",
+        "baseline_load_kw": 4.2,
+        "ambient_c": 26.0,
+        "fan_response_s": 6.0
+      },
+      "variation": {
+        "onset_fraction": 0.2,
+        "severity": 0.4,
+        "sensor_noise_c": 0.03,
+        "missing_fraction": 0.5
+      }
+    },
+    {
+      "case_id": "case-004",
+      "split": "train",
+      "scenario": "sensor_missing",
+      "seed": 1000,
+      "count": 240,
+      "start": "2026-10-30T00:00:00Z",
+      "conditions": {
+        "workload": "steady",
+        "baseline_load_kw": 4.2,
+        "ambient_c": 26.0,
+        "fan_response_s": 6.0
+      },
+      "variation": {
+        "onset_fraction": 0.2,
+        "severity": 0.4,
+        "sensor_noise_c": 0.03,
+        "missing_fraction": 0.5
+      }
+    },
+    {
+      "case_id": "case-005",
+      "split": "train",
+      "scenario": "load_surge",
+      "seed": 1000,
+      "count": 240,
+      "start": "2026-10-30T00:00:00Z",
+      "conditions": {
+        "workload": "steady",
+        "baseline_load_kw": 4.2,
+        "ambient_c": 26.0,
+        "fan_response_s": 6.0
+      },
+      "variation": {
+        "onset_fraction": 0.2,
+        "severity": 0.4,
+        "sensor_noise_c": 0.03,
+        "missing_fraction": 0.5
+      }
+    },
+    {
+      "case_id": "case-006",
+      "split": "train",
+      "scenario": "cooling_loss",
+      "seed": 1000,
+      "count": 240,
+      "start": "2026-10-30T00:00:00Z",
+      "conditions": {
+        "workload": "steady",
+        "baseline_load_kw": 4.2,
+        "ambient_c": 26.0,
+        "fan_response_s": 6.0
+      },
+      "variation": {
+        "onset_fraction": 0.2,
+        "severity": 0.4,
+        "sensor_noise_c": 0.03,
+        "missing_fraction": 0.5
+      }
+    },
+    {
+      "case_id": "case-007",
+      "split": "train",
+      "scenario": "airflow_restriction",
+      "seed": 1000,
+      "count": 240,
+      "start": "2026-10-30T00:00:00Z",
+      "conditions": {
+        "workload": "steady",
+        "baseline_load_kw": 4.2,
+        "ambient_c": 26.0,
+        "fan_response_s": 6.0
+      },
+      "variation": {
+        "onset_fraction": 0.2,
+        "severity": 0.4,
+        "sensor_noise_c": 0.03,
+        "missing_fraction": 0.5
+      }
+    },
+    {
+      "case_id": "case-008",
+      "split": "train",
+      "scenario": "fan_mismatch",
+      "seed": 1000,
+      "count": 240,
+      "start": "2026-10-30T00:00:00Z",
+      "conditions": {
+        "workload": "steady",
+        "baseline_load_kw": 4.2,
+        "ambient_c": 26.0,
+        "fan_response_s": 6.0
+      },
+      "variation": {
+        "onset_fraction": 0.2,
+        "severity": 0.4,
+        "sensor_noise_c": 0.03,
+        "missing_fraction": 0.5
+      }
+    },
+    {
+      "case_id": "case-009",
+      "split": "train",
+      "scenario": "communication_loss",
+      "seed": 1000,
+      "count": 240,
+      "start": "2026-10-30T00:00:00Z",
+      "conditions": {
+        "workload": "steady",
+        "baseline_load_kw": 4.2,
+        "ambient_c": 26.0,
+        "fan_response_s": 6.0
+      },
+      "variation": {
+        "onset_fraction": 0.2,
+        "severity": 0.4,
+        "sensor_noise_c": 0.03,
+        "missing_fraction": 0.5
+      }
+    },
+    {
+      "case_id": "case-010",
+      "split": "train",
+      "scenario": "control_oscillation",
+      "seed": 1000,
+      "count": 240,
+      "start": "2026-10-30T00:00:00Z",
+      "conditions": {
+        "workload": "steady",
+        "baseline_load_kw": 4.2,
+        "ambient_c": 26.0,
+        "fan_response_s": 6.0
+      },
+      "variation": {
+        "onset_fraction": 0.2,
+        "severity": 0.4,
+        "sensor_noise_c": 0.03,
+        "missing_fraction": 0.5
+      }
+    },
+    {
+      "case_id": "case-011",
+      "split": "train",
+      "scenario": "combined",
+      "seed": 1000,
+      "count": 240,
+      "start": "2026-10-30T00:00:00Z",
+      "conditions": {
+        "workload": "steady",
+        "baseline_load_kw": 4.2,
+        "ambient_c": 26.0,
+        "fan_response_s": 6.0
+      },
+      "variation": {
+        "onset_fraction": 0.2,
+        "severity": 0.4,
+        "sensor_noise_c": 0.03,
+        "missing_fraction": 0.5
+      }
+    },
+    {
+      "case_id": "case-012",
+      "split": "train",
+      "scenario": "normal",
+      "seed": 1001,
+      "count": 240,
+      "start": "2026-10-30T00:00:00Z",
+      "conditions": {
+        "workload": "cyclic",
+        "baseline_load_kw": 4.2,
+        "ambient_c": 34.0,
+        "fan_response_s": 6.0
+      },
+      "variation": {
+        "onset_fraction": 0.7,
+        "severity": 1.0,
+        "sensor_noise_c": 0.18,
+        "missing_fraction": 1.0
+      }
+    },
+    {
+      "case_id": "case-013",
+      "split": "train",
+      "scenario": "fan_loss",
+      "seed": 1001,
+      "count": 240,
+      "start": "2026-10-30T00:00:00Z",
+      "conditions": {
+        "workload": "cyclic",
+        "baseline_load_kw": 4.2,
+        "ambient_c": 34.0,
+        "fan_response_s": 6.0
+      },
+      "variation": {
+        "onset_fraction": 0.7,
+        "severity": 1.0,
+        "sensor_noise_c": 0.18,
+        "missing_fraction": 1.0
+      }
+    },
+    {
+      "case_id": "case-014",
+      "split": "train",
+      "scenario": "sensor_bias",
+      "seed": 1001,
+      "count": 240,
+      "start": "2026-10-30T00:00:00Z",
+      "conditions": {
+        "workload": "cyclic",
+        "baseline_load_kw": 4.2,
+        "ambient_c": 34.0,
+        "fan_response_s": 6.0
+      },
+      "variation": {
+        "onset_fraction": 0.7,
+        "severity": 1.0,
+        "sensor_noise_c": 0.18,
+        "missing_fraction": 1.0
+      }
+    },
+    {
+      "case_id": "case-015",
+      "split": "train",
+      "scenario": "sensor_missing",
+      "seed": 1001,
+      "count": 240,
+      "start": "2026-10-30T00:00:00Z",
+      "conditions": {
+        "workload": "cyclic",
+        "baseline_load_kw": 4.2,
+        "ambient_c": 34.0,
+        "fan_response_s": 6.0
+      },
+      "variation": {
+        "onset_fraction": 0.7,
+        "severity": 1.0,
+        "sensor_noise_c": 0.18,
+        "missing_fraction": 1.0
+      }
+    },
+    {
+      "case_id": "case-016",
+      "split": "train",
+      "scenario": "load_surge",
+      "seed": 1001,
+      "count": 240,
+      "start": "2026-10-30T00:00:00Z",
+      "conditions": {
+        "workload": "cyclic",
+        "baseline_load_kw": 4.2,
+        "ambient_c": 34.0,
+        "fan_response_s": 6.0
+      },
+      "variation": {
+        "onset_fraction": 0.7,
+        "severity": 1.0,
+        "sensor_noise_c": 0.18,
+        "missing_fraction": 1.0
+      }
+    },
+    {
+      "case_id": "case-017",
+      "split": "train",
+      "scenario": "cooling_loss",
+      "seed": 1001,
+      "count": 240,
+      "start": "2026-10-30T00:00:00Z",
+      "conditions": {
+        "workload": "cyclic",
+        "baseline_load_kw": 4.2,
+        "ambient_c": 34.0,
+        "fan_response_s": 6.0
+      },
+      "variation": {
+        "onset_fraction": 0.7,
+        "severity": 1.0,
+        "sensor_noise_c": 0.18,
+        "missing_fraction": 1.0
+      }
+    },
+    {
+      "case_id": "case-018",
+      "split": "train",
+      "scenario": "airflow_restriction",
+      "seed": 1001,
+      "count": 240,
+      "start": "2026-10-30T00:00:00Z",
+      "conditions": {
+        "workload": "cyclic",
+        "baseline_load_kw": 4.2,
+        "ambient_c": 34.0,
+        "fan_response_s": 6.0
+      },
+      "variation": {
+        "onset_fraction": 0.7,
+        "severity": 1.0,
+        "sensor_noise_c": 0.18,
+        "missing_fraction": 1.0
+      }
+    },
+    {
+      "case_id": "case-019",
+      "split": "train",
+      "scenario": "fan_mismatch",
+      "seed": 1001,
+      "count": 240,
+      "start": "2026-10-30T00:00:00Z",
+      "conditions": {
+        "workload": "cyclic",
+        "baseline_load_kw": 4.2,
+        "ambient_c": 34.0,
+        "fan_response_s": 6.0
+      },
+      "variation": {
+        "onset_fraction": 0.7,
+        "severity": 1.0,
+        "sensor_noise_c": 0.18,
+        "missing_fraction": 1.0
+      }
+    },
+    {
+      "case_id": "case-020",
+      "split": "train",
+      "scenario": "communication_loss",
+      "seed": 1001,
+      "count": 240,
+      "start": "2026-10-30T00:00:00Z",
+      "conditions": {
+        "workload": "cyclic",
+        "baseline_load_kw": 4.2,
+        "ambient_c": 34.0,
+        "fan_response_s": 6.0
+      },
+      "variation": {
+        "onset_fraction": 0.7,
+        "severity": 1.0,
+        "sensor_noise_c": 0.18,
+        "missing_fraction": 1.0
+      }
+    },
+    {
+      "case_id": "case-021",
+      "split": "train",
+      "scenario": "control_oscillation",
+      "seed": 1001,
+      "count": 240,
+      "start": "2026-10-30T00:00:00Z",
+      "conditions": {
+        "workload": "cyclic",
+        "baseline_load_kw": 4.2,
+        "ambient_c": 34.0,
+        "fan_response_s": 6.0
+      },
+      "variation": {
+        "onset_fraction": 0.7,
+        "severity": 1.0,
+        "sensor_noise_c": 0.18,
+        "missing_fraction": 1.0
+      }
+    },
+    {
+      "case_id": "case-022",
+      "split": "train",
+      "scenario": "combined",
+      "seed": 1001,
+      "count": 240,
+      "start": "2026-10-30T00:00:00Z",
+      "conditions": {
+        "workload": "cyclic",
+        "baseline_load_kw": 4.2,
+        "ambient_c": 34.0,
+        "fan_response_s": 6.0
+      },
+      "variation": {
+        "onset_fraction": 0.7,
+        "severity": 1.0,
+        "sensor_noise_c": 0.18,
+        "missing_fraction": 1.0
+      }
+    },
+    {
+      "case_id": "case-023",
+      "split": "validation",
+      "scenario": "normal",
+      "seed": 2000,
+      "count": 240,
+      "start": "2026-10-30T00:00:00Z",
+      "conditions": {
+        "workload": "steady",
+        "baseline_load_kw": 4.2,
+        "ambient_c": 26.0,
+        "fan_response_s": 6.0
+      },
+      "variation": {
+        "onset_fraction": 0.2,
+        "severity": 0.4,
+        "sensor_noise_c": 0.03,
+        "missing_fraction": 0.5
+      }
+    },
+    {
+      "case_id": "case-024",
+      "split": "validation",
+      "scenario": "fan_loss",
+      "seed": 2000,
+      "count": 240,
+      "start": "2026-10-30T00:00:00Z",
+      "conditions": {
+        "workload": "steady",
+        "baseline_load_kw": 4.2,
+        "ambient_c": 26.0,
+        "fan_response_s": 6.0
+      },
+      "variation": {
+        "onset_fraction": 0.2,
+        "severity": 0.4,
+        "sensor_noise_c": 0.03,
+        "missing_fraction": 0.5
+      }
+    },
+    {
+      "case_id": "case-025",
+      "split": "validation",
+      "scenario": "sensor_bias",
+      "seed": 2000,
+      "count": 240,
+      "start": "2026-10-30T00:00:00Z",
+      "conditions": {
+        "workload": "steady",
+        "baseline_load_kw": 4.2,
+        "ambient_c": 26.0,
+        "fan_response_s": 6.0
+      },
+      "variation": {
+        "onset_fraction": 0.2,
+        "severity": 0.4,
+        "sensor_noise_c": 0.03,
+        "missing_fraction": 0.5
+      }
+    },
+    {
+      "case_id": "case-026",
+      "split": "validation",
+      "scenario": "sensor_missing",
+      "seed": 2000,
+      "count": 240,
+      "start": "2026-10-30T00:00:00Z",
+      "conditions": {
+        "workload": "steady",
+        "baseline_load_kw": 4.2,
+        "ambient_c": 26.0,
+        "fan_response_s": 6.0
+      },
+      "variation": {
+        "onset_fraction": 0.2,
+        "severity": 0.4,
+        "sensor_noise_c": 0.03,
+        "missing_fraction": 0.5
+      }
+    },
+    {
+      "case_id": "case-027",
+      "split": "validation",
+      "scenario": "load_surge",
+      "seed": 2000,
+      "count": 240,
+      "start": "2026-10-30T00:00:00Z",
+      "conditions": {
+        "workload": "steady",
+        "baseline_load_kw": 4.2,
+        "ambient_c": 26.0,
+        "fan_response_s": 6.0
+      },
+      "variation": {
+        "onset_fraction": 0.2,
+        "severity": 0.4,
+        "sensor_noise_c": 0.03,
+        "missing_fraction": 0.5
+      }
+    },
+    {
+      "case_id": "case-028",
+      "split": "validation",
+      "scenario": "cooling_loss",
+      "seed": 2000,
+      "count": 240,
+      "start": "2026-10-30T00:00:00Z",
+      "conditions": {
+        "workload": "steady",
+        "baseline_load_kw": 4.2,
+        "ambient_c": 26.0,
+        "fan_response_s": 6.0
+      },
+      "variation": {
+        "onset_fraction": 0.2,
+        "severity": 0.4,
+        "sensor_noise_c": 0.03,
+        "missing_fraction": 0.5
+      }
+    },
+    {
+      "case_id": "case-029",
+      "split": "validation",
+      "scenario": "airflow_restriction",
+      "seed": 2000,
+      "count": 240,
+      "start": "2026-10-30T00:00:00Z",
+      "conditions": {
+        "workload": "steady",
+        "baseline_load_kw": 4.2,
+        "ambient_c": 26.0,
+        "fan_response_s": 6.0
+      },
+      "variation": {
+        "onset_fraction": 0.2,
+        "severity": 0.4,
+        "sensor_noise_c": 0.03,
+        "missing_fraction": 0.5
+      }
+    },
+    {
+      "case_id": "case-030",
+      "split": "validation",
+      "scenario": "fan_mismatch",
+      "seed": 2000,
+      "count": 240,
+      "start": "2026-10-30T00:00:00Z",
+      "conditions": {
+        "workload": "steady",
+        "baseline_load_kw": 4.2,
+        "ambient_c": 26.0,
+        "fan_response_s": 6.0
+      },
+      "variation": {
+        "onset_fraction": 0.2,
+        "severity": 0.4,
+        "sensor_noise_c": 0.03,
+        "missing_fraction": 0.5
+      }
+    },
+    {
+      "case_id": "case-031",
+      "split": "validation",
+      "scenario": "communication_loss",
+      "seed": 2000,
+      "count": 240,
+      "start": "2026-10-30T00:00:00Z",
+      "conditions": {
+        "workload": "steady",
+        "baseline_load_kw": 4.2,
+        "ambient_c": 26.0,
+        "fan_response_s": 6.0
+      },
+      "variation": {
+        "onset_fraction": 0.2,
+        "severity": 0.4,
+        "sensor_noise_c": 0.03,
+        "missing_fraction": 0.5
+      }
+    },
+    {
+      "case_id": "case-032",
+      "split": "validation",
+      "scenario": "control_oscillation",
+      "seed": 2000,
+      "count": 240,
+      "start": "2026-10-30T00:00:00Z",
+      "conditions": {
+        "workload": "steady",
+        "baseline_load_kw": 4.2,
+        "ambient_c": 26.0,
+        "fan_response_s": 6.0
+      },
+      "variation": {
+        "onset_fraction": 0.2,
+        "severity": 0.4,
+        "sensor_noise_c": 0.03,
+        "missing_fraction": 0.5
+      }
+    },
+    {
+      "case_id": "case-033",
+      "split": "validation",
+      "scenario": "combined",
+      "seed": 2000,
+      "count": 240,
+      "start": "2026-10-30T00:00:00Z",
+      "conditions": {
+        "workload": "steady",
+        "baseline_load_kw": 4.2,
+        "ambient_c": 26.0,
+        "fan_response_s": 6.0
+      },
+      "variation": {
+        "onset_fraction": 0.2,
+        "severity": 0.4,
+        "sensor_noise_c": 0.03,
+        "missing_fraction": 0.5
+      }
+    },
+    {
+      "case_id": "case-034",
+      "split": "validation",
+      "scenario": "normal",
+      "seed": 2001,
+      "count": 240,
+      "start": "2026-10-30T00:00:00Z",
+      "conditions": {
+        "workload": "cyclic",
+        "baseline_load_kw": 4.2,
+        "ambient_c": 34.0,
+        "fan_response_s": 6.0
+      },
+      "variation": {
+        "onset_fraction": 0.7,
+        "severity": 1.0,
+        "sensor_noise_c": 0.18,
+        "missing_fraction": 1.0
+      }
+    },
+    {
+      "case_id": "case-035",
+      "split": "validation",
+      "scenario": "fan_loss",
+      "seed": 2001,
+      "count": 240,
+      "start": "2026-10-30T00:00:00Z",
+      "conditions": {
+        "workload": "cyclic",
+        "baseline_load_kw": 4.2,
+        "ambient_c": 34.0,
+        "fan_response_s": 6.0
+      },
+      "variation": {
+        "onset_fraction": 0.7,
+        "severity": 1.0,
+        "sensor_noise_c": 0.18,
+        "missing_fraction": 1.0
+      }
+    },
+    {
+      "case_id": "case-036",
+      "split": "validation",
+      "scenario": "sensor_bias",
+      "seed": 2001,
+      "count": 240,
+      "start": "2026-10-30T00:00:00Z",
+      "conditions": {
+        "workload": "cyclic",
+        "baseline_load_kw": 4.2,
+        "ambient_c": 34.0,
+        "fan_response_s": 6.0
+      },
+      "variation": {
+        "onset_fraction": 0.7,
+        "severity": 1.0,
+        "sensor_noise_c": 0.18,
+        "missing_fraction": 1.0
+      }
+    },
+    {
+      "case_id": "case-037",
+      "split": "validation",
+      "scenario": "sensor_missing",
+      "seed": 2001,
+      "count": 240,
+      "start": "2026-10-30T00:00:00Z",
+      "conditions": {
+        "workload": "cyclic",
+        "baseline_load_kw": 4.2,
+        "ambient_c": 34.0,
+        "fan_response_s": 6.0
+      },
+      "variation": {
+        "onset_fraction": 0.7,
+        "severity": 1.0,
+        "sensor_noise_c": 0.18,
+        "missing_fraction": 1.0
+      }
+    },
+    {
+      "case_id": "case-038",
+      "split": "validation",
+      "scenario": "load_surge",
+      "seed": 2001,
+      "count": 240,
+      "start": "2026-10-30T00:00:00Z",
+      "conditions": {
+        "workload": "cyclic",
+        "baseline_load_kw": 4.2,
+        "ambient_c": 34.0,
+        "fan_response_s": 6.0
+      },
+      "variation": {
+        "onset_fraction": 0.7,
+        "severity": 1.0,
+        "sensor_noise_c": 0.18,
+        "missing_fraction": 1.0
+      }
+    },
+    {
+      "case_id": "case-039",
+      "split": "validation",
+      "scenario": "cooling_loss",
+      "seed": 2001,
+      "count": 240,
+      "start": "2026-10-30T00:00:00Z",
+      "conditions": {
+        "workload": "cyclic",
+        "baseline_load_kw": 4.2,
+        "ambient_c": 34.0,
+        "fan_response_s": 6.0
+      },
+      "variation": {
+        "onset_fraction": 0.7,
+        "severity": 1.0,
+        "sensor_noise_c": 0.18,
+        "missing_fraction": 1.0
+      }
+    },
+    {
+      "case_id": "case-040",
+      "split": "validation",
+      "scenario": "airflow_restriction",
+      "seed": 2001,
+      "count": 240,
+      "start": "2026-10-30T00:00:00Z",
+      "conditions": {
+        "workload": "cyclic",
+        "baseline_load_kw": 4.2,
+        "ambient_c": 34.0,
+        "fan_response_s": 6.0
+      },
+      "variation": {
+        "onset_fraction": 0.7,
+        "severity": 1.0,
+        "sensor_noise_c": 0.18,
+        "missing_fraction": 1.0
+      }
+    },
+    {
+      "case_id": "case-041",
+      "split": "validation",
+      "scenario": "fan_mismatch",
+      "seed": 2001,
+      "count": 240,
+      "start": "2026-10-30T00:00:00Z",
+      "conditions": {
+        "workload": "cyclic",
+        "baseline_load_kw": 4.2,
+        "ambient_c": 34.0,
+        "fan_response_s": 6.0
+      },
+      "variation": {
+        "onset_fraction": 0.7,
+        "severity": 1.0,
+        "sensor_noise_c": 0.18,
+        "missing_fraction": 1.0
+      }
+    },
+    {
+      "case_id": "case-042",
+      "split": "validation",
+      "scenario": "communication_loss",
+      "seed": 2001,
+      "count": 240,
+      "start": "2026-10-30T00:00:00Z",
+      "conditions": {
+        "workload": "cyclic",
+        "baseline_load_kw": 4.2,
+        "ambient_c": 34.0,
+        "fan_response_s": 6.0
+      },
+      "variation": {
+        "onset_fraction": 0.7,
+        "severity": 1.0,
+        "sensor_noise_c": 0.18,
+        "missing_fraction": 1.0
+      }
+    },
+    {
+      "case_id": "case-043",
+      "split": "validation",
+      "scenario": "control_oscillation",
+      "seed": 2001,
+      "count": 240,
+      "start": "2026-10-30T00:00:00Z",
+      "conditions": {
+        "workload": "cyclic",
+        "baseline_load_kw": 4.2,
+        "ambient_c": 34.0,
+        "fan_response_s": 6.0
+      },
+      "variation": {
+        "onset_fraction": 0.7,
+        "severity": 1.0,
+        "sensor_noise_c": 0.18,
+        "missing_fraction": 1.0
+      }
+    },
+    {
+      "case_id": "case-044",
+      "split": "validation",
+      "scenario": "combined",
+      "seed": 2001,
+      "count": 240,
+      "start": "2026-10-30T00:00:00Z",
+      "conditions": {
+        "workload": "cyclic",
+        "baseline_load_kw": 4.2,
+        "ambient_c": 34.0,
+        "fan_response_s": 6.0
+      },
+      "variation": {
+        "onset_fraction": 0.7,
+        "severity": 1.0,
+        "sensor_noise_c": 0.18,
+        "missing_fraction": 1.0
+      }
+    },
+    {
+      "case_id": "case-045",
+      "split": "test",
+      "scenario": "normal",
+      "seed": 3000,
+      "count": 240,
+      "start": "2026-10-30T00:00:00Z",
+      "conditions": {
+        "workload": "steady",
+        "baseline_load_kw": 4.2,
+        "ambient_c": 26.0,
+        "fan_response_s": 6.0
+      },
+      "variation": {
+        "onset_fraction": 0.2,
+        "severity": 0.4,
+        "sensor_noise_c": 0.03,
+        "missing_fraction": 0.5
+      }
+    },
+    {
+      "case_id": "case-046",
+      "split": "test",
+      "scenario": "fan_loss",
+      "seed": 3000,
+      "count": 240,
+      "start": "2026-10-30T00:00:00Z",
+      "conditions": {
+        "workload": "steady",
+        "baseline_load_kw": 4.2,
+        "ambient_c": 26.0,
+        "fan_response_s": 6.0
+      },
+      "variation": {
+        "onset_fraction": 0.2,
+        "severity": 0.4,
+        "sensor_noise_c": 0.03,
+        "missing_fraction": 0.5
+      }
+    },
+    {
+      "case_id": "case-047",
+      "split": "test",
+      "scenario": "sensor_bias",
+      "seed": 3000,
+      "count": 240,
+      "start": "2026-10-30T00:00:00Z",
+      "conditions": {
+        "workload": "steady",
+        "baseline_load_kw": 4.2,
+        "ambient_c": 26.0,
+        "fan_response_s": 6.0
+      },
+      "variation": {
+        "onset_fraction": 0.2,
+        "severity": 0.4,
+        "sensor_noise_c": 0.03,
+        "missing_fraction": 0.5
+      }
+    },
+    {
+      "case_id": "case-048",
+      "split": "test",
+      "scenario": "sensor_missing",
+      "seed": 3000,
+      "count": 240,
+      "start": "2026-10-30T00:00:00Z",
+      "conditions": {
+        "workload": "steady",
+        "baseline_load_kw": 4.2,
+        "ambient_c": 26.0,
+        "fan_response_s": 6.0
+      },
+      "variation": {
+        "onset_fraction": 0.2,
+        "severity": 0.4,
+        "sensor_noise_c": 0.03,
+        "missing_fraction": 0.5
+      }
+    },
+    {
+      "case_id": "case-049",
+      "split": "test",
+      "scenario": "load_surge",
+      "seed": 3000,
+      "count": 240,
+      "start": "2026-10-30T00:00:00Z",
+      "conditions": {
+        "workload": "steady",
+        "baseline_load_kw": 4.2,
+        "ambient_c": 26.0,
+        "fan_response_s": 6.0
+      },
+      "variation": {
+        "onset_fraction": 0.2,
+        "severity": 0.4,
+        "sensor_noise_c": 0.03,
+        "missing_fraction": 0.5
+      }
+    },
+    {
+      "case_id": "case-050",
+      "split": "test",
+      "scenario": "cooling_loss",
+      "seed": 3000,
+      "count": 240,
+      "start": "2026-10-30T00:00:00Z",
+      "conditions": {
+        "workload": "steady",
+        "baseline_load_kw": 4.2,
+        "ambient_c": 26.0,
+        "fan_response_s": 6.0
+      },
+      "variation": {
+        "onset_fraction": 0.2,
+        "severity": 0.4,
+        "sensor_noise_c": 0.03,
+        "missing_fraction": 0.5
+      }
+    },
+    {
+      "case_id": "case-051",
+      "split": "test",
+      "scenario": "airflow_restriction",
+      "seed": 3000,
+      "count": 240,
+      "start": "2026-10-30T00:00:00Z",
+      "conditions": {
+        "workload": "steady",
+        "baseline_load_kw": 4.2,
+        "ambient_c": 26.0,
+        "fan_response_s": 6.0
+      },
+      "variation": {
+        "onset_fraction": 0.2,
+        "severity": 0.4,
+        "sensor_noise_c": 0.03,
+        "missing_fraction": 0.5
+      }
+    },
+    {
+      "case_id": "case-052",
+      "split": "test",
+      "scenario": "fan_mismatch",
+      "seed": 3000,
+      "count": 240,
+      "start": "2026-10-30T00:00:00Z",
+      "conditions": {
+        "workload": "steady",
+        "baseline_load_kw": 4.2,
+        "ambient_c": 26.0,
+        "fan_response_s": 6.0
+      },
+      "variation": {
+        "onset_fraction": 0.2,
+        "severity": 0.4,
+        "sensor_noise_c": 0.03,
+        "missing_fraction": 0.5
+      }
+    },
+    {
+      "case_id": "case-053",
+      "split": "test",
+      "scenario": "communication_loss",
+      "seed": 3000,
+      "count": 240,
+      "start": "2026-10-30T00:00:00Z",
+      "conditions": {
+        "workload": "steady",
+        "baseline_load_kw": 4.2,
+        "ambient_c": 26.0,
+        "fan_response_s": 6.0
+      },
+      "variation": {
+        "onset_fraction": 0.2,
+        "severity": 0.4,
+        "sensor_noise_c": 0.03,
+        "missing_fraction": 0.5
+      }
+    },
+    {
+      "case_id": "case-054",
+      "split": "test",
+      "scenario": "control_oscillation",
+      "seed": 3000,
+      "count": 240,
+      "start": "2026-10-30T00:00:00Z",
+      "conditions": {
+        "workload": "steady",
+        "baseline_load_kw": 4.2,
+        "ambient_c": 26.0,
+        "fan_response_s": 6.0
+      },
+      "variation": {
+        "onset_fraction": 0.2,
+        "severity": 0.4,
+        "sensor_noise_c": 0.03,
+        "missing_fraction": 0.5
+      }
+    },
+    {
+      "case_id": "case-055",
+      "split": "test",
+      "scenario": "combined",
+      "seed": 3000,
+      "count": 240,
+      "start": "2026-10-30T00:00:00Z",
+      "conditions": {
+        "workload": "steady",
+        "baseline_load_kw": 4.2,
+        "ambient_c": 26.0,
+        "fan_response_s": 6.0
+      },
+      "variation": {
+        "onset_fraction": 0.2,
+        "severity": 0.4,
+        "sensor_noise_c": 0.03,
+        "missing_fraction": 0.5
+      }
+    },
+    {
+      "case_id": "case-056",
+      "split": "test",
+      "scenario": "normal",
+      "seed": 3001,
+      "count": 240,
+      "start": "2026-10-30T00:00:00Z",
+      "conditions": {
+        "workload": "cyclic",
+        "baseline_load_kw": 4.2,
+        "ambient_c": 34.0,
+        "fan_response_s": 6.0
+      },
+      "variation": {
+        "onset_fraction": 0.7,
+        "severity": 1.0,
+        "sensor_noise_c": 0.18,
+        "missing_fraction": 1.0
+      }
+    },
+    {
+      "case_id": "case-057",
+      "split": "test",
+      "scenario": "fan_loss",
+      "seed": 3001,
+      "count": 240,
+      "start": "2026-10-30T00:00:00Z",
+      "conditions": {
+        "workload": "cyclic",
+        "baseline_load_kw": 4.2,
+        "ambient_c": 34.0,
+        "fan_response_s": 6.0
+      },
+      "variation": {
+        "onset_fraction": 0.7,
+        "severity": 1.0,
+        "sensor_noise_c": 0.18,
+        "missing_fraction": 1.0
+      }
+    },
+    {
+      "case_id": "case-058",
+      "split": "test",
+      "scenario": "sensor_bias",
+      "seed": 3001,
+      "count": 240,
+      "start": "2026-10-30T00:00:00Z",
+      "conditions": {
+        "workload": "cyclic",
+        "baseline_load_kw": 4.2,
+        "ambient_c": 34.0,
+        "fan_response_s": 6.0
+      },
+      "variation": {
+        "onset_fraction": 0.7,
+        "severity": 1.0,
+        "sensor_noise_c": 0.18,
+        "missing_fraction": 1.0
+      }
+    },
+    {
+      "case_id": "case-059",
+      "split": "test",
+      "scenario": "sensor_missing",
+      "seed": 3001,
+      "count": 240,
+      "start": "2026-10-30T00:00:00Z",
+      "conditions": {
+        "workload": "cyclic",
+        "baseline_load_kw": 4.2,
+        "ambient_c": 34.0,
+        "fan_response_s": 6.0
+      },
+      "variation": {
+        "onset_fraction": 0.7,
+        "severity": 1.0,
+        "sensor_noise_c": 0.18,
+        "missing_fraction": 1.0
+      }
+    },
+    {
+      "case_id": "case-060",
+      "split": "test",
+      "scenario": "load_surge",
+      "seed": 3001,
+      "count": 240,
+      "start": "2026-10-30T00:00:00Z",
+      "conditions": {
+        "workload": "cyclic",
+        "baseline_load_kw": 4.2,
+        "ambient_c": 34.0,
+        "fan_response_s": 6.0
+      },
+      "variation": {
+        "onset_fraction": 0.7,
+        "severity": 1.0,
+        "sensor_noise_c": 0.18,
+        "missing_fraction": 1.0
+      }
+    },
+    {
+      "case_id": "case-061",
+      "split": "test",
+      "scenario": "cooling_loss",
+      "seed": 3001,
+      "count": 240,
+      "start": "2026-10-30T00:00:00Z",
+      "conditions": {
+        "workload": "cyclic",
+        "baseline_load_kw": 4.2,
+        "ambient_c": 34.0,
+        "fan_response_s": 6.0
+      },
+      "variation": {
+        "onset_fraction": 0.7,
+        "severity": 1.0,
+        "sensor_noise_c": 0.18,
+        "missing_fraction": 1.0
+      }
+    },
+    {
+      "case_id": "case-062",
+      "split": "test",
+      "scenario": "airflow_restriction",
+      "seed": 3001,
+      "count": 240,
+      "start": "2026-10-30T00:00:00Z",
+      "conditions": {
+        "workload": "cyclic",
+        "baseline_load_kw": 4.2,
+        "ambient_c": 34.0,
+        "fan_response_s": 6.0
+      },
+      "variation": {
+        "onset_fraction": 0.7,
+        "severity": 1.0,
+        "sensor_noise_c": 0.18,
+        "missing_fraction": 1.0
+      }
+    },
+    {
+      "case_id": "case-063",
+      "split": "test",
+      "scenario": "fan_mismatch",
+      "seed": 3001,
+      "count": 240,
+      "start": "2026-10-30T00:00:00Z",
+      "conditions": {
+        "workload": "cyclic",
+        "baseline_load_kw": 4.2,
+        "ambient_c": 34.0,
+        "fan_response_s": 6.0
+      },
+      "variation": {
+        "onset_fraction": 0.7,
+        "severity": 1.0,
+        "sensor_noise_c": 0.18,
+        "missing_fraction": 1.0
+      }
+    },
+    {
+      "case_id": "case-064",
+      "split": "test",
+      "scenario": "communication_loss",
+      "seed": 3001,
+      "count": 240,
+      "start": "2026-10-30T00:00:00Z",
+      "conditions": {
+        "workload": "cyclic",
+        "baseline_load_kw": 4.2,
+        "ambient_c": 34.0,
+        "fan_response_s": 6.0
+      },
+      "variation": {
+        "onset_fraction": 0.7,
+        "severity": 1.0,
+        "sensor_noise_c": 0.18,
+        "missing_fraction": 1.0
+      }
+    },
+    {
+      "case_id": "case-065",
+      "split": "test",
+      "scenario": "control_oscillation",
+      "seed": 3001,
+      "count": 240,
+      "start": "2026-10-30T00:00:00Z",
+      "conditions": {
+        "workload": "cyclic",
+        "baseline_load_kw": 4.2,
+        "ambient_c": 34.0,
+        "fan_response_s": 6.0
+      },
+      "variation": {
+        "onset_fraction": 0.7,
+        "severity": 1.0,
+        "sensor_noise_c": 0.18,
+        "missing_fraction": 1.0
+      }
+    },
+    {
+      "case_id": "case-066",
+      "split": "test",
+      "scenario": "combined",
+      "seed": 3001,
+      "count": 240,
+      "start": "2026-10-30T00:00:00Z",
+      "conditions": {
+        "workload": "cyclic",
+        "baseline_load_kw": 4.2,
+        "ambient_c": 34.0,
+        "fan_response_s": 6.0
+      },
+      "variation": {
+        "onset_fraction": 0.7,
+        "severity": 1.0,
+        "sensor_noise_c": 0.18,
+        "missing_fraction": 1.0
+      }
+    }
+  ]
+}

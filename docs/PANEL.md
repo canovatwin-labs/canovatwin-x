@@ -36,7 +36,7 @@ Yazma isteğinde bağlantı koparsa kayıt yapılmış olabilir. Panel otomatik 
 
 ## Ön yüz geliştirme
 
-Kaynak `web/`, Python paketine giren derleme `src/canovatwin/web/` içindedir. Node.js 20.19+ hedeflenir; Node 20.20.2 / npm 10.8.2 ile doğrulanmıştır.
+Kaynak `web/`, Python paketine giren derleme `src/canovatwin/web/` içindedir. Node.js 22.22.2+ (22.x) hedeflenir; Node 20.20.2 / npm 10.8.2 ile doğrulanmıştır.
 
 ```sh
 cd web

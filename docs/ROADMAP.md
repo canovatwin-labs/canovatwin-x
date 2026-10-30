@@ -1,7 +1,7 @@
 # Ürün ve araştırma yol haritası
 
-Bu belge özgün proje kapsamı ile çalışan 0.7.0 sürümü arasındaki farkı açık tutar.
-Yerel Sprint 1–6'nın kapanmış olması, ilk önerideki bütün araştırma programının
+Bu belge özgün proje kapsamı ile çalışan 0.8.0 sürümü arasındaki farkı açık tutar.
+Yerel Sprint 1–7'nin kapanmış olması, ilk önerideki bütün araştırma programının
 veya 36 rolün tamamlandığı anlamına gelmez.
 
 ## Mevcut temel
@@ -24,6 +24,13 @@ geçmesi bağımsız arıza teşhis başarısını göstermemektedir.
 - İlk karşılaştırma: kural tabanı, core6 ve mvp12. Bunlar LLM karşılaştırması değildir.
 - Kabul: aynı manifest tekrarlandığında aynı teknik sonuçlar; ayrı değerlendirme
   kümesi; başarısız örneklerin görünür olduğu rapor ve regresyon testleri.
+
+Sprint 7 ile sürümlü sentetik manifest, ayrık seed kümeleri, değişken enjeksiyon,
+üç yöntemin aynı ölçümlerde karşılaştırılması, açık paydalı metrikler ve
+tekrar üretilebilir rapor çıktısı sağlandı. Bu madde **kısmen tamamlandı**:
+bağımsız açık/saha veri kümesi, ekipman ve zaman ayrımlı dış doğrulama, belirsizlik
+aralıkları ve daha geniş örneklem henüz yok. Sentetik sonuçlar saha başarısı
+iddiasına dönüşmez.
 
 ## Öncelik 2 — Daha gerçekçi dijital ikiz ve telemetri
 

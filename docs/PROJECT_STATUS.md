@@ -1,6 +1,6 @@
 # CanovaTwin X — Güncel yetenek ve tamamlanma durumu
 
-**30 Ekim 2026 · Uygulama 0.7.0 / Motor 0.4.0 · Sprint 6 tamamlandı**
+**30 Ekim 2026 · Uygulama 0.8.0 / Motor 0.4.0 · Sprint 7 doğrulandı, PR incelemesinde**
 
 Çalışan çıktı: sentetik veriyle yerel web paneli, API ve CLI ile kullanılabilen, kanıta dayalı rapor ve kalıcı inceleme geçmişi üreten 12 uzmanlı karar destek çekirdeği. Katalog 36 rol içerir. Bu belge tamamlanmış özelliği, kısmi katmanı ve planlı rolü birbirinden ayırır; tamamlanma yüzdesi iddiası taşımaz.
 
@@ -22,11 +22,13 @@
 
 13. Türkçe React panelinden senaryo üretir; olay, rapor, telemetri, kanıt, ajan izi ve geçmişi gösterir. Gerekçeli durum değişimi ve yeniden analiz API üzerinden kaydedilir. Okuma/yazma yetkisi sunucudan öğrenilir; anahtar yalnızca sekme belleğinde tutulur.
 
+14. Sürümlü sentetik deney manifestiyle train/validation/test kümelerini ayırır; arıza başlangıcı, şiddeti, gürültü ve eksik sensör oranını değiştirir. Aynı 22 test vakasında eşik yöntemi, core6 ve mvp12 sonuçlarını JSON/CSV/Markdown olarak dışa aktarır. Alarm, aday, kapsama ve süre metrikleri hesaplar; deney çevrimdışıdır ve bağımsız saha doğrulaması değildir.
+
 ## Yedi katmanın durumu
 
 ### L1 — Fiziksel veya sanal cihaz: sanal pilot tamamlandı
 
-Tek bölgeli indirgenmiş termal model, sensörler ve on arıza enjeksiyonu çalışıyor. Dinamik işletim modelinde reçete edilmiş yük/ortam değişimleri, ölçüm gürültüsü, sensör gecikmesi ve kademeli arıza davranışı var. Gerçek cihaz, çoklu kabinet, ayrıntılı hava/nem/hidrolik modeli ve CFD yok. Bu katman fiziksel tesisle doğrulanmadı.
+Tek bölgeli indirgenmiş termal model, sensörler ve on arıza enjeksiyonu çalışıyor. Dinamik işletim modelinde reçete edilmiş yük/ortam değişimleri, ölçüm gürültüsü, sensör gecikmesi ve kademeli arıza davranışı var. Değerlendirme manifesti ayrıca arıza başlangıcı, şiddet, gürültü ve kayıp sensör oranını ayarlar. Gerçek cihaz, çoklu kabinet, ayrıntılı hava/nem/hidrolik modeli ve CFD yok. Bu katman fiziksel tesisle doğrulanmadı.
 
 ### L2 — Kontrol mantığı: temel simülasyon kontrolü var
 
@@ -50,7 +52,7 @@ Global Supervisor, ortak fabrika, izinli araçlar, görev/araç/süre bütçeler
 
 ### L7 — Kullanıcı erişimi: CLI, API ve operasyon/deney paneli çalışıyor
 
-Analiz, katalog, geçmiş, ayrıntı, durum değişikliği, denetim ve replay komutları var. FastAPI ile 13 HTTP yolu, okuma/yazma anahtarları ve yerel OpenAPI çalışır. Aynı servisten açılan React paneli, 11 senaryo, iki profil, olay filtresi/sayfalama, rapor, telemetri grafiği/tablosu, kanıtlar, ajan izi, durum yönetimi ve yeniden analizi sunar. Operasyon görünümünde gerçek kayıtla doldurulan tesis şeması, sayfaya ait sayaçlar ve sıcaklık/güç eğrileri vardır. Deney formu çalışma koşullarını düzenler; telemetri ekranı ayrıca fan grafiğini sunar. Eski ölçümler canlı olarak sunulmaz. Ayrı kapsamlı Agent Workbench, çoklu deney karşılaştırmalı Digital Twin Lab ve kişisel kullanıcı yönetimi henüz yoktur.
+Analiz, katalog, geçmiş, ayrıntı, durum değişikliği, denetim ve replay komutları var. FastAPI ile 13 HTTP yolu, okuma/yazma anahtarları ve yerel OpenAPI çalışır. Aynı servisten açılan React paneli, 11 senaryo, iki profil, olay filtresi/sayfalama, rapor, telemetri grafiği/tablosu, kanıtlar, ajan izi, durum yönetimi ve yeniden analizi sunar. Operasyon görünümünde gerçek kayıtla doldurulan tesis şeması, sayfaya ait sayaçlar ve sıcaklık/güç eğrileri vardır. Deney formu çalışma koşullarını düzenler; telemetri ekranı ayrıca fan grafiğini sunar. Çevrimdışı deney CLI'si üç yöntemi karşılaştırıp raporlar; henüz panelde bir karşılaştırma ekranı yok. Eski ölçümler canlı olarak sunulmaz. Ayrı kapsamlı Agent Workbench, çoklu deney karşılaştırmalı Digital Twin Lab ve kişisel kullanıcı yönetimi henüz yoktur.
 
 ## 36 ajan rolünün tek tek durumu
 
@@ -125,13 +127,15 @@ Python testlerinin bulunması bu PLC uzmanlarının tamamlandığı anlamına ge
 
 - Sprint 6: üç dinamik iş yükü profili, gecikmeli ekipman/sensör tepkisi, kademeli arızalar ve kayıtlı deney koşulları; daha yoğun operasyon ekranı, tesis şeması ve üç telemetri grafiği. Ajan sayısı değişmedi.
 
+- Sprint 7: seed ayrımlı sentetik manifest, değişken enjeksiyon, bağımsız eşik tabanı ile core6/mvp12 karşılaştırması, hata/kapsama/süre metrikleri ve tekrar üretilebilir çevrimdışı raporlar. Ajan sayısı değişmedi.
+
 ## Doğrulama ve sınırlar
 
-437 Python testi ve 39 arayüz testi geçti; kod/biçim, TypeScript ve üretim derlemesi temiz. Python toplam satır+dal kapsamı %97,85; bu oran arayüz kapsam oranı veya bilimsel teşhis başarısı değildir. 11 senaryo × 3 iş yükü profili için kayıt, replay ve beklenen rapor/aday davranışları doğrulandı. Normal örnekler belirti yok; veri kesintileri veri yetersiz; diğer arızalar beklenen adayları içeren inceleme sonucu verdi. Ek adaylar bulunabilir.
+507 Python testi ve 39 arayüz testi geçti; kod/biçim, TypeScript ve üretim derlemesi temiz. Python toplam satır+dal kapsamı %98,00; bu oran arayüz kapsam oranı veya bilimsel teşhis başarısı değildir. 11 senaryo × 3 iş yükü profili için kayıt, replay ve beklenen rapor/aday davranışları doğrulandı. Normal örnekler belirti yok; veri kesintileri veri yetersiz; diğer arızalar beklenen adayları içeren inceleme sonucu verdi. Ek adaylar bulunabilir.
 
-Temiz ortamda kurulu dağıtım paketi ve gerçek HTTP üzerinden 22 referans + 33 dinamik birleşim, kimlik/yetki, kalıcı kayıt, durum, replay, sürüm/şema, panel varlıkları ve dört eşzamanlı yazma doğrulandı. Önceki sprintin kayıtları yeni deney metadatası olmadan okunup yeniden analiz edilebilir. WebKit'te dinamik ayarlarla deney, iletişim eskimesi uyarısı, üç grafik, replay, oturum temizliği ve dar/yatay/geniş ekran akışları kontrol edildi. Mobil tablodaki yatay taşma giderildi.
+Temiz ortamda kurulu dağıtım paketi ve gerçek HTTP üzerinden 22 referans + 33 dinamik birleşim, kimlik/yetki, kalıcı kayıt, durum, replay, sürüm/şema, panel varlıkları ve dört eşzamanlı yazma doğrulandı. Aynı kurulu pakette 66 yöntem/vaka değerlendirmesi de tamamlandı; iki ayrı koşunun süreler dışındaki sonuç hash'leri eşleşti. Önceki sprintin kayıtları yeni deney metadatası olmadan okunup yeniden analiz edilebilir. WebKit'te Sprint 6 kapsamında dinamik ayarlarla deney, iletişim eskimesi uyarısı, üç grafik, replay, oturum temizliği ve dar/yatay/geniş ekran akışları kontrol edildi. Sprint 7 yeni panel akışı eklemedi.
 
-Henüz yapılmayanlar: açık HVAC veri setleriyle çalışma, LLM/klasik ML baseline karşılaştırması, Macro-F1/Top-3 doğruluk, bilimsel güven aralıkları, gerçek şirket verisi ve donanım validasyonu. Tüm ajanlar bu sürümde deterministik araç kullanır; eğitilmiş model veya 36 LLM çağrısı yoktur.
+Henüz yapılmayanlar: açık HVAC veri setleriyle çalışma, LLM/klasik ML baseline karşılaştırması, bağımsız veri üzerinde Macro-F1/Top-3 doğruluk, bilimsel güven aralıkları, gerçek şirket verisi ve donanım validasyonu. Tüm ajanlar bu sürümde deterministik araç kullanır; eğitilmiş model veya 36 LLM çağrısı yoktur.
 
 Üretim emniyet sistemi, tam kurumsal ürün veya gerçek tesis dijital ikizi doğruluğu iddiası yoktur. Şubat 2027 sonrası şirketin izin verdiği donanıma salt okunur adaptör eklemek ileri kapsamdır.
 
