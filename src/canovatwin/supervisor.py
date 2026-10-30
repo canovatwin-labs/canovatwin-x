@@ -159,6 +159,7 @@ class Supervisor:
             agent_id = self._next(agent_id, ctx)
         return AnalysisRun(
             incident_id=incident_id,
+            mode="external_review" if request.window.source == "declared_external" else "simulation",
             clock_mode=request.clock_mode,
             status="blocked" if failure else "completed",
             report=report,

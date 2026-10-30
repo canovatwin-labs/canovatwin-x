@@ -344,8 +344,11 @@
             "type": "integer"
           },
           "mode": {
-            "const": "simulation",
             "default": "simulation",
+            "enum": [
+              "simulation",
+              "external_review"
+            ],
             "title": "Mode",
             "type": "string"
           },
@@ -743,6 +746,7 @@
             "default": "synthetic",
             "enum": [
               "synthetic",
+              "declared_external",
               "historical_snapshot",
               "document_snapshot",
               "simulation"
@@ -871,7 +875,7 @@
             "type": "string"
           },
           "application_version": {
-            "default": "0.8.0",
+            "default": "0.10.0",
             "title": "Application Version",
             "type": "string"
           },
@@ -1693,7 +1697,7 @@
             "type": "string"
           },
           "application_version": {
-            "default": "0.8.0",
+            "default": "0.10.0",
             "title": "Application Version",
             "type": "string"
           },
@@ -2794,8 +2798,11 @@
             "type": "array"
           },
           "source": {
-            "const": "synthetic",
             "default": "synthetic",
+            "enum": [
+              "synthetic",
+              "declared_external"
+            ],
             "title": "Source",
             "type": "string"
           }
@@ -2854,7 +2861,7 @@
   },
   "info": {
     "title": "CanovaTwin X",
-    "version": "0.8.0"
+    "version": "0.10.0"
   },
   "openapi": "3.1.0",
   "paths": {

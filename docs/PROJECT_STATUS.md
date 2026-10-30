@@ -1,6 +1,6 @@
 # CanovaTwin X — Güncel yetenek ve tamamlanma durumu
 
-**30 Ekim 2026 · Uygulama 0.8.0 / Motor 0.4.0 · Sprint 7 doğrulandı, PR incelemesinde**
+**30 Ekim 2026 · Uygulama 0.10.0 / Motor 0.4.0 · Sprint 9 geliştirme dalında**
 
 Çalışan çıktı: sentetik veriyle yerel web paneli, API ve CLI ile kullanılabilen, kanıta dayalı rapor ve kalıcı inceleme geçmişi üreten 12 uzmanlı karar destek çekirdeği. Katalog 36 rol içerir. Bu belge tamamlanmış özelliği, kısmi katmanı ve planlı rolü birbirinden ayırır; tamamlanma yüzdesi iddiası taşımaz.
 
@@ -24,6 +24,10 @@
 
 14. Sürümlü sentetik deney manifestiyle train/validation/test kümelerini ayırır; arıza başlangıcı, şiddeti, gürültü ve eksik sensör oranını değiştirir. Aynı 22 test vakasında eşik yöntemi, core6 ve mvp12 sonuçlarını JSON/CSV/Markdown olarak dışa aktarır. Alarm, aday, kapsama ve süre metrikleri hesaplar; deney çevrimdışıdır ve bağımsız saha doğrulaması değildir.
 
+15. Dış CSV veri seti için kaynak/lisans beyanını, SHA-256 dosya bütünlüğünü, sensör sütunu ve birim eşlemesini, zaman sırasını, eksik/aralık dışı ölçümleri ve varlık/zaman ayrımlı deney kümelerini çevrimdışı doğrular. Raporlanan kaynak ve lisans henüz bağımsız doğrulanmış değildir; varsayılan doğrulama komutu teşhis çalıştırmaz.
+
+16. Doğrulanmış dış CSV parçasından seçilen 3–600 ölçümü `declared_external` kökeniyle altı uzmanlı keşif analizine verir. Kanıtlar ve çalışma kipi dış veri olarak işaretlenir; etiketler bilinmiyor, insan incelemesi her sonuçta zorunludur. Doğrudan API'de dış kaynak iddiası reddedilir. Bu yol saha teşhis başarısı olarak puanlanmaz.
+
 ## Yedi katmanın durumu
 
 ### L1 — Fiziksel veya sanal cihaz: sanal pilot tamamlandı
@@ -36,7 +40,7 @@ Sıcaklığa bağlı deterministik oransal fan komutu, ayrı fan geri bildirimi 
 
 ### L3 — Haberleşme: süreç içi/JSON sınırı var, endüstriyel bağlantı planlı
 
-Türlü giriş sözleşmesi, zaman/kaynak kontrolü, JSON dosyası okuma ve yerel HTTP API çalışıyor. OPC UA, Modbus, gerçek gateway, kesintiden sonra ağ bağlantısı toparlama ve gerçek cihaz I/O eşlemesi uygulanmadı.
+Türlü giriş sözleşmesi, zaman/kaynak kontrolü, JSON dosyası okuma ve yerel HTTP API çalışıyor. Dış CSV veri kümesi için ayrı, kaynak ve birim beyanlı doğrulama sınırı var; doğrulanmış sınırlı pencere çevrimdışı keşif analizine alınabilir. OPC UA, Modbus, gerçek gateway, kesintiden sonra ağ bağlantısı toparlama ve gerçek cihaz I/O eşlemesi uygulanmadı.
 
 ### L4 — Veri platformu: yerel kayıt ve kaynak snapshot'ları tamamlandı
 
@@ -48,11 +52,11 @@ Enerji dengesi, sınırlı karşı olgusal projeksiyon, referans sıcaklık tahm
 
 ### L6 — Çok ajanlı çekirdek: 12 uzmanlı çevrimdışı MVP tamamlandı
 
-Global Supervisor, ortak fabrika, izinli araçlar, görev/araç/süre bütçeleri, iki profil ve F03/F04 doğrulama kapıları çalışıyor. Katalog 36; uygulanmış rol 12; kalan rol 24. Grup koordinatörleri planlı. LangGraph, LLM adaptörü ve vektör RAG henüz eklenmedi. Süre sınırı işbirliklidir; güvenilmeyen harici kodu zorla sonlandıran süreç izolasyonu yok.
+Global Supervisor, ortak fabrika, izinli araçlar, görev/araç/süre bütçeleri, iki profil ve F03/F04 doğrulama kapıları çalışıyor. Katalog 36; uygulanmış rol 12; kalan rol 24. Doğrulanmış dış veri penceresinde yalnızca mevcut core6 çalışır; kanıt kaynağı ve rapor sınırlamaları farklıdır. Grup koordinatörleri planlı. LangGraph, LLM adaptörü ve vektör RAG henüz eklenmedi. Süre sınırı işbirliklidir; güvenilmeyen harici kodu zorla sonlandıran süreç izolasyonu yok.
 
 ### L7 — Kullanıcı erişimi: CLI, API ve operasyon/deney paneli çalışıyor
 
-Analiz, katalog, geçmiş, ayrıntı, durum değişikliği, denetim ve replay komutları var. FastAPI ile 13 HTTP yolu, okuma/yazma anahtarları ve yerel OpenAPI çalışır. Aynı servisten açılan React paneli, 11 senaryo, iki profil, olay filtresi/sayfalama, rapor, telemetri grafiği/tablosu, kanıtlar, ajan izi, durum yönetimi ve yeniden analizi sunar. Operasyon görünümünde gerçek kayıtla doldurulan tesis şeması, sayfaya ait sayaçlar ve sıcaklık/güç eğrileri vardır. Deney formu çalışma koşullarını düzenler; telemetri ekranı ayrıca fan grafiğini sunar. Çevrimdışı deney CLI'si üç yöntemi karşılaştırıp raporlar; henüz panelde bir karşılaştırma ekranı yok. Eski ölçümler canlı olarak sunulmaz. Ayrı kapsamlı Agent Workbench, çoklu deney karşılaştırmalı Digital Twin Lab ve kişisel kullanıcı yönetimi henüz yoktur.
+Analiz, katalog, geçmiş, ayrıntı, durum değişikliği, denetim ve replay komutları var. FastAPI ile 13 HTTP yolu, okuma/yazma anahtarları ve yerel OpenAPI çalışır. Aynı servisten açılan React paneli, 11 senaryo, iki profil, olay filtresi/sayfalama, rapor, telemetri grafiği/tablosu, kanıtlar, ajan izi, durum yönetimi ve yeniden analizi sunar. Operasyon görünümünde gerçek kayıtla doldurulan tesis şeması, sayfaya ait sayaçlar ve sıcaklık/güç eğrileri vardır. Deney formu çalışma koşullarını düzenler; telemetri ekranı ayrıca fan grafiğini sunar. Çevrimdışı deney CLI'si üç yöntemi karşılaştırıp raporlar; veri seti CLI'si dış CSV dosyalarını doğrular ve isteğe bağlı sınırlı keşif incelemesi yapar. Henüz panelde bir karşılaştırma veya dış veri ekranı yok. Eski ölçümler canlı olarak sunulmaz. Ayrı kapsamlı Agent Workbench, çoklu deney karşılaştırmalı Digital Twin Lab ve kişisel kullanıcı yönetimi henüz yoktur.
 
 ## 36 ajan rolünün tek tek durumu
 
@@ -129,13 +133,17 @@ Python testlerinin bulunması bu PLC uzmanlarının tamamlandığı anlamına ge
 
 - Sprint 7: seed ayrımlı sentetik manifest, değişken enjeksiyon, bağımsız eşik tabanı ile core6/mvp12 karşılaştırması, hata/kapsama/süre metrikleri ve tekrar üretilebilir çevrimdışı raporlar. Ajan sayısı değişmedi.
 
+- Sprint 8: dış veri için çevrimdışı CSV doğrulama sözleşmesi, birim dönüşümü, veri kalitesi özeti, hash ve split sızıntı kontrolleri. Gerçek veri seti henüz seçilmedi ve teşhis motoruna bağlanmadı.
+
+- Sprint 9: doğrulanmış dış CSV'den sınırlı keşif incelemesi, ayrı çalışma ve kanıt kökeni, bilinmeyen etiket ve zorunlu insan incelemesi. Gerçek veri seti ve saha puanı hâlâ yok.
+
 ## Doğrulama ve sınırlar
 
-507 Python testi ve 39 arayüz testi geçti; kod/biçim, TypeScript ve üretim derlemesi temiz. Python toplam satır+dal kapsamı %98,00; bu oran arayüz kapsam oranı veya bilimsel teşhis başarısı değildir. 11 senaryo × 3 iş yükü profili için kayıt, replay ve beklenen rapor/aday davranışları doğrulandı. Normal örnekler belirti yok; veri kesintileri veri yetersiz; diğer arızalar beklenen adayları içeren inceleme sonucu verdi. Ek adaylar bulunabilir.
+524 Python testi ve 39 arayüz testi geçti; kod/biçim, TypeScript ve üretim derlemesi temiz. Python toplam satır+dal kapsamı %97,20; bu oran arayüz kapsam oranı veya bilimsel teşhis başarısı değildir. Dış veri doğrulama ve keşif incelemesi için toplam 17 test, normal ve hata sınırlarını kapsar. 11 senaryo × 3 iş yükü profili için kayıt, replay ve beklenen rapor/aday davranışları önceki testlerle korunuyor.
 
-Temiz ortamda kurulu dağıtım paketi ve gerçek HTTP üzerinden 22 referans + 33 dinamik birleşim, kimlik/yetki, kalıcı kayıt, durum, replay, sürüm/şema, panel varlıkları ve dört eşzamanlı yazma doğrulandı. Aynı kurulu pakette 66 yöntem/vaka değerlendirmesi de tamamlandı; iki ayrı koşunun süreler dışındaki sonuç hash'leri eşleşti. Önceki sprintin kayıtları yeni deney metadatası olmadan okunup yeniden analiz edilebilir. WebKit'te Sprint 6 kapsamında dinamik ayarlarla deney, iletişim eskimesi uyarısı, üç grafik, replay, oturum temizliği ve dar/yatay/geniş ekran akışları kontrol edildi. Sprint 7 yeni panel akışı eklemedi.
+Temiz ortamda kurulu dağıtım paketi ve gerçek HTTP üzerinden 22 referans + 33 dinamik birleşim, kimlik/yetki, kalıcı kayıt, durum, replay, sürüm/şema, panel varlıkları ve dört eşzamanlı yazma doğrulandı. Aynı kurulu pakette 66 yöntem/vaka değerlendirmesi tamamlandı; Sprint 7'nin süreler dışındaki sonuç hash'i değişmedi. Dış veri CLI'si üç parçalı yerel test dosyasında içe alma ve keşif incelemesi yaptı. Önceki sprintin kayıtları yeni deney metadatası olmadan okunup yeniden analiz edilebilir. WebKit'te Sprint 6 kapsamında dinamik ayarlarla deney, iletişim eskimesi uyarısı, üç grafik, replay, oturum temizliği ve dar/yatay/geniş ekran akışları kontrol edildi. Sprint 9 yeni panel akışı eklemedi.
 
-Henüz yapılmayanlar: açık HVAC veri setleriyle çalışma, LLM/klasik ML baseline karşılaştırması, bağımsız veri üzerinde Macro-F1/Top-3 doğruluk, bilimsel güven aralıkları, gerçek şirket verisi ve donanım validasyonu. Tüm ajanlar bu sürümde deterministik araç kullanır; eğitilmiş model veya 36 LLM çağrısı yoktur.
+Henüz yapılmayanlar: açık HVAC veri setini seçip lisansını doğrulayarak gerçekten içe alma, dış veriyi analize bağlama, LLM/klasik ML baseline karşılaştırması, bağımsız veri üzerinde Macro-F1/Top-3 doğruluk, bilimsel güven aralıkları, gerçek şirket verisi ve donanım validasyonu. Tüm ajanlar bu sürümde deterministik araç kullanır; eğitilmiş model veya 36 LLM çağrısı yoktur.
 
 Üretim emniyet sistemi, tam kurumsal ürün veya gerçek tesis dijital ikizi doğruluğu iddiası yoktur. Şubat 2027 sonrası şirketin izin verdiği donanıma salt okunur adaptör eklemek ileri kapsamdır.
 

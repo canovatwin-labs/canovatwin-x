@@ -33,6 +33,39 @@ of stored analyses. The engine version only changes when diagnostic behaviour ch
   Python 3.12 now generates the same panel contract as Python 3.13 and 3.14.
 - Added the missing repository handoff report linked from the README.
 
+## [0.10.0] - 2026-10-30 (engine 0.4.0)
+
+Sprint 9: provenance-bound exploratory review of declared external telemetry.
+
+### Added
+- A bounded CSV partition window adapter that retains absent channels as
+  missing values and runs the existing deterministic core6 path after complete
+  manifest validation.
+- Explicit `declared_external` evidence provenance, `external_review` run mode,
+  unknown-label status and mandatory human review even for clear results.
+- An offline CLI review option; direct external claims through the HTTP analysis
+  endpoint are rejected. Existing synthetic replay and evaluation stay intact.
+
+### Notes
+- Declared source and license remain unverified. No field diagnosis accuracy,
+  actual external dataset, PLC access or actuator command is claimed.
+
+## [0.9.0] - 2026-10-30 (engine 0.4.0)
+
+Sprint 8: offline external dataset intake boundary.
+
+### Added
+- Strict manifest for declared source/license, CSV checksums, canonical channel
+  units, expected sampling interval and asset/time-isolated splits.
+- Bounded CSV validator with unit conversion, timestamp order, missing/out-of-range
+  and gap counts, and normalized-content leakage checks across splits.
+- `canovatwin-dataset` CLI with a non-overwriting JSON report. It does not fetch
+  data, run diagnostics or present declared provenance as verified.
+
+### Notes
+- No independent dataset is bundled or scored. The analysis engine remains 0.4.0;
+  no new agent, physical command or LLM call was introduced.
+
 ## [0.8.0] - 2026-10-30 (engine 0.4.0)
 
 Sprint 7: reproducible synthetic evaluation foundation.

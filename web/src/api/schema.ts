@@ -360,9 +360,9 @@ export interface components {
             /**
              * Mode
              * @default simulation
-             * @constant
+             * @enum {string}
              */
-            mode: "simulation";
+            mode: "simulation" | "external_review";
             /** Outputs */
             outputs: components["schemas"]["AgentOutput"][];
             report: components["schemas"]["TechnicalReport"] | null;
@@ -501,7 +501,7 @@ export interface components {
              * @default synthetic
              * @enum {string}
              */
-            source: "synthetic" | "historical_snapshot" | "document_snapshot" | "simulation";
+            source: "synthetic" | "declared_external" | "historical_snapshot" | "document_snapshot" | "simulation";
             /** Unit */
             unit: string;
             /** Value */
@@ -553,7 +553,7 @@ export interface components {
             api_version: string;
             /**
              * Application Version
-             * @default 0.8.0
+             * @default 0.10.0
              */
             application_version: string;
             /**
@@ -925,7 +925,7 @@ export interface components {
             api_version: string;
             /**
              * Application Version
-             * @default 0.8.0
+             * @default 0.10.0
              */
             application_version: string;
             /**
@@ -1362,9 +1362,9 @@ export interface components {
             /**
              * Source
              * @default synthetic
-             * @constant
+             * @enum {string}
              */
-            source: "synthetic";
+            source: "synthetic" | "declared_external";
         };
         /** VerificationResult */
         VerificationResult: {

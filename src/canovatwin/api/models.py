@@ -2,7 +2,7 @@
 
 from typing import Annotated, Literal
 
-from pydantic import AwareDatetime, Field
+from pydantic import AwareDatetime, Field, model_validator
 
 from ..contracts import AnalysisRequest, Contract, Identifier, TechnicalDocument
 from ..operating import OperatingConditions
@@ -10,12 +10,18 @@ from ..persistence.models import IncidentStatus, Reason
 from ..policy import Policy
 
 API_VERSION = "1.0"
-APPLICATION_VERSION = "0.8.0"
+APPLICATION_VERSION = "0.10.0"
 
 
 class AnalyzeBody(Contract):
     request: AnalysisRequest
     policy: Policy | None = None
+
+    @model_validator(mode="after")
+    def external_requires_intake(self):
+        if self.request.window.source != "synthetic":
+            raise ValueError("External telemetry requires the offline dataset intake review command")
+        return self
 
 
 class ScenarioBody(Contract):

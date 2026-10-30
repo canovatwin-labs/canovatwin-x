@@ -52,7 +52,7 @@ class SensorSample(Contract):
 
 
 class TelemetryWindow(Contract):
-    source: Literal["synthetic"] = "synthetic"
+    source: Literal["synthetic", "declared_external"] = "synthetic"
     asset_id: Identifier = "synthetic-unit-01"
     samples: tuple[SensorSample, ...] = Field(min_length=3, max_length=600)
 
@@ -137,7 +137,9 @@ class Evidence(Contract):
     value: float
     unit: str
     sample_ids: tuple[Identifier, ...] = Field(min_length=1, max_length=600)
-    source: Literal["synthetic", "historical_snapshot", "document_snapshot", "simulation"] = "synthetic"
+    source: Literal[
+        "synthetic", "declared_external", "historical_snapshot", "document_snapshot", "simulation"
+    ] = "synthetic"
 
 
 class Observation(Contract):
@@ -349,7 +351,7 @@ class RunFailure(Contract):
 class AnalysisRun(Contract):
     schema_version: Literal["1.0"] = "1.0"
     incident_id: Identifier
-    mode: Literal["simulation"] = "simulation"
+    mode: Literal["simulation", "external_review"] = "simulation"
     clock_mode: Literal["replay", "realtime"]
     status: Literal["completed", "blocked"]
     report: TechnicalReport | None

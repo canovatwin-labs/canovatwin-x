@@ -25,8 +25,13 @@ def compose_report(ctx: AnalysisContext) -> TechnicalReport:
         status = "clear"
         summary = "Bu zaman penceresinde uygulanan örnek kurallar bir anormallik bulmadı."
         observations = ()
+    external = ctx.request.window.source == "declared_external"
     limitations = (
-        "Veriler sentetiktir; fiziksel model ve eşikler tesis verisiyle kalibre edilmemiştir.",
+        (
+            "Dış CSV kaynağı ve lisansı yalnız beyan edilmiştir; sensör eşlemesi, etiketler ve eşikler saha için doğrulanmamıştır."
+            if external
+            else "Veriler sentetiktir; fiziksel model ve eşikler tesis verisiyle kalibre edilmemiştir."
+        ),
         "Hipotezler deterministik adaylardır; doğrulanmış arıza veya olasılık tahmini değildir.",
         "Kanıt kontrolü hesapların kaynağa uygunluğunu doğrular; fiziksel nedeni kesinleştirmez.",
     )
@@ -63,6 +68,6 @@ def compose_report(ctx: AnalysisContext) -> TechnicalReport:
         hypotheses=hypotheses,
         evidence_ids=tuple(e.evidence_id for e in ctx.evidence),
         limitations=limitations,
-        human_review_required=status != "clear",
+        human_review_required=external or status != "clear",
         research=research,
     )

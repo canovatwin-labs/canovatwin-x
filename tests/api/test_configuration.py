@@ -100,7 +100,7 @@ def test_openapi_contains_resolvable_strict_request_contracts(api, api_settings)
     response = api.get("/openapi.json")
     assert response.status_code == 200
     schema = response.json()
-    assert schema["info"]["version"] == "0.8.0"
+    assert schema["info"]["version"] == "0.10.0"
     definitions = schema["components"]["schemas"]
     for name in ("AnalyzeBody", "ScenarioBody", "StatusBody", "ReplayBody"):
         assert definitions[name]["additionalProperties"] is False
