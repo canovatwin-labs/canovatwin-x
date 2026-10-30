@@ -49,14 +49,13 @@ Raporun sonuçları yalnızca proje içindeki sentetik üretici için geçerlidi
   `result_sha256` değeri eşleşti; kurulu wheel de aynı teknik sonuç hash'ini
   verdi. Süreler hash dışında tutulur ve koşudan koşuya değişir.
 - `actionlint` temiz; temiz `npm ci` sonrasında npm denetimi **0 güvenlik
-  bulgusu** bildirdi. Linux GitHub CI sonuçları PR incelemesinde ayrıca
-  doğrulanmalıdır; yerel test onların yerine geçmez.
+  bulgusu** bildirdi. GitHub CI'de Python **3.12, 3.13 ve 3.14** için panel,
+  paket ve kurulu wheel kontrolleri; ayrıca bağımlılık güvenlik denetimi geçti.
 
 İlk Linux CI koşusu ham JSON hash'li 11 tarihsel vakada başarısız oldu: macOS
 ve Linux matematik kütüphaneleri sinüs hesaplarının son bitlerinde ayrılıyor.
 Üretici kodunu değiştirmeden regresyonu tüm seri için 0,001 birimlik kanonik
-karşılaştırmaya çevirdik. Düzeltmenin Linux CI sonucu PR üzerinde ayrıca
-doğrulanacak.
+karşılaştırmaya çevirdik. Düzeltme üç Linux Python sürümünde de doğrulandı.
 
 ## Sentetik test kümesinin okunması
 
