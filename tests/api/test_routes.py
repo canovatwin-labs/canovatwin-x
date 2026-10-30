@@ -116,7 +116,7 @@ def test_explicit_request_is_never_augmented_from_live_history(api, writer, requ
 def test_registry_health_and_pagination(api, reader, writer):
     assert api.get("/health").status_code == 200
     ready = api.get("/api/v1/health", headers=reader).json()
-    assert ready["application_version"] == "0.12.0" and ready["engine_version"] == "0.4.0"
+    assert ready["application_version"] == "0.13.0" and ready["engine_version"] == "0.4.0"
     assert ready["registered_agents"] == 36 and ready["active_agents"] == 12
     catalog = api.get("/api/v1/agents", headers=reader).json()
     assert len(catalog) == 36 and sum(a["status"] == "active" for a in catalog) == 12
