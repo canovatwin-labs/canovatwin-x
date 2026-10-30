@@ -16,7 +16,8 @@ Raporun sonuçları yalnızca proje içindeki sentetik üretici için geçerlidi
    saha verisi anlamına gelmiyor.
 2. **Değerlendirmeye özel enjeksiyonlar.** Arızanın başladığı nokta, şiddeti,
    sensör gürültüsü ve eksik örnek oranı değiştirilebiliyor. Mevcut `dynamic-1.0`
-   üretimi değiştirilmedi; 33 tarihsel senaryo/profil çıktısının hash'i sabit.
+   algoritması değiştirilmedi; 33 tarihsel senaryo/profil ölçüm serisi 0,001
+   birim duyarlıkta sabit tutuluyor.
 3. **Üç yöntem, aynı ölçümler.** Ajan kullanmayan basit eşik yöntemi, `core6` ve
    `mvp12` aynı telemetriyi alıyor. Gerçek etiket, seed, split ve enjeksiyon
    ayarları tahmin sınırının dışında kalıyor. `mvp12` yalnızca sabit yerel demo
@@ -35,7 +36,7 @@ Raporun sonuçları yalnızca proje içindeki sentetik üretici için geçerlidi
 
 - Yerelde **507 Python testi** geçti; Ruff denetimi/biçimi temiz, satır+dal
   kapsamı **%98,00**. Önceki 437 testten 70 test eklendi. Elle hesaplanan metrik,
-  hatalı/sızdıran manifest, bloke çalışma, CLI, 33 tarihsel üretici hash'i ve
+  hatalı/sızdıran manifest, bloke çalışma, CLI, 33 tarihsel üretici serisi ve
   tüm senaryo/yöntem birleşimleri test edildi.
 - **39 arayüz testi** geçti; Prettier, TypeScript ve üretim derlemesi temiz.
   Yeni bir arayüz akışı eklenmedi. OpenAPI'den üretilen tipler değişmeden kaldı.
@@ -50,6 +51,12 @@ Raporun sonuçları yalnızca proje içindeki sentetik üretici için geçerlidi
 - `actionlint` temiz; temiz `npm ci` sonrasında npm denetimi **0 güvenlik
   bulgusu** bildirdi. Linux GitHub CI sonuçları PR incelemesinde ayrıca
   doğrulanmalıdır; yerel test onların yerine geçmez.
+
+İlk Linux CI koşusu ham JSON hash'li 11 tarihsel vakada başarısız oldu: macOS
+ve Linux matematik kütüphaneleri sinüs hesaplarının son bitlerinde ayrılıyor.
+Üretici kodunu değiştirmeden regresyonu tüm seri için 0,001 birimlik kanonik
+karşılaştırmaya çevirdik. Düzeltmenin Linux CI sonucu PR üzerinde ayrıca
+doğrulanacak.
 
 ## Sentetik test kümesinin okunması
 

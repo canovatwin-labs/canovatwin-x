@@ -51,7 +51,10 @@ senaryo, seed, başlangıç, örnek sayısı, işletim koşulları ve enjeksiyon
 
 Kayıp sensör için ayrı rastgele sayı akışı kullanılır; eksik ölçüm oranı fiziksel
 IT yükünü veya termal yörüngeyi değiştirmez. `dynamic-1.0` API/panel üretimi eski
-çıktısıyla birebir korunur; 33 tarihsel senaryo/profil checksum testi bunu denetler.
+algoritmasıyla korunur. 33 tarihsel senaryo/profil kontrolü tüm ölçüm serisini
+0,001 birim duyarlıkta karşılaştırır; farklı işletim sistemlerindeki matematik
+kütüphaneleri son bitlerde ayrılabildiği için ham JSON byte hash'i taşınabilir
+bir regresyon ölçütü değildir.
 Haberleşme kaybında eski modelin en az 61 saniye gözlem gecikmesi varsayımı sürer.
 
 ## Yöntemler

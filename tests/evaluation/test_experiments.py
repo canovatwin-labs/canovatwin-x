@@ -259,9 +259,25 @@ def test_dynamic_v1_outputs_match_pre_sprint7_release(scenario, workload):
             conditions=OperatingConditions(workload=workload),
         )
     )
+
+    # libm can differ in its last bits across macOS/Linux. Compare the entire
+    # series at 0.001-unit resolution, then hash canonical JSON. Raw macOS
+    # hashes remain in the fixture as provenance, not as a portable test oracle.
+    def quantize(value):
+        if isinstance(value, float):
+            return round(value, frozen["portable_precision_digits"])
+        if isinstance(value, list):
+            return [quantize(item) for item in value]
+        if isinstance(value, dict):
+            return {key: quantize(item) for key, item in value.items()}
+        return value
+
+    canonical = json.dumps(
+        quantize(case.window.model_dump(mode="json")), sort_keys=True, separators=(",", ":")
+    )
     assert (
-        hashlib.sha256(case.window.model_dump_json().encode()).hexdigest()
-        == frozen["checksums"][scenario.value + "/" + workload]
+        hashlib.sha256(canonical.encode()).hexdigest()
+        == frozen["portable_checksums"][scenario.value + "/" + workload]
     )
 
 
