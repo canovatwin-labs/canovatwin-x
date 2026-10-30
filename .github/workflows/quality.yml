@@ -55,3 +55,4 @@ jobs:
           uv pip install --python "$RUNNER_TEMP/canovatwin-smoke/bin/python" -r "$RUNNER_TEMP/runtime.txt" dist/*.whl
           cd "$RUNNER_TEMP"
           "$RUNNER_TEMP/canovatwin-smoke/bin/python" -I "$GITHUB_WORKSPACE/scripts/smoke_api.py"
+          "$RUNNER_TEMP/canovatwin-smoke/bin/python" -I -m canovatwin.evaluation.cli run "$GITHUB_WORKSPACE/examples/evaluation/synthetic-v1.json" --output-dir "$RUNNER_TEMP/evaluation-results"
