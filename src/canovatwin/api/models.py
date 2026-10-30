@@ -10,7 +10,7 @@ from ..persistence.models import IncidentStatus, Reason
 from ..policy import Policy
 
 API_VERSION = "1.0"
-APPLICATION_VERSION = "0.10.0"
+APPLICATION_VERSION = "0.11.0"
 
 
 class AnalyzeBody(Contract):

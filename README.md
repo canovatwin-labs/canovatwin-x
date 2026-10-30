@@ -7,7 +7,7 @@ reduced thermal model, deterministic specialist roles, evidence verification,
 and a local investigation workspace. The current release runs entirely on
 synthetic data, without cloud services or LLM calls.
 
-Developed within **CanovaTwin Labs**. Current application: **0.10.0** ·
+Developed within **CanovaTwin Labs**. Current application: **0.11.0** ·
 Analysis engine: **0.4.0** · Status: **research prototype**.
 
 [Current status](docs/PROJECT_STATUS.md) · [Roadmap](docs/ROADMAP.md) ·
@@ -124,7 +124,7 @@ The GitHub workflow targets Python 3.12, 3.13 and 3.14 on Linux. It also builds 
 wheel, verifies its panel assets and exercises the installed wheel over HTTP.
 A configured workflow is not a successful CI run: inspect the actual checks
 on each pull request. Local test evidence is recorded in the
-[sprint reports](docs/SPRINT_9_REPORT.md) and
+[sprint reports](docs/SPRINT_10_REPORT.md) and
 [repository handoff report](docs/GITHUB_HANDOFF_REPORT.md).
 
 ## Reproducible experiments
@@ -170,6 +170,14 @@ partition. Missing channels remain missing, labels remain unknown, and even a
 
 The normal HTTP analysis endpoint refuses direct external-source claims;
 external review goes through the complete manifest and CSV checks.
+
+## Offline telemetry stream
+
+`StreamCollector` provides a bounded, in-memory event-time ordering contract
+for synthetic telemetry. It explicitly rejects late or duplicate measurements,
+clock errors and a full pending buffer; connection and freshness are separate
+states. Only committed samples can form an analysis window. See the
+[stream contract](docs/STREAM.md). This is not a live device gateway.
 
 ## Repository layout
 

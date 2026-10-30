@@ -33,6 +33,20 @@ of stored analyses. The engine version only changes when diagnostic behaviour ch
   Python 3.12 now generates the same panel contract as Python 3.13 and 3.14.
 - Added the missing repository handoff report linked from the README.
 
+## [0.11.0] - 2026-10-30 (engine 0.4.0)
+
+Sprint 10: bounded event-time collector for offline telemetry replay.
+
+### Added
+- Explicit event-time and arrival-time handling, bounded out-of-order buffer,
+  duplicate/late rejection, connection and freshness state, and a committed
+  synthetic telemetry window for existing analysis contracts.
+- Deterministic tests for ordering, backpressure, clock guards and reconnects.
+
+### Notes
+- No PLC transport, external dataset bypass, durable stream log or control
+  command is included. The analysis engine and stored replay semantics are unchanged.
+
 ## [0.10.0] - 2026-10-30 (engine 0.4.0)
 
 Sprint 9: provenance-bound exploratory review of declared external telemetry.

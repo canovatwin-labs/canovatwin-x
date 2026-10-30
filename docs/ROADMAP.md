@@ -1,7 +1,7 @@
 # Ürün ve araştırma yol haritası
 
-Bu belge özgün proje kapsamı ile çalışan 0.10.0 sürümü arasındaki farkı açık tutar.
-Yerel Sprint 1–9'un kapanmış olması, ilk önerideki bütün araştırma programının
+Bu belge özgün proje kapsamı ile çalışan 0.11.0 sürümü arasındaki farkı açık tutar.
+Yerel Sprint 1–10'un kapanmış olması, ilk önerideki bütün araştırma programının
 veya 36 rolün tamamlandığı anlamına gelmez.
 
 ## Mevcut temel
@@ -50,6 +50,11 @@ veya başarı ölçümü anlamına gelmez.
 - Basamak/rampa/gecikme, bozucu etkiler ve kontrol tepkisi deneyleri.
 - Kabul: kesinti ve sıra bozulması testleri; enerji/sıcaklık sınırları;
   fiziksel olarak açıklanabilir, tekrar üretilebilir deneyler.
+
+Sprint 10, taşıma protokolünden bağımsız çevrimdışı akış sözleşmesiyle geliş
+ve ölçüm zamanını ayırdı; sıra bozulması, geç veri, tampon dolması ve bağlantı
+durumunu sınadı. Kalıcı kayıt, yeniden başlatma sonrası devam, gerçek ağ geçidi
+ve fiziksel model kalibrasyonu hâlâ açık.
 
 Soğutma gücü elektrik tüketimi değildir. Toplam tesis ve IT elektrik gücü
 olmadan PUE hesaplanmış gibi gösterilmez. Çoklu kabin ve CFD ayrı kapsamdır.
