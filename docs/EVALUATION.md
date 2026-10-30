@@ -1,7 +1,7 @@
 # Çevrimdışı deney ve değerlendirme protokolü
 
 Bu modül tek bir manifestte tanımlanan sentetik vakaları üç deterministik
- yöntemle karşılaştırır. LLM, eğitim servisi, şirket verisi veya PLC kullanmaz.
+yöntemle karşılaştırır. LLM, eğitim servisi, şirket verisi veya PLC kullanmaz.
 
 ## Çalıştırma
 

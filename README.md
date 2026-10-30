@@ -39,6 +39,8 @@ company telemetry or real equipment credentials are included.
   credentials and loopback-only serving by default.
 - **Investigation panel:** overview, incidents, telemetry charts, evidence,
   execution traces and scenario configuration in a self-hosted React interface.
+- **Reproducible evaluation:** a versioned, seed-disjoint synthetic manifest and
+  offline comparison of a threshold baseline, `core6` and `mvp12`.
 
 Registered roles are not equivalent to active implementations. The remaining
 24 roles are planned. Document retrieval currently uses keyword matching over
@@ -119,7 +121,7 @@ The GitHub workflow targets Python 3.12, 3.13 and 3.14 on Linux. It also builds 
 wheel, verifies its panel assets and exercises the installed wheel over HTTP.
 A configured workflow is not a successful CI run: inspect the actual checks
 on each pull request. Local test evidence is recorded in the
-[sprint reports](docs/SPRINT_6_REPORT.md) and
+[sprint reports](docs/SPRINT_7_REPORT.md) and
 [repository handoff report](docs/GITHUB_HANDOFF_REPORT.md).
 
 ## Reproducible experiments
