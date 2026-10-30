@@ -115,6 +115,7 @@ class ExternalReviewReport(Contract):
     file_sha256: str
     source_url: str
     license_identifier: str
+    license_note: str
     provenance_status: Literal["declared_unverified"] = "declared_unverified"
     label_status: Literal["unknown"] = "unknown"
     offset: int = Field(ge=0)

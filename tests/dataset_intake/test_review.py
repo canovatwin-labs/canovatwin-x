@@ -22,6 +22,7 @@ def test_review_with_missing_channels_abstains_and_marks_external(tmp_path):
     review = review_partition(manifest, tmp_path, "partition-2", count=3)
     assert review.provenance_status == "declared_unverified"
     assert review.label_status == "unknown"
+    assert "Human review" in review.license_note
     assert review.run.mode == "external_review"
     assert review.run.status == "completed"
     assert review.run.report.status == "insufficient_data"

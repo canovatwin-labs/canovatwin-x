@@ -65,6 +65,7 @@ def review_partition(
         file_sha256=part.sha256,
         source_url=manifest.source_url,
         license_identifier=manifest.license_identifier,
+        license_note=manifest.license_note,
         offset=offset,
         count=count,
         input_sha256=hashlib.sha256(request.model_dump_json().encode()).hexdigest(),
