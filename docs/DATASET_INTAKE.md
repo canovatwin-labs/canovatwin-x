@@ -69,11 +69,29 @@ across splits are rejected at 0.000001-unit precision even if timestamps and
 asset IDs change. These are
 leakage guards, not proof that two data sources are statistically independent.
 
-## Current boundary
+## Exploratory review after validation
 
-The report deliberately says `provenance_status=declared_unverified` and
-`analysis_status=not_connected`. This sprint validates intake only. No external
-dataset is bundled, no real-data accuracy is reported, and external samples are
-not accepted as `synthetic` supervisor input. The next implementation must
-establish source rights and sensor semantics, then create a separately
-versioned analysis/evaluation adapter with honest evidence provenance.
+The ordinary intake report deliberately says
+`provenance_status=declared_unverified` and `analysis_status=not_connected`.
+The separate review option validates **all** partitions, then reads a bounded
+3–600-row window from the named partition and rechecks its file hash. It maps
+declared channels to canonical units; unmapped channels remain `null`. The
+existing deterministic `core6` rules run on a `declared_external` window:
+
+```sh
+.venv/bin/canovatwin-dataset manifest.json --review-partition site_c_test --offset 0 --count 120 --output review.json
+```
+
+The review report records dataset/partition/file hashes, declared source and
+license, row selection, input hash, unknown label status and the complete
+analysis trace. Evidence carries the `declared_external` source. The run mode
+is `external_review`, and `human_review_required` stays true even if the
+example rules return `clear`. The CLI does not save the run to investigation
+history. The ordinary HTTP analysis endpoint refuses a direct external-source
+claim because it would bypass the manifest checks.
+
+No external dataset is bundled, no real-data accuracy is reported, and source
+rights or physical sensor semantics are not verified by this code. Missing
+channels commonly lead to `insufficient_data`; they are not imputed. A real
+dataset still needs publisher documentation, license review, unit/tag mapping
+and human interpretation before any conclusion is cited.

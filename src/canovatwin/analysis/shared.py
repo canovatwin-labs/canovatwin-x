@@ -5,8 +5,9 @@ from ..state import AnalysisContext
 
 
 def evidence_for(
-    ctx: AnalysisContext, producer: str, metrics: dict[str, tuple[float, str]], *, source="synthetic"
+    ctx: AnalysisContext, producer: str, metrics: dict[str, tuple[float, str]], *, source=None
 ) -> tuple[Evidence, ...]:
+    source = source or ctx.request.window.source
     refs = tuple(s.sample_id for s in ctx.request.window.samples)
     return tuple(
         Evidence(

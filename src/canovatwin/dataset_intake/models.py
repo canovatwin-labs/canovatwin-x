@@ -6,7 +6,7 @@ from typing import Literal
 
 from pydantic import Field, model_validator
 
-from ..contracts import Contract
+from ..contracts import AnalysisRun, Contract
 
 Split = Literal["train", "validation", "test"]
 Isolation = Literal["asset", "time"]
@@ -104,3 +104,20 @@ class IntakeReport(Contract):
     provenance_status: Literal["declared_unverified"] = "declared_unverified"
     analysis_status: Literal["not_connected"] = "not_connected"
     partitions: tuple[PartitionSummary, ...]
+
+
+class ExternalReviewReport(Contract):
+    schema_version: Literal["1.0"] = "1.0"
+    dataset_id: str
+    manifest_sha256: str
+    partition_id: str
+    asset_id: str
+    file_sha256: str
+    source_url: str
+    license_identifier: str
+    provenance_status: Literal["declared_unverified"] = "declared_unverified"
+    label_status: Literal["unknown"] = "unknown"
+    offset: int = Field(ge=0)
+    count: int = Field(ge=3, le=600)
+    input_sha256: str = Field(pattern=r"^[a-f0-9]{64}$")
+    run: AnalysisRun
