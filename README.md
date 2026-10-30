@@ -7,7 +7,7 @@ reduced thermal model, deterministic specialist roles, evidence verification,
 and a local investigation workspace. The current release runs entirely on
 synthetic data, without cloud services or LLM calls.
 
-Developed within **CanovaTwin Labs**. Current application: **0.9.0** ·
+Developed within **CanovaTwin Labs**. Current application: **0.10.0** ·
 Analysis engine: **0.4.0** · Status: **research prototype**.
 
 [Current status](docs/PROJECT_STATUS.md) · [Roadmap](docs/ROADMAP.md) ·
@@ -42,8 +42,8 @@ company telemetry or real equipment credentials are included.
 - **Reproducible evaluation:** a versioned, seed-disjoint synthetic manifest and
   offline comparison of a threshold baseline, `core6` and `mvp12`.
 - **External data intake boundary:** offline CSV provenance, checksum, channel
-  units, timestamp and train/validation/test isolation validation. Imported data
-  is not yet passed to the diagnostic supervisor.
+  units, timestamp and train/validation/test isolation validation. A bounded,
+  explicitly marked exploratory review can use a validated CSV window.
 
 Registered roles are not equivalent to active implementations. The remaining
 24 roles are planned. Document retrieval currently uses keyword matching over
@@ -124,7 +124,7 @@ The GitHub workflow targets Python 3.12, 3.13 and 3.14 on Linux. It also builds 
 wheel, verifies its panel assets and exercises the installed wheel over HTTP.
 A configured workflow is not a successful CI run: inspect the actual checks
 on each pull request. Local test evidence is recorded in the
-[sprint reports](docs/SPRINT_8_REPORT.md) and
+[sprint reports](docs/SPRINT_9_REPORT.md) and
 [repository handoff report](docs/GITHUB_HANDOFF_REPORT.md).
 
 ## Reproducible experiments
@@ -149,8 +149,8 @@ for denominators, abstentions, data isolation, limitations and interpretation.
 ## External dataset intake
 
 `canovatwin-dataset` validates a declared external CSV manifest without a
-network request or diagnostic run. It checks source file hashes, explicit units,
-timestamp order, quality counts and asset/time separation across splits:
+network request. It checks source file hashes, explicit units, timestamp order,
+quality counts and asset/time separation across splits:
 
 ```sh
 .venv/bin/canovatwin-dataset path/to/manifest.json --output .local/dataset-intake.json
@@ -159,6 +159,17 @@ timestamp order, quality counts and asset/time separation across splits:
 Source URL and license are **declarations to review**, not independently
 verified claims. No external dataset or company data is bundled. See the
 [intake contract](docs/DATASET_INTAKE.md) before using a third-party dataset.
+
+After intake, a bounded, read-only exploratory review can run on a named CSV
+partition. Missing channels remain missing, labels remain unknown, and even a
+`clear` result requires human review:
+
+```sh
+.venv/bin/canovatwin-dataset path/to/manifest.json --review-partition site_c_test --offset 0 --count 120 --output .local/external-review.json
+```
+
+The normal HTTP analysis endpoint refuses direct external-source claims;
+external review goes through the complete manifest and CSV checks.
 
 ## Repository layout
 
