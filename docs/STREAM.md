@@ -15,6 +15,8 @@ durum geçişleridir. `state` bağlantı ile ölçüm tazeliğini ayrı raporlar
 yalnızca son 600 kesinleşmiş sentetik ölçümden mevcut `TelemetryWindow`
 sözleşmesini üretir. Dış CSV için zorunlu manifest/doğrulama yolunu atlamaz.
 
-Bu ilk sözleşme yeniden başlatmaya dayanıklı günlük, ağ geri basıncı, birden çok
-varlık veya kopuş sırasında otomatik yeniden gönderim sağlamaz. Bu yetenekler
-ayrı kabul testleriyle eklenmeden canlı saha akışı olarak sunulmaz.
+`StreamCollector` tek başına bellek içindedir. Yeniden başlatmaya dayanıklı
+çevrimdışı kayıt için ayrı [olay günlüğü](JOURNAL.md) kullanılır. Ağ geri
+basıncı, birden çok varlık ve kopuş sırasında otomatik yeniden gönderim henüz
+yoktur; bunlar ayrı kabul testleriyle eklenmeden canlı saha akışı olarak
+sunulmaz.
