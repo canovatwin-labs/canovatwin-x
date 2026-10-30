@@ -97,7 +97,9 @@ class StreamJournal:
                 application = self._db.execute("PRAGMA application_id").fetchone()[0]
                 version = self._db.execute("PRAGMA user_version").fetchone()[0]
                 if (application, version) == (0, 0):
-                    if self._db.execute("SELECT count(*) FROM sqlite_master WHERE type='table'").fetchone()[0]:
+                    if self._db.execute("SELECT count(*) FROM sqlite_master WHERE type='table'").fetchone()[
+                        0
+                    ]:
                         raise CorruptJournal("Refusing to initialize an unrelated database")
                     self._db.execute(
                         "CREATE TABLE stream_meta (id INTEGER PRIMARY KEY CHECK(id=1), "
@@ -120,9 +122,7 @@ class StreamJournal:
             application, version = APPLICATION_ID, SCHEMA_VERSION
         if (application, version) != (APPLICATION_ID, SCHEMA_VERSION):
             raise CorruptJournal("Unsupported stream journal schema")
-        tables = {
-            row[0] for row in self._db.execute("SELECT name FROM sqlite_master WHERE type='table'")
-        }
+        tables = {row[0] for row in self._db.execute("SELECT name FROM sqlite_master WHERE type='table'")}
         if not {"stream_meta", "stream_events"} <= tables:
             raise CorruptJournal("Stream journal schema is incomplete")
 
