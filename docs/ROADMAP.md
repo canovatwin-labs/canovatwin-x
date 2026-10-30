@@ -1,7 +1,7 @@
 # Ürün ve araştırma yol haritası
 
-Bu belge özgün proje kapsamı ile çalışan 0.11.0 sürümü arasındaki farkı açık tutar.
-Yerel Sprint 1–10'un kapanmış olması, ilk önerideki bütün araştırma programının
+Bu belge özgün proje kapsamı ile çalışan 0.12.0 sürümü arasındaki farkı açık tutar.
+Yerel Sprint 1–11'in kapanmış olması, ilk önerideki bütün araştırma programının
 veya 36 rolün tamamlandığı anlamına gelmez.
 
 ## Mevcut temel
@@ -55,6 +55,10 @@ Sprint 10, taşıma protokolünden bağımsız çevrimdışı akış sözleşmes
 ve ölçüm zamanını ayırdı; sıra bozulması, geç veri, tampon dolması ve bağlantı
 durumunu sınadı. Kalıcı kayıt, yeniden başlatma sonrası devam, gerçek ağ geçidi
 ve fiziksel model kalibrasyonu hâlâ açık.
+
+Sprint 11 atomik SQLite olay günlüğüyle yeniden başlatma sonrası akış durumunu
+kurdu; bozulma ve eşzamanlı yazar durumlarını test etti. Gerçek ağ geçidi,
+uzun süreli arşiv/rotasyon ve fiziksel kalibrasyon hâlâ açık.
 
 Soğutma gücü elektrik tüketimi değildir. Toplam tesis ve IT elektrik gücü
 olmadan PUE hesaplanmış gibi gösterilmez. Çoklu kabin ve CFD ayrı kapsamdır.

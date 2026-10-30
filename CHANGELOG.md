@@ -33,6 +33,21 @@ of stored analyses. The engine version only changes when diagnostic behaviour ch
   Python 3.12 now generates the same panel contract as Python 3.13 and 3.14.
 - Added the missing repository handoff report linked from the README.
 
+## [0.12.0] - 2026-10-30 (engine 0.4.0)
+
+Sprint 11: recoverable, bounded offline telemetry journal.
+
+### Added
+- Transactional SQLite journal for append, drain, disconnect and reconnect.
+- Hash-chained event sequence verified during startup; deterministic replay of
+  pending data, committed window, watermark and connection state.
+- Explicit concurrent-writer, corrupted-record, failed-write and event-limit
+  failures, plus an installed-wheel recovery smoke test in CI.
+
+### Notes
+- This detects accidental corruption, not an attacker who can rewrite the
+  database and hashes. No live gateway or automatic PLC connection is present.
+
 ## [0.11.0] - 2026-10-30 (engine 0.4.0)
 
 Sprint 10: bounded event-time collector for offline telemetry replay.

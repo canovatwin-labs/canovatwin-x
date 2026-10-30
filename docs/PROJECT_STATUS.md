@@ -1,6 +1,6 @@
 # CanovaTwin X — Güncel yetenek ve tamamlanma durumu
 
-**30 Ekim 2026 · Uygulama 0.11.0 / Motor 0.4.0 · Sprint 10 geliştirme dalında**
+**30 Ekim 2026 · Uygulama 0.12.0 / Motor 0.4.0 · Sprint 11 geliştirme dalında**
 
 Çalışan çıktı: sentetik veriyle yerel web paneli, API ve CLI ile kullanılabilen, kanıta dayalı rapor ve kalıcı inceleme geçmişi üreten 12 uzmanlı karar destek çekirdeği. Katalog 36 rol içerir. Bu belge tamamlanmış özelliği, kısmi katmanı ve planlı rolü birbirinden ayırır; tamamlanma yüzdesi iddiası taşımaz.
 
@@ -28,7 +28,9 @@
 
 16. Doğrulanmış dış CSV parçasından seçilen 3–600 ölçümü `declared_external` kökeniyle altı uzmanlı keşif analizine verir. Kanıtlar ve çalışma kipi dış veri olarak işaretlenir; etiketler bilinmiyor, insan incelemesi her sonuçta zorunludur. Doğrudan API'de dış kaynak iddiası reddedilir. Bu yol saha teşhis başarısı olarak puanlanmaz.
 
-17. Çevrimdışı sentetik telemetri akışında ölçüm ve geliş zamanlarını ayrı tutar; sınırlı sıra bozulmasını düzenler, geç/çift kayıtları ve tampon dolmasını açıkça reddeder. Bağlantı ve tazelik durumunu ayrı raporlar, yalnızca sıralanmış ve kesinleştirilmiş ölçümlerden analiz penceresi oluşturur. Ağ, PLC veya kalıcı akış kaydı içermez.
+17. Çevrimdışı sentetik telemetri akışında ölçüm ve geliş zamanlarını ayrı tutar; sınırlı sıra bozulmasını düzenler, geç/çift kayıtları ve tampon dolmasını açıkça reddeder. Bağlantı ve tazelik durumunu ayrı raporlar, yalnızca sıralanmış ve kesinleştirilmiş ölçümlerden analiz penceresi oluşturur. Bu bellek içi toplayıcı tek başına ağ, PLC veya kalıcı kayıt içermez.
+
+18. Ayrı SQLite olay günlüğüyle sentetik akışa yeniden açılış sonrası devam eder. Kabul edilen işlemler atomik kaydedilir; olay sırası ve hash zinciri okunurken doğrulanır. Bozuk kayıt, eşzamanlı yazar ve başarısız disk yazısı açıkça durdurulur. Bu, canlı bağlantı veya saldırgana dayanıklı imzalı denetim günlüğü değildir.
 
 ## Yedi katmanın durumu
 
@@ -141,9 +143,11 @@ Python testlerinin bulunması bu PLC uzmanlarının tamamlandığı anlamına ge
 
 - Sprint 10: sentetik telemetri için ölçüm/geliş zamanını ayıran sınırlı akış toplayıcısı, sıra bozulması, geç/çift veri, tampon dolması ve bağlantı/tazelik durumları. Canlı ağ ve PLC bağlantısı yok.
 
+- Sprint 11: ayrı SQLite olay günlüğü, atomik yazma, hash zinciriyle bozulma kontrolü, yeniden açılışta deterministik akış kurtarma ve eşzamanlı yazar reddi. Canlı gateway yok.
+
 ## Doğrulama ve sınırlar
 
-531 Python testi ve 39 arayüz testi geçti; kod/biçim, TypeScript ve üretim derlemesi temiz. Python toplam satır+dal kapsamı %97,06; bu oran arayüz kapsam oranı veya bilimsel teşhis başarısı değildir. Dış veri doğrulama ve keşif incelemesi için 17, akış toplayıcısı için 7 odaklı test normal ve hata sınırlarını kapsar. 11 senaryo × 3 iş yükü profili için kayıt, replay ve beklenen rapor/aday davranışları önceki testlerle korunuyor.
+540 Python testi ve 39 arayüz testi geçti; kod/biçim, TypeScript ve üretim derlemesi temiz. Python toplam satır+dal kapsamı %96,44; bu oran arayüz kapsam oranı veya bilimsel teşhis başarısı değildir. Dış veri doğrulama ve keşif incelemesi için 17, akış toplayıcısı için 7, kalıcı günlük için 9 odaklı test normal ve hata sınırlarını kapsar. 11 senaryo × 3 iş yükü profili için kayıt, replay ve beklenen rapor/aday davranışları önceki testlerle korunuyor.
 
 Temiz ortamda kurulu dağıtım paketi ve gerçek HTTP üzerinden 22 referans + 33 dinamik birleşim, kimlik/yetki, kalıcı kayıt, durum, replay, sürüm/şema, panel varlıkları ve dört eşzamanlı yazma doğrulandı. Aynı kurulu pakette 66 yöntem/vaka değerlendirmesi tamamlandı; Sprint 7'nin süreler dışındaki sonuç hash'i değişmedi. Dış veri CLI'si üç parçalı yerel test dosyasında içe alma ve keşif incelemesi yaptı. Önceki sprintin kayıtları yeni deney metadatası olmadan okunup yeniden analiz edilebilir. WebKit'te Sprint 6 kapsamında dinamik ayarlarla deney, iletişim eskimesi uyarısı, üç grafik, replay, oturum temizliği ve dar/yatay/geniş ekran akışları kontrol edildi. Sprint 9 yeni panel akışı eklemedi.
 
