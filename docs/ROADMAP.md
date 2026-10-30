@@ -1,7 +1,7 @@
 # Ürün ve araştırma yol haritası
 
-Bu belge özgün proje kapsamı ile çalışan 0.8.0 sürümü arasındaki farkı açık tutar.
-Yerel Sprint 1–7'nin kapanmış olması, ilk önerideki bütün araştırma programının
+Bu belge özgün proje kapsamı ile çalışan 0.9.0 sürümü arasındaki farkı açık tutar.
+Yerel Sprint 1–8'in kapanmış olması, ilk önerideki bütün araştırma programının
 veya 36 rolün tamamlandığı anlamına gelmez.
 
 ## Mevcut temel
@@ -31,6 +31,11 @@ tekrar üretilebilir rapor çıktısı sağlandı. Bu madde **kısmen tamamland�
 bağımsız açık/saha veri kümesi, ekipman ve zaman ayrımlı dış doğrulama, belirsizlik
 aralıkları ve daha geniş örneklem henüz yok. Sentetik sonuçlar saha başarısı
 iddiasına dönüşmez.
+
+Sprint 8 dış CSV verisi için kaynak/lisans beyanı, birim eşleme, dosya hash'i,
+zaman kalitesi ve varlık/zaman ayrımlı split doğrulamasını ekledi. Gerçek açık
+veri seti henüz seçilip lisans ve semantik incelemesinden geçirilmedi; dış veri
+üzerinde tanı puanı iddiası yok.
 
 ## Öncelik 2 — Daha gerçekçi dijital ikiz ve telemetri
 

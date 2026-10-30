@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "canovatwin-x"
-version = "0.8.0"
+version = "0.9.0"
 readme = "README.md"
 license = "MIT"
 license-files = ["LICENSE"]
@@ -19,6 +19,7 @@ dev = ["pytest>=8,<10", "pytest-cov>=6,<8", "ruff>=0.12,<1", "httpx2>=2.16,<3"]
 canovatwin = "canovatwin.cli:main"
 canovatwin-api = "canovatwin.api.server:main"
 canovatwin-evaluate = "canovatwin.evaluation.cli:main"
+canovatwin-dataset = "canovatwin.dataset_intake.cli:main"
 
 [tool.setuptools.package-data]
 canovatwin = ["web/index.html", "web/assets/*.js", "web/assets/*.css", "web/assets/*.svg", "web/assets/*.png", "web/assets/*.webp", "web/assets/*.ico", "web/assets/*.woff", "web/assets/*.woff2"]
