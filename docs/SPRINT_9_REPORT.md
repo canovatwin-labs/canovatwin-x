@@ -37,8 +37,9 @@ etiketi eklenmedi.
   çalıştı. Bu örnek gerçek veri seti değildir ve teşhis başarısı ölçmez.
 - Önceki sentetik testler ve 66 yöntem/vaka değerlendirmesi korunur. Motor
   sürümü 0.4.0 kaldı; eski sentetik kayıtların sonuç anlamı değişmedi.
-- Kaynak paketi, wheel, panel ve MIT lisans kontrolü; gerçek yerel HTTP, yetki,
-  replay ve dört eşzamanlı yazma kontrolü CI'de de çalıştırılacak.
+- GitHub CI'de Python 3.12, 3.13 ve 3.14 kalite işleri ile bağımlılık denetimi
+  geçti. Kaynak paketi, wheel, panel ve MIT lisans kontrolü; kurulu paketle gerçek
+  yerel HTTP, yetki, replay ve dört eşzamanlı yazma kontrolü de bu kapıda geçti.
 
 ## Katmanlar ve açık işler
 
