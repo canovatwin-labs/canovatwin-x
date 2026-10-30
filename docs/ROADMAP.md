@@ -42,6 +42,12 @@ keşif amaçlı altı uzmanlı incelemeye bağladı. Etiketler bilinmiyor ve ins
 incelemesi zorunlu. Bu teknik yolun bulunması, bağımsız veri seti doğrulaması
 veya başarı ölçümü anlamına gelmez.
 
+Sprint 13 için Figshare v3 hastane AHU dosyası salt okunur kaynak denetimine
+alındı. Dosya ile makalenin satır ve etiket sayıları eşleşiyor; bildirilen
+toplama yılı uyuşmuyor ve yinelenen cihaz/saat anahtarları var. Ayrıntı:
+[FIGSHARE_HOSPITAL_AUDIT.md](FIGSHARE_HOSPITAL_AUDIT.md). Bu çalışma veri merkezi
+arıza teşhis başarısı üretmez; bağımsız değerlendirme hâlâ açık.
+
 ## Öncelik 2 — Daha gerçekçi dijital ikiz ve telemetri
 
 - Varlık/etiket kataloğu, birimler, örnekleme ve zaman kalitesi.

@@ -171,6 +171,16 @@ partition. Missing channels remain missing, labels remain unknown, and even a
 The normal HTTP analysis endpoint refuses direct external-source claims;
 external review goes through the complete manifest and CSV checks.
 
+The separate, read-only Figshare hospital AHU audit checks the publisher's
+exact v3 file against its checksum and the paper's reported counts. It does
+not run diagnostics or report model accuracy:
+
+```sh
+.venv/bin/canovatwin-hospital-audit /path/to/hosptial_scientific_data.csv --output .local/hospital-audit.json
+```
+
+See the [source audit and observed discrepancies](docs/FIGSHARE_HOSPITAL_AUDIT.md).
+
 ## Repository layout
 
 ```text

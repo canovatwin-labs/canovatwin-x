@@ -20,6 +20,7 @@ canovatwin = "canovatwin.cli:main"
 canovatwin-api = "canovatwin.api.server:main"
 canovatwin-evaluate = "canovatwin.evaluation.cli:main"
 canovatwin-dataset = "canovatwin.dataset_intake.cli:main"
+canovatwin-hospital-audit = "canovatwin.dataset_intake.figshare_hospital_cli:main"
 
 [tool.setuptools.package-data]
 canovatwin = ["web/index.html", "web/assets/*.js", "web/assets/*.css", "web/assets/*.svg", "web/assets/*.png", "web/assets/*.webp", "web/assets/*.ico", "web/assets/*.woff", "web/assets/*.woff2"]
