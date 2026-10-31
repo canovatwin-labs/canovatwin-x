@@ -51,11 +51,16 @@ describe('operator workflows', () => {
     const analyze = vi.spyOn(current.api, 'analyze').mockReturnValue(pending.promise);
     const user = userEvent.setup();
     render(<NewAnalysis session={current} />);
+    await screen.findByLabelText('Ekipman');
+    await waitFor(() =>
+      expect(screen.getByRole('button', { name: 'Analizi başlat ve kaydet' })).toBeEnabled(),
+    );
     await user.selectOptions(screen.getByLabelText('Senaryo'), 'cooling_loss');
     await user.selectOptions(screen.getByLabelText('Uzman profili'), 'core6');
     const button = screen.getByRole('button', { name: 'Analizi başlat ve kaydet' });
     await user.dblClick(button);
     expect(analyze).toHaveBeenCalledExactlyOnceWith({
+      asset_id: 'synthetic-unit-01',
       scenario: 'cooling_loss',
       profile: 'core6',
       count: 360,
@@ -71,6 +76,10 @@ describe('operator workflows', () => {
     const pending = deferred<typeof data.record>();
     vi.spyOn(current.api, 'analyze').mockReturnValue(pending.promise);
     const { unmount } = render(<NewAnalysis session={current} />);
+    await screen.findByLabelText('Ekipman');
+    await waitFor(() =>
+      expect(screen.getByRole('button', { name: 'Analizi başlat ve kaydet' })).toBeEnabled(),
+    );
     fireEvent.submit(
       screen.getByRole('button', { name: 'Analizi başlat ve kaydet' }).closest('form')!,
     );
@@ -83,6 +92,10 @@ describe('operator workflows', () => {
     const current = session();
     const analyze = vi.spyOn(current.api, 'analyze');
     render(<NewAnalysis session={current} />);
+    await screen.findByLabelText('Ekipman');
+    await waitFor(() =>
+      expect(screen.getByRole('button', { name: 'Analizi başlat ve kaydet' })).toBeEnabled(),
+    );
     fireEvent.change(screen.getByLabelText('Rastgelelik tohumu'), {
       target: { value: '9999999999999999999' },
     });

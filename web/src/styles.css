@@ -37,6 +37,7 @@ h4 {
   line-height: 1.25;
 }
 h1 {
+  overflow-wrap: anywhere;
   font-size: clamp(26px, 3vw, 34px);
   letter-spacing: -0.035em;
   font-weight: 650;
@@ -1680,6 +1681,38 @@ details > summary {
 }
 @media (max-width: 520px) {
   .stream-pipeline {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.asset-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+}
+.asset-card {
+  min-width: 0;
+}
+.asset-card h2,
+.asset-card .mono {
+  overflow-wrap: anywhere;
+}
+.asset-counts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  padding: 16px 0;
+  border-top: 1px solid var(--line);
+}
+.asset-counts b {
+  font-size: 22px;
+  color: var(--ink);
+}
+.asset-section {
+  margin-top: 20px;
+}
+@media (max-width: 760px) {
+  .asset-grid {
     grid-template-columns: minmax(0, 1fr);
   }
 }

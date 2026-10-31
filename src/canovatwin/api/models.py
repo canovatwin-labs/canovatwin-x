@@ -4,6 +4,7 @@ from typing import Annotated, Literal
 
 from pydantic import AwareDatetime, Field, model_validator
 
+from ..assets import DEFAULT_ASSET
 from ..contracts import AnalysisRequest, Contract, Identifier, TechnicalDocument
 from ..operating import OperatingConditions
 from ..persistence.models import IncidentStatus, Reason
@@ -12,7 +13,7 @@ from ..stream_experiment import Delivery
 from ..telemetry import Scenario
 
 API_VERSION = "1.0"
-APPLICATION_VERSION = "0.14.0"
+APPLICATION_VERSION = "0.15.0"
 
 
 class AnalyzeBody(Contract):
@@ -27,6 +28,7 @@ class AnalyzeBody(Contract):
 
 
 class ScenarioBody(Contract):
+    asset_id: str = Field(default=DEFAULT_ASSET, pattern=r"^[A-Za-z0-9_-]{1,100}$")
     scenario: Literal[
         "normal",
         "fan_loss",
@@ -56,13 +58,14 @@ class StatusBody(Contract):
 
 
 class StreamBody(Contract):
+    asset_id: str = Field(default=DEFAULT_ASSET, pattern=r"^[A-Za-z0-9_-]{1,100}$")
     scenario: Scenario = Scenario.NORMAL
     delivery: Delivery = "ordered"
     profile: Literal["core6", "mvp12"] = "mvp12"
     count: int = Field(default=120, ge=30, le=600)
     seed: int = Field(default=42, ge=-(2**53 - 1), le=2**53 - 1)
     start: AwareDatetime | None = None
-    conditions: OperatingConditions = OperatingConditions()
+    conditions: OperatingConditions | None = None
 
 
 class ReplayBody(Contract):

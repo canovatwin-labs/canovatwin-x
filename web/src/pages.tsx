@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, type FormEvent } from 'react';
+import { useCallback, useEffect, useRef, useState, type FormEvent } from 'react';
 import type { ApiClient } from './api/client';
 import type { Schema } from './api/types';
 import type { Session } from './App';
@@ -7,6 +7,7 @@ import { useLoad } from './hooks';
 import { date, groups, scenarios } from './labels';
 import { ConditionsForm, ExperimentGuide, defaultConditions } from './Experiment';
 import { LatestRunPreview } from './Overview';
+import { AssetSelector } from './Assets';
 
 export function IncidentList({ api }: { api: ApiClient }) {
   const [status, setStatus] = useState('');
@@ -164,12 +165,24 @@ export function IncidentList({ api }: { api: ApiClient }) {
   );
 }
 
-export function NewAnalysis({ session }: { session: Session }) {
+export function NewAnalysis({
+  session,
+  initialAsset,
+}: {
+  session: Session;
+  initialAsset?: string;
+}) {
+  const [assetId, setAssetId] = useState(initialAsset ?? 'synthetic-unit-01');
+  const [assetReady, setAssetReady] = useState(false);
   const [scenario, setScenario] = useState<Schema['ScenarioBody']['scenario']>('fan_loss');
   const [profile, setProfile] = useState<Schema['ScenarioBody']['profile']>('mvp12');
   const [count, setCount] = useState('360');
   const [dynamic, setDynamic] = useState(true);
   const [conditions, setConditions] = useState(defaultConditions);
+  const selectAsset = useCallback((asset: Schema['AssetDefinition']) => {
+    setAssetId(asset.asset_id);
+    setConditions(asset.default_conditions);
+  }, []);
   const [seed, setSeed] = useState('42');
   const [busy, setBusy] = useState(false);
   const lock = useRef(false);
@@ -213,11 +226,13 @@ export function NewAnalysis({ session }: { session: Session }) {
       setError(new Error('Çalışma koşullarını belirtilen aralıklarda doldurun.'));
       return;
     }
+    if (!assetReady) return;
     lock.current = true;
     setBusy(true);
     setError(undefined);
     try {
       const record = await session.api.analyze({
+        asset_id: assetId,
         scenario,
         profile,
         count: sampleCount,
@@ -248,7 +263,14 @@ export function NewAnalysis({ session }: { session: Session }) {
           <p className="muted">Tek termal bölge · 1 sn örnekleme · Kayıtlı deney</p>
           {error !== undefined && <ErrorNotice error={error} />}
           <form onSubmit={submit}>
-            <fieldset disabled={!writer || busy}>
+            <AssetSelector
+              api={session.api}
+              value={assetId}
+              onSelect={selectAsset}
+              onReady={setAssetReady}
+              disabled={!writer || busy}
+            />
+            <fieldset disabled={!writer || busy || !assetReady}>
               <label htmlFor="model">Simülasyon modeli</label>
               <select
                 id="model"
@@ -310,7 +332,7 @@ export function NewAnalysis({ session }: { session: Session }) {
                 </div>
               </div>
               {dynamic && <ConditionsForm value={conditions} onChange={setConditions} />}
-              <button className="primary wide" disabled={!writer || busy}>
+              <button className="primary wide" disabled={!writer || busy || !assetReady}>
                 {busy ? 'Analiz çalışıyor ve kaydediliyor…' : 'Analizi başlat ve kaydet'}
               </button>
             </fieldset>

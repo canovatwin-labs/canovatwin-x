@@ -124,7 +124,12 @@ export function IncidentDetail({ session, id }: { session: Session; id: string }
             <section className="card incident-header">
               <div className="section-heading">
                 <div>
-                  <p className="eyebrow">{data.incident.asset_id}</p>
+                  <a
+                    className="eyebrow"
+                    href={`#/assets/${encodeURIComponent(data.incident.asset_id)}`}
+                  >
+                    {data.incident.asset_id}
+                  </a>
                   <p className="mono strong">{id}</p>
                   <small>İlk kayıt: {date(data.incident.created_at)}</small>
                 </div>

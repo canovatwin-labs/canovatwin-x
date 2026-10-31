@@ -42,6 +42,8 @@ class RecordedAnalysis(Contract):
 
     @model_validator(mode="after")
     def coherent_identity(self):
+        if self.generation is not None and self.generation.asset_id != self.request.window.asset_id:
+            raise ValueError("Generation metadata belongs to a different asset")
         if self.stream_experiment is not None:
             if self.generation is not None:
                 raise ValueError("Stream generation belongs inside its transport recipe")

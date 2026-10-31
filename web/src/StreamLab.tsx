@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, type FormEvent } from 'react';
+import { useCallback, useEffect, useRef, useState, type FormEvent } from 'react';
 import type { Session } from './App';
 import type { RecordAnalysis, Schema } from './api/types';
 import { Badge, Empty, ErrorNotice, Loading, PageHeading, Pager, Stat } from './components';
@@ -6,6 +6,7 @@ import { ConditionsForm, defaultConditions } from './Experiment';
 import { useLoad } from './hooks';
 import { date, number, scenarios } from './labels';
 import { TelemetryChart } from './Telemetry';
+import { AssetSelector } from './Assets';
 
 const deliveries = {
   ordered: ['Düzenli aktarım', 'Her ölçüm 200 ms gecikmeyle ulaşır; aktarım kaybı eklenmez.'],
@@ -36,12 +37,18 @@ const reasons: Record<string, string> = {
   buffer_full: 'Tampon dolu',
 };
 
-export function StreamLab({ session }: { session: Session }) {
+export function StreamLab({ session, initialAsset }: { session: Session; initialAsset?: string }) {
+  const [assetId, setAssetId] = useState(initialAsset ?? 'synthetic-unit-01');
+  const [assetReady, setAssetReady] = useState(false);
   const [scenario, setScenario] = useState<Schema['StreamBody']['scenario']>('normal');
   const [delivery, setDelivery] = useState<keyof typeof deliveries>('jitter');
   const [count, setCount] = useState('120');
   const [seed, setSeed] = useState('42');
   const [conditions, setConditions] = useState(defaultConditions);
+  const selectAsset = useCallback((asset: Schema['AssetDefinition']) => {
+    setAssetId(asset.asset_id);
+    setConditions(asset.default_conditions);
+  }, []);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<unknown>();
   const locked = useRef(false);
@@ -75,11 +82,13 @@ export function StreamLab({ session }: { session: Session }) {
       setError(new Error('Çalışma koşullarını doldurun.'));
       return;
     }
+    if (!assetReady) return;
     locked.current = true;
     setBusy(true);
     setError(undefined);
     try {
       const record = await session.api.streamExperiment({
+        asset_id: assetId,
         profile: 'mvp12',
         start: null,
         scenario,
@@ -113,7 +122,14 @@ export function StreamLab({ session }: { session: Session }) {
           <p className="muted">Dinamik model · 1 sn örnekleme · Sanal saat</p>
           {error !== undefined && <ErrorNotice error={error} />}
           <form onSubmit={submit}>
-            <fieldset disabled={busy || !writer}>
+            <AssetSelector
+              api={session.api}
+              value={assetId}
+              onSelect={selectAsset}
+              onReady={setAssetReady}
+              disabled={!writer || busy}
+            />
+            <fieldset disabled={busy || !writer || !assetReady}>
               <label htmlFor="stream-scenario">Fiziksel senaryo</label>
               <select
                 id="stream-scenario"
@@ -166,7 +182,7 @@ export function StreamLab({ session }: { session: Session }) {
                 </div>
               </div>
               <ConditionsForm value={conditions} onChange={setConditions} />
-              <button className="primary wide" disabled={busy || !writer}>
+              <button className="primary wide" disabled={busy || !writer || !assetReady}>
                 {busy ? 'Deney çalışıyor ve kaydediliyor…' : 'Aktarım deneyini çalıştır ve kaydet'}
               </button>
             </fieldset>

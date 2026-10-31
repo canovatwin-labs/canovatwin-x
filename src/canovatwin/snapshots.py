@@ -9,7 +9,7 @@ def capture_history(repository: AnalysisRepository, request: AnalysisRequest) ->
         return request
     start = min(s.timestamp for s in request.window.samples)
     cases = []
-    for incident in repository.list_incidents(limit=100):
+    for incident in repository.list_incidents(limit=100, asset_id=request.window.asset_id):
         if incident.asset_id != request.window.asset_id or incident.latest_report_status != "needs_review":
             continue
         record = repository.get_run(incident.latest_run_id)

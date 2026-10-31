@@ -46,7 +46,11 @@ class StreamExperiment(Contract):
 
     @model_validator(mode="after")
     def coherent_trace(self):
-        if self.window.source != "synthetic" or self.config.asset_id != self.window.asset_id:
+        if (
+            self.window.source != "synthetic"
+            or self.config.asset_id != self.window.asset_id
+            or self.recipe.generation.asset_id != self.window.asset_id
+        ):
             raise ValueError("Transport replay requires its own synthetic asset window")
         for outcome in ("accepted", "rejected", "dropped"):
             if sum(event.outcome == outcome for event in self.events) != getattr(self, outcome):
@@ -71,10 +75,14 @@ class StreamExperiment(Contract):
 
 
 def _fingerprint(recipe: StreamRecipe, events, window: TelemetryWindow) -> str:
+    # transport-1.0 predates asset selection. Preserve its default-asset hash.
+    recipe_data = recipe.model_dump(mode="json")
+    if recipe.generation.asset_id == "synthetic-unit-01":
+        recipe_data["generation"].pop("asset_id")
     return sha256(
         json.dumps(
             {
-                "recipe": recipe.model_dump(mode="json"),
+                "recipe": recipe_data,
                 "events": [event.model_dump(mode="json") for event in events],
                 "window": window.model_dump(mode="json"),
             },

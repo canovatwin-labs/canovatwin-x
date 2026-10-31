@@ -19,6 +19,7 @@ Yerel yapılandırmadaki `read_token` ile geçmişi ve raporları okuyabilirsini
 
 ### Ekranlar
 
+- **Ekipmanlar:** Yapılandırılmış sentetik üniteler ve geçmişte gözlenen diğer kimlikler. Ekipman ekranında tüm kayıtlardan hesaplanan sayaçlar, son pencere, birim/sensör sözleşmesi ve yalnızca o ekipmanın olayları görünür. Senaryo ve aktarım formu hedefi korur. Tanım, varsayılan ve eski kayıt kuralları [ASSETS.md](ASSETS.md) içinde açıklanır.
 - **Olay incelemeleri:** Durum filtresi, onarlı sayfalama, son rapor ve çalışma sayısı. Sayfadaki kayıt sayısı toplam olay sayısı olarak sunulmaz.
 - **Yeni analiz:** 11 sentetik senaryo, core6/mvp12 profili, 30–600 örnek ve tam sayı tohum. Üretilen pencere ve analiz kaydedilir; sonuç ayrıntısına yönlendirilir.
 - **Rapor:** Gözlemler, neden adayları, karşı kanıtlar, hipotez eleştirisi, kaynak alıntıları, geçmiş eşleşmeleri, model MAE/RMSE ve what-if hesapları. Eski çekirdek kayıtlarındaki boş araştırma alanı desteklenir.

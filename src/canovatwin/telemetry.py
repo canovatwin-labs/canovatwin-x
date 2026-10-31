@@ -79,6 +79,7 @@ def generate_case(
     seed: int = 42,
     start: datetime | None = None,
     config: TwinConfig | None = None,
+    asset_id: str = "synthetic-unit-01",
 ) -> ScenarioCase:
     scenario = Scenario(scenario)
     if isinstance(count, bool) or not isinstance(count, int) or not 30 <= count <= 600:
@@ -145,7 +146,7 @@ def generate_case(
         # Ensure even a short scenario includes a detectable stale interval.
         observation_time = max(observation_time, samples[-1].timestamp + timedelta(seconds=61))
     return ScenarioCase(
-        window=TelemetryWindow(samples=tuple(samples)),
+        window=TelemetryWindow(asset_id=asset_id, samples=tuple(samples)),
         fault_labels=scenario_labels(scenario),
         fault_started_at=None
         if scenario == Scenario.NORMAL

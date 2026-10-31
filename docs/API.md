@@ -32,7 +32,9 @@ Yanlış/eksik anahtar 401, okuma anahtarıyla yazma 403 döndürür. Anahtar UR
 - `GET /health`: servis canlılığı.
 - `GET /api/v1/health`: yetkili veri deposu kontrolü; uygulama/motor sürümü ve 36/12 rol sayıları.
 - `GET /api/v1/agents`: 36 rolün tanımı ve durumu.
-- `GET /api/v1/incidents`: olay listesi; `status`, `limit`, `offset` filtreleri.
+- `GET /api/v1/assets`: yapılandırılmış/gözlenen ekipman listesi; `configured_only`, `limit`, `offset`.
+- `GET /api/v1/assets/detail?asset_id=...`: ekipman özeti ve kanonik sensör sözleşmesi.
+- `GET /api/v1/incidents`: olay listesi; `asset_id`, `status`, `limit`, `offset` filtreleri.
 - `GET /api/v1/incidents/{incident_id}`: güncel durum, revizyon ve son çalışma özeti.
 - `GET /api/v1/incidents/{incident_id}/runs`: çalışma özetleri.
 - `GET /api/v1/incidents/{incident_id}/audit`: denetim geçmişi.

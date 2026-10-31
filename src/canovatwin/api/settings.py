@@ -9,6 +9,7 @@ from urllib.parse import urlsplit
 
 from pydantic import Field, SecretStr, field_validator, model_validator
 
+from ..assets import DEFAULT_ASSET, DEFAULT_ASSETS, AssetDefinition
 from ..contracts import Contract
 
 
@@ -19,6 +20,7 @@ class APISettings(Contract):
     allowed_origins: tuple[str, ...] = ()
     max_request_bytes: int = Field(default=2_000_000, ge=1024, le=2_000_000)
     port: int = Field(default=8000, ge=1024, le=65535)
+    assets: tuple[AssetDefinition, ...] = Field(default=DEFAULT_ASSETS, min_length=1, max_length=100)
 
     @field_validator("read_token", "write_token")
     @classmethod
@@ -50,6 +52,9 @@ class APISettings(Contract):
 
     @model_validator(mode="after")
     def distinct_keys(self):
+        identifiers = [asset.asset_id for asset in self.assets]
+        if len(set(identifiers)) != len(identifiers) or DEFAULT_ASSET not in identifiers:
+            raise ValueError("Asset IDs must be unique and include the legacy default synthetic-unit-01")
         if self.read_token.get_secret_value() == self.write_token.get_secret_value():
             raise ValueError("Reader and writer tokens must be distinct")
         return self

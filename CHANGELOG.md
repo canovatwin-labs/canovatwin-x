@@ -33,6 +33,17 @@ of stored analyses. The engine version only changes when diagnostic behaviour ch
   Python 3.12 now generates the same panel contract as Python 3.13 and 3.14.
 - Added the missing repository handoff report linked from the README.
 
+## [0.15.0] - 2026-10-31 (engine 0.4.0)
+
+### Added
+- Read-only configured/observed asset catalog, canonical sensor units and per-asset history summaries.
+- Asset workspace with saved telemetry, missing-value counts and scoped incidents; selected assets carry through scenario and stream generation/replay.
+- Bounded local synthetic asset definitions with default operating conditions and preserved legacy IDs/history.
+
+### Fixed
+- Filter historical cases by asset before pagination so other assets cannot starve the matching window.
+- Preserve pre-catalog transport fingerprints and old configuration compatibility.
+
 ## [0.14.0] - 2026-10-31 (engine 0.4.0)
 
 ### Added

@@ -1,7 +1,7 @@
 # Ürün ve araştırma yol haritası
 
-Bu belge özgün proje kapsamı ile çalışan 0.14.0 sürümü arasındaki farkı açık tutar.
-Sprint 1–14 çıktıları ilk önerideki bütün araştırma programının veya 36 rolün
+Bu belge özgün proje kapsamı ile çalışan 0.15.0 sürümü arasındaki farkı açık tutar.
+Sprint 1–15 çıktıları ilk önerideki bütün araştırma programının veya 36 rolün
 tamamlandığı anlamına gelmez. Geliştirme dalı ve ana dal ayrımı PR incelemeleriyle korunur.
 
 ## Mevcut temel
@@ -87,9 +87,11 @@ paketler ve tazelik kayıtta görünür; fiziksel ağ oturumu hâlâ açık kaps
   durumlar ve uçtan uca kullanıcı akışları; yalnızca görsel kart eklemek yeterli değildir.
 
 Sprint 14'ün akış laboratuvarı, kayıtlı sonuca dönme, rapor bağlantısı, zaman
-grafiği, sayfalanmış aktarım izi ve JSON dışa aktarma yolunu tamamladı. Çoklu
-varlık kataloğu, deneyleri yan yana karşılaştırma ve sürekli canlı kaynak
-izleme henüz yok. [Kabul raporu](SPRINT_14_REPORT.md) kapsamı ve sınırları kaydeder.
+grafiği, sayfalanmış aktarım izi ve JSON dışa aktarma yolunu tamamladı. O aşamada
+varlık kataloğu yoktu; Sprint 15 bunu ekler. Deney karşılaştırması ve sürekli
+canlı kaynak izleme açık kapsamdır. [Kabul raporu](SPRINT_14_REPORT.md).
+
+Sprint 15, yapılandırılmış/gözlenen varlıkları ayıran katalog, sensör birimleri ve ekipman bazlı olay/son pencere akışını ekledi. İki sentetik hedef bağımsız çalışır; fiziksel tesis bağlantısı yok. Panelden metadata yönetimi ve kayıtlı deneylerin yan yana karşılaştırması sonraki kapsamdır. [Kabul raporu](SPRINT_15_REPORT.md).
 
 ## Öncelik 4 — Bilgi erişimi ve uzman hiyerarşisi
 

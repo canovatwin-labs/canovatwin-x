@@ -102,7 +102,7 @@ def verify() -> dict:
                         assert private["write_token"].encode() not in asset
                 call("POST", "/api/v1/analyses/scenario", {}, role="read", expected=403)
                 ready = call("GET", "/api/v1/health", role="read")
-                assert ready["application_version"] == version("canovatwin-x") == "0.14.0"
+                assert ready["application_version"] == version("canovatwin-x") == "0.15.0"
                 assert ready["engine_version"] == "0.4.0"
                 assert len(call("GET", "/api/v1/agents", role="read")) == 36
                 first = last = None
@@ -197,16 +197,31 @@ def verify() -> dict:
                     assert replay["matches"]
                     assert replay["record"]["stream_experiment"] == experiment
                 call("POST", "/api/v1/analyses/stream", {}, role="read", expected=403)
+                assets = call("GET", "/api/v1/assets?configured_only=true", role="read")
+                assert len(assets["items"]) == 2
+                second = call(
+                    "POST", "/api/v1/analyses/stream", {"asset_id": "synthetic-unit-02"}, expected=201
+                )
+                assert second["request"]["window"]["asset_id"] == "synthetic-unit-02"
+                detail = call("GET", "/api/v1/assets/detail?asset_id=synthetic-unit-02", role="read")
+                assert detail["asset"]["run_count"] == 1
+                assert detail["asset"]["latest_run_id"] == second["run_id"]
+                filtered = call("GET", "/api/v1/incidents?asset_id=synthetic-unit-02", role="read")
+                assert len(filtered["items"]) == 1 and filtered["items"][0]["asset_id"] == "synthetic-unit-02"
+                replay_second = call("POST", f"/api/v1/runs/{second['run_id']}/replay", expected=201)
+                assert replay_second["matches"]
+                call("POST", "/api/v1/analyses/scenario", {"asset_id": "unknown"}, expected=422)
                 schema = call("GET", "/openapi.json", role=None)
-                assert schema["info"]["version"] == "0.14.0"
-                assert len(schema["paths"]) == 14
+                assert schema["info"]["version"] == "0.15.0"
+                assert len(schema["paths"]) == 16
                 return {
-                    "application_version": "0.14.0",
+                    "application_version": "0.15.0",
                     "engine_version": "0.4.0",
                     "scenario_profile_checks": 22,
                     "dynamic_scenario_workload_checks": 33,
                     "concurrent_writes": 4,
                     "stream_delivery_checks": 3,
+                    "asset_isolation_checks": True,
                     "panel_assets": len(parser.paths),
                     "checks": [
                         "authentication",

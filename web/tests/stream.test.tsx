@@ -1,4 +1,4 @@
-import { act, fireEvent, render, screen } from '@testing-library/react';
+import { waitFor, act, fireEvent, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { describe, expect, it, vi } from 'vitest';
 import type { RecordAnalysis, Schema } from '../src/api/types';
@@ -23,6 +23,7 @@ function streamRecord(): RecordAnalysis {
         replay_version: 'transport-1.0',
         delivery: 'jitter',
         generation: {
+          asset_id: 'synthetic-unit-01',
           generator_version: 'dynamic-1.0',
           scenario: 'normal',
           count: 120,
@@ -89,12 +90,19 @@ describe('stream workspace', () => {
     const run = vi.spyOn(current.api, 'streamExperiment').mockReturnValue(pending.promise);
     const user = userEvent.setup();
     render(<StreamLab session={current} />);
+    await screen.findByLabelText('Ekipman');
+    await waitFor(() =>
+      expect(
+        screen.getByRole('button', { name: 'Aktarım deneyini çalıştır ve kaydet' }),
+      ).toBeEnabled(),
+    );
     await user.selectOptions(screen.getByLabelText('Fiziksel senaryo'), 'fan_loss');
     await user.selectOptions(screen.getByLabelText('Aktarım profili'), 'outage');
     await user.dblClick(
       screen.getByRole('button', { name: 'Aktarım deneyini çalıştır ve kaydet' }),
     );
     expect(run).toHaveBeenCalledExactlyOnceWith({
+      asset_id: 'synthetic-unit-01',
       profile: 'mvp12',
       start: null,
       scenario: 'fan_loss',
@@ -114,6 +122,12 @@ describe('stream workspace', () => {
       .mockRejectedValue(new Error('Bağlantı kesildi'));
     const user = userEvent.setup();
     render(<StreamLab session={current} />);
+    await screen.findByLabelText('Ekipman');
+    await waitFor(() =>
+      expect(
+        screen.getByRole('button', { name: 'Aktarım deneyini çalıştır ve kaydet' }),
+      ).toBeEnabled(),
+    );
     await user.click(screen.getByRole('button', { name: 'Aktarım deneyini çalıştır ve kaydet' }));
     expect(await screen.findByRole('alert')).toHaveTextContent('Bağlantı kesildi');
     expect(screen.getByLabelText('Aktarım profili')).toHaveValue('jitter');
@@ -123,6 +137,12 @@ describe('stream workspace', () => {
     const current = session();
     const run = vi.spyOn(current.api, 'streamExperiment');
     render(<StreamLab session={current} />);
+    await screen.findByLabelText('Ekipman');
+    await waitFor(() =>
+      expect(
+        screen.getByRole('button', { name: 'Aktarım deneyini çalıştır ve kaydet' }),
+      ).toBeEnabled(),
+    );
     fireEvent.change(screen.getByLabelText('Rastgelelik tohumu'), {
       target: { value: '999999999999999999' },
     });

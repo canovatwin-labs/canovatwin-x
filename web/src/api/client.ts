@@ -99,6 +99,16 @@ export class ApiClient {
   session = () => this.request<Principal>('/session');
   health = () => this.request<Schema['Readiness']>('/health');
   agents = () => this.request<Agent[]>('/agents');
+  assets = (offset = 0, configuredOnly = false) =>
+    this.request<Page<Schema['AssetSummary']>>(
+      `/assets?limit=${configuredOnly ? 100 : 10}&offset=${offset}&configured_only=${configuredOnly}`,
+    );
+  asset = (id: string) =>
+    this.request<Schema['AssetDetail']>(`/assets/detail?asset_id=${encodeURIComponent(id)}`);
+  assetIncidents = (id: string, offset = 0) =>
+    this.request<Page<Incident>>(
+      `/incidents?limit=10&offset=${offset}&asset_id=${encodeURIComponent(id)}`,
+    );
   incidents = (status: string, offset = 0) =>
     this.request<Page<Incident>>(
       `/incidents?limit=10&offset=${offset}${status ? `&status=${encodeURIComponent(status)}` : ''}`,
@@ -111,8 +121,10 @@ export class ApiClient {
       `/incidents/${encodeURIComponent(id)}/audit?limit=10&offset=${offset}`,
     );
   run = (id: string) => this.request<RecordAnalysis>(`/runs/${encodeURIComponent(id)}`);
-  analyze = (body: Pick<Schema['ScenarioBody'], 'scenario' | 'profile' | 'count' | 'seed'>) =>
-    this.request<RecordAnalysis>('/analyses/scenario', body);
+  analyze = (
+    body: Pick<Schema['ScenarioBody'], 'scenario' | 'profile' | 'count' | 'seed'> &
+      Partial<Pick<Schema['ScenarioBody'], 'asset_id'>>,
+  ) => this.request<RecordAnalysis>('/analyses/scenario', body);
   streamExperiment = (body: Schema['StreamBody']) =>
     this.request<RecordAnalysis>('/analyses/stream', body);
   transition = (id: string, body: Schema['StatusBody']) =>
