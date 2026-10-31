@@ -32,6 +32,11 @@ Wheel içinde yeni komut giriş noktası, panel ve MIT lisansı doğrulandı. Ay
 yayıncı dosyasıyla denetim tekrar çalıştırılıp sürümlü JSON rapor üretildi.
 GitHub CI sonucu PR'da ayrıca doğrulanacaktır.
 
+31 Ekim `main` bütünleştirmesi sonrası README, yol haritası ve komut giriş
+noktalarındaki çakışmalar iki özelliği de koruyarak giderildi. Son koşumda
+**555 Python / 39 panel testi**, **%95,19 Python kapsamı** ve tam npm audit'te
+**sıfır bulgu** elde edildi. AAU ve hastane denetim komutları birlikte korunuyor.
+
 Bu sprint **teşhis doğruluğu üretmez**. 12 uzman, akış, günlük ve gerçek PLC
 bu dalın kapsamı dışındadır. Yayıncıdan yıl farkı açıklaması alınmadan veya
 bağımsız cihaz/zaman ayrımı kurulmaksızın dış performans iddiası yapılmaz.
