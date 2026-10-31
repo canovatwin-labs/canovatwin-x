@@ -7,7 +7,7 @@ reduced thermal model, deterministic specialist roles, evidence verification,
 and a local investigation workspace. The current release runs entirely on
 synthetic data, without cloud services or LLM calls.
 
-Developed within **CanovaTwin Labs**. Current application: **0.15.0** ·
+Developed within **CanovaTwin Labs**. Current application: **0.16.0** ·
 Analysis engine: **0.4.0** · Status: **research prototype**.
 
 [Current status](docs/PROJECT_STATUS.md) · [Roadmap](docs/ROADMAP.md) ·
@@ -35,6 +35,9 @@ company telemetry or real equipment credentials are included.
   deterministic roles, conditional routing and bounded execution budgets.
 - **Persistent investigations:** SQLite records, event lifecycle, audit history,
   optimistic revision checks and reproducible replay of stored inputs.
+- **Recorded-run comparison API:** same-asset channel statistics, missing counts,
+  candidate-minus-baseline differences and explicit provenance warnings;
+  read-only, without causal or savings claims. [Contract](docs/COMPARISON.md).
 - **Local API:** validated request/response contracts, separate read/write
   credentials and loopback-only serving by default.
 - **Investigation panel:** overview, incidents, telemetry charts, evidence,

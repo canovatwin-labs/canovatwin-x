@@ -38,6 +38,7 @@ Yanlış/eksik anahtar 401, okuma anahtarıyla yazma 403 döndürür. Anahtar UR
 - `GET /api/v1/incidents/{incident_id}`: güncel durum, revizyon ve son çalışma özeti.
 - `GET /api/v1/incidents/{incident_id}/runs`: çalışma özetleri.
 - `GET /api/v1/incidents/{incident_id}/audit`: denetim geçmişi.
+- `GET /api/v1/comparisons?baseline=RUN-...&candidate=RUN-...`: aynı ekipmanın iki farklı kaydını salt okunur karşılaştırır; [sözleşme ve sınırlar](COMPARISON.md).
 - `GET /api/v1/runs/{run_id}`: saklanan girdi, politika, sonuç ve kaynak snapshot'ları.
 - `POST /api/v1/analyses`: açık JSON girdisini analiz edip kaydeder.
 - `POST /api/v1/analyses/scenario`: sentetik senaryo üretir, analiz edip kaydeder.

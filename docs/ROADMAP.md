@@ -1,7 +1,7 @@
 # Ürün ve araştırma yol haritası
 
-Bu belge özgün proje kapsamı ile çalışan 0.15.0 sürümü arasındaki farkı açık tutar.
-Sprint 1–15 çıktıları ilk önerideki bütün araştırma programının veya 36 rolün
+Bu belge özgün proje kapsamı ile geliştirme dalındaki 0.16.0 sürümü arasındaki farkı açık tutar.
+Sprint 1–16 çıktıları ilk önerideki bütün araştırma programının veya 36 rolün
 tamamlandığı anlamına gelmez. Geliştirme dalı ve ana dal ayrımı PR incelemeleriyle korunur.
 
 ## Mevcut temel
@@ -92,6 +92,11 @@ varlık kataloğu yoktu; Sprint 15 bunu ekler. Deney karşılaştırması ve sü
 canlı kaynak izleme açık kapsamdır. [Kabul raporu](SPRINT_14_REPORT.md).
 
 Sprint 15, yapılandırılmış/gözlenen varlıkları ayıran katalog, sensör birimleri ve ekipman bazlı olay/son pencere akışını ekledi. İki sentetik hedef bağımsız çalışır; fiziksel tesis bağlantısı yok. Panelden metadata yönetimi ve kayıtlı deneylerin yan yana karşılaştırması sonraki kapsamdır. [Kabul raporu](SPRINT_15_REPORT.md).
+
+Sprint 16, kayıtlı aynı-ekipman koşumları için salt okunur karşılaştırma API'sini ekler. Eksik okumalar, aktarım sayaçları ve değişen girdiler görünür; bu
+aşama panel karşılaştırması veya iyileşme sıralaması içermez. Sıradaki iş bu
+sözleşmeye bağlı panelden koşum seçimi ve yan yana gösterimdir.
+[Kabul raporu](SPRINT_16_REPORT.md).
 
 ## Öncelik 4 — Bilgi erişimi ve uzman hiyerarşisi
 

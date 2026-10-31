@@ -13,7 +13,7 @@ from ..stream_experiment import Delivery
 from ..telemetry import Scenario
 
 API_VERSION = "1.0"
-APPLICATION_VERSION = "0.15.0"
+APPLICATION_VERSION = "0.16.0"
 
 
 class AnalyzeBody(Contract):

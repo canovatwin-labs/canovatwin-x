@@ -785,6 +785,62 @@
         "title": "AuditEvent",
         "type": "object"
       },
+      "ChannelComparison": {
+        "additionalProperties": false,
+        "properties": {
+          "baseline": {
+            "$ref": "#/components/schemas/ChannelStatistics"
+          },
+          "candidate": {
+            "$ref": "#/components/schemas/ChannelStatistics"
+          },
+          "field": {
+            "title": "Field",
+            "type": "string"
+          },
+          "final_delta": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Final Delta"
+          },
+          "mean_delta": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Mean Delta"
+          },
+          "name": {
+            "title": "Name",
+            "type": "string"
+          },
+          "unit": {
+            "title": "Unit",
+            "type": "string"
+          }
+        },
+        "required": [
+          "field",
+          "name",
+          "unit",
+          "baseline",
+          "candidate",
+          "mean_delta",
+          "final_delta"
+        ],
+        "title": "ChannelComparison",
+        "type": "object"
+      },
       "ChannelDefinition": {
         "additionalProperties": false,
         "properties": {
@@ -817,6 +873,209 @@
           "illustrative_max"
         ],
         "title": "ChannelDefinition",
+        "type": "object"
+      },
+      "ChannelStatistics": {
+        "additionalProperties": false,
+        "properties": {
+          "final": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Final"
+          },
+          "maximum": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Maximum"
+          },
+          "mean": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Mean"
+          },
+          "minimum": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Minimum"
+          },
+          "missing_count": {
+            "maximum": 600.0,
+            "minimum": 0.0,
+            "title": "Missing Count",
+            "type": "integer"
+          },
+          "valid_count": {
+            "maximum": 600.0,
+            "minimum": 0.0,
+            "title": "Valid Count",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "valid_count",
+          "missing_count",
+          "minimum",
+          "maximum",
+          "mean",
+          "final"
+        ],
+        "title": "ChannelStatistics",
+        "type": "object"
+      },
+      "ComparedRun": {
+        "additionalProperties": false,
+        "properties": {
+          "analysis_status": {
+            "enum": [
+              "completed",
+              "blocked"
+            ],
+            "title": "Analysis Status",
+            "type": "string"
+          },
+          "engine_version": {
+            "title": "Engine Version",
+            "type": "string"
+          },
+          "incident_id": {
+            "maxLength": 100,
+            "minLength": 1,
+            "title": "Incident Id",
+            "type": "string"
+          },
+          "kind": {
+            "enum": [
+              "reference_or_custom",
+              "dynamic",
+              "stream"
+            ],
+            "title": "Kind",
+            "type": "string"
+          },
+          "recorded_at": {
+            "format": "date-time",
+            "title": "Recorded At",
+            "type": "string"
+          },
+          "report_status": {
+            "anyOf": [
+              {
+                "enum": [
+                  "clear",
+                  "needs_review",
+                  "insufficient_data"
+                ],
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Report Status"
+          },
+          "run_id": {
+            "maxLength": 100,
+            "minLength": 1,
+            "title": "Run Id",
+            "type": "string"
+          },
+          "sample_count": {
+            "title": "Sample Count",
+            "type": "integer"
+          },
+          "source": {
+            "enum": [
+              "synthetic",
+              "declared_external"
+            ],
+            "title": "Source",
+            "type": "string"
+          },
+          "transport_accepted": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Transport Accepted"
+          },
+          "transport_dropped": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Transport Dropped"
+          },
+          "transport_rejected": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Transport Rejected"
+          },
+          "window_end": {
+            "format": "date-time",
+            "title": "Window End",
+            "type": "string"
+          },
+          "window_start": {
+            "format": "date-time",
+            "title": "Window Start",
+            "type": "string"
+          }
+        },
+        "required": [
+          "run_id",
+          "incident_id",
+          "recorded_at",
+          "engine_version",
+          "source",
+          "kind",
+          "sample_count",
+          "window_start",
+          "window_end",
+          "analysis_status",
+          "report_status",
+          "transport_accepted",
+          "transport_rejected",
+          "transport_dropped"
+        ],
+        "title": "ComparedRun",
         "type": "object"
       },
       "CritiqueResult": {
@@ -1229,7 +1488,7 @@
             "type": "string"
           },
           "application_version": {
-            "default": "0.15.0",
+            "default": "0.16.0",
             "title": "Application Version",
             "type": "string"
           },
@@ -2078,7 +2337,7 @@
             "type": "string"
           },
           "application_version": {
-            "default": "0.15.0",
+            "default": "0.16.0",
             "title": "Application Version",
             "type": "string"
           },
@@ -2405,6 +2664,71 @@
           "evidence"
         ],
         "title": "RetrievalResult",
+        "type": "object"
+      },
+      "RunComparison": {
+        "additionalProperties": false,
+        "properties": {
+          "asset_id": {
+            "maxLength": 100,
+            "minLength": 1,
+            "title": "Asset Id",
+            "type": "string"
+          },
+          "baseline": {
+            "$ref": "#/components/schemas/ComparedRun"
+          },
+          "candidate": {
+            "$ref": "#/components/schemas/ComparedRun"
+          },
+          "channels": {
+            "items": {
+              "$ref": "#/components/schemas/ChannelComparison"
+            },
+            "title": "Channels",
+            "type": "array"
+          },
+          "comparison_version": {
+            "const": "comparison-1.0",
+            "default": "comparison-1.0",
+            "title": "Comparison Version",
+            "type": "string"
+          },
+          "differing_inputs": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Differing Inputs",
+            "type": "array"
+          },
+          "limitations": {
+            "default": [
+              "Descriptive comparison only; deltas are candidate minus baseline, not a causal improvement score.",
+              "Means use available readings without imputation or time weighting; missingness can change them.",
+              "Unequal windows and changed inputs may confound comparison; no pointwise alignment is performed.",
+              "Cooling power is thermal power; electrical consumption, energy savings and PUE are not inferred.",
+              "Candidate fault labels and report statuses are unconfirmed, not diagnostic ground truth."
+            ],
+            "items": {
+              "type": "string"
+            },
+            "title": "Limitations",
+            "type": "array"
+          },
+          "same_measurement_timestamps": {
+            "title": "Same Measurement Timestamps",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "asset_id",
+          "baseline",
+          "candidate",
+          "channels",
+          "differing_inputs",
+          "same_measurement_timestamps"
+        ],
+        "title": "RunComparison",
         "type": "object"
       },
       "RunFailure": {
@@ -3556,7 +3880,7 @@
   },
   "info": {
     "title": "CanovaTwin X",
-    "version": "0.15.0"
+    "version": "0.16.0"
   },
   "openapi": "3.1.0",
   "paths": {
@@ -4438,6 +4762,165 @@
           }
         ],
         "summary": "Asset Detail"
+      }
+    },
+    "/api/v1/comparisons": {
+      "get": {
+        "operationId": "comparison_api_v1_comparisons_get",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "baseline",
+            "required": true,
+            "schema": {
+              "maxLength": 100,
+              "minLength": 1,
+              "pattern": "^[A-Za-z0-9_-]+$",
+              "title": "Baseline",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "candidate",
+            "required": true,
+            "schema": {
+              "maxLength": 100,
+              "minLength": 1,
+              "pattern": "^[A-Za-z0-9_-]+$",
+              "title": "Candidate",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RunComparison"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Bad Request"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "405": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Method Not Allowed"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "413": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Content Too Large"
+          },
+          "415": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Unsupported Media Type"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Unprocessable Content"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Internal Server Error"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Service Unavailable"
+          }
+        },
+        "security": [
+          {
+            "LocalBearer": []
+          }
+        ],
+        "summary": "Comparison"
       }
     },
     "/api/v1/health": {

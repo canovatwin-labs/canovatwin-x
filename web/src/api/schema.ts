@@ -29,6 +29,10 @@ export interface paths {
     /** Asset Detail */
     get: operations["asset_detail_api_v1_assets_detail_get"];
   };
+  "/api/v1/comparisons": {
+    /** Comparison */
+    get: operations["comparison_api_v1_comparisons_get"];
+  };
   "/api/v1/health": {
     /** Readiness */
     get: operations["readiness_api_v1_health_get"];
@@ -419,6 +423,21 @@ export interface components {
       /** Run Id */
       run_id: string | null;
     };
+    /** ChannelComparison */
+    ChannelComparison: {
+      baseline: components["schemas"]["ChannelStatistics"];
+      candidate: components["schemas"]["ChannelStatistics"];
+      /** Field */
+      field: string;
+      /** Final Delta */
+      final_delta: number | null;
+      /** Mean Delta */
+      mean_delta: number | null;
+      /** Name */
+      name: string;
+      /** Unit */
+      unit: string;
+    };
     /** ChannelDefinition */
     ChannelDefinition: {
       /** Field */
@@ -431,6 +450,70 @@ export interface components {
       name: string;
       /** Unit */
       unit: string;
+    };
+    /** ChannelStatistics */
+    ChannelStatistics: {
+      /** Final */
+      final: number | null;
+      /** Maximum */
+      maximum: number | null;
+      /** Mean */
+      mean: number | null;
+      /** Minimum */
+      minimum: number | null;
+      /** Missing Count */
+      missing_count: number;
+      /** Valid Count */
+      valid_count: number;
+    };
+    /** ComparedRun */
+    ComparedRun: {
+      /**
+       * Analysis Status
+       * @enum {string}
+       */
+      analysis_status: "completed" | "blocked";
+      /** Engine Version */
+      engine_version: string;
+      /** Incident Id */
+      incident_id: string;
+      /**
+       * Kind
+       * @enum {string}
+       */
+      kind: "reference_or_custom" | "dynamic" | "stream";
+      /**
+       * Recorded At
+       * Format: date-time
+       */
+      recorded_at: string;
+      /** Report Status */
+      report_status: ("clear" | "needs_review" | "insufficient_data") | null;
+      /** Run Id */
+      run_id: string;
+      /** Sample Count */
+      sample_count: number;
+      /**
+       * Source
+       * @enum {string}
+       */
+      source: "synthetic" | "declared_external";
+      /** Transport Accepted */
+      transport_accepted: number | null;
+      /** Transport Dropped */
+      transport_dropped: number | null;
+      /** Transport Rejected */
+      transport_rejected: number | null;
+      /**
+       * Window End
+       * Format: date-time
+       */
+      window_end: string;
+      /**
+       * Window Start
+       * Format: date-time
+       */
+      window_start: string;
     };
     /** CritiqueResult */
     CritiqueResult: {
@@ -587,7 +670,7 @@ export interface components {
       api_version: string;
       /**
        * Application Version
-       * @default 0.15.0
+       * @default 0.16.0
        */
       application_version: string;
       /**
@@ -971,7 +1054,7 @@ export interface components {
       api_version: string;
       /**
        * Application Version
-       * @default 0.15.0
+       * @default 0.16.0
        */
       application_version: string;
       /**
@@ -1125,6 +1208,36 @@ export interface components {
        * @constant
        */
       method: "lexical_snapshot_search";
+    };
+    /** RunComparison */
+    RunComparison: {
+      /** Asset Id */
+      asset_id: string;
+      baseline: components["schemas"]["ComparedRun"];
+      candidate: components["schemas"]["ComparedRun"];
+      /** Channels */
+      channels: components["schemas"]["ChannelComparison"][];
+      /**
+       * Comparison Version
+       * @default comparison-1.0
+       * @constant
+       */
+      comparison_version: "comparison-1.0";
+      /** Differing Inputs */
+      differing_inputs: string[];
+      /**
+       * Limitations
+       * @default [
+       *   "Descriptive comparison only; deltas are candidate minus baseline, not a causal improvement score.",
+       *   "Means use available readings without imputation or time weighting; missingness can change them.",
+       *   "Unequal windows and changed inputs may confound comparison; no pointwise alignment is performed.",
+       *   "Cooling power is thermal power; electrical consumption, energy savings and PUE are not inferred.",
+       *   "Candidate fault labels and report statuses are unconfirmed, not diagnostic ground truth."
+       * ]
+       */
+      limitations: string[];
+      /** Same Measurement Timestamps */
+      same_measurement_timestamps: boolean;
     };
     /** RunFailure */
     RunFailure: {
@@ -1998,6 +2111,89 @@ export interface operations {
       200: {
         content: {
           "application/json": components["schemas"]["AssetDetail"];
+        };
+      };
+      /** @description Bad Request */
+      400: {
+        content: {
+          "application/json": components["schemas"]["ErrorEnvelope"];
+        };
+      };
+      /** @description Unauthorized */
+      401: {
+        content: {
+          "application/json": components["schemas"]["ErrorEnvelope"];
+        };
+      };
+      /** @description Forbidden */
+      403: {
+        content: {
+          "application/json": components["schemas"]["ErrorEnvelope"];
+        };
+      };
+      /** @description Not Found */
+      404: {
+        content: {
+          "application/json": components["schemas"]["ErrorEnvelope"];
+        };
+      };
+      /** @description Method Not Allowed */
+      405: {
+        content: {
+          "application/json": components["schemas"]["ErrorEnvelope"];
+        };
+      };
+      /** @description Conflict */
+      409: {
+        content: {
+          "application/json": components["schemas"]["ErrorEnvelope"];
+        };
+      };
+      /** @description Content Too Large */
+      413: {
+        content: {
+          "application/json": components["schemas"]["ErrorEnvelope"];
+        };
+      };
+      /** @description Unsupported Media Type */
+      415: {
+        content: {
+          "application/json": components["schemas"]["ErrorEnvelope"];
+        };
+      };
+      /** @description Unprocessable Content */
+      422: {
+        content: {
+          "application/json": components["schemas"]["ErrorEnvelope"];
+        };
+      };
+      /** @description Internal Server Error */
+      500: {
+        content: {
+          "application/json": components["schemas"]["ErrorEnvelope"];
+        };
+      };
+      /** @description Service Unavailable */
+      503: {
+        content: {
+          "application/json": components["schemas"]["ErrorEnvelope"];
+        };
+      };
+    };
+  };
+  /** Comparison */
+  comparison_api_v1_comparisons_get: {
+    parameters: {
+      query: {
+        baseline: string;
+        candidate: string;
+      };
+    };
+    responses: {
+      /** @description Successful Response */
+      200: {
+        content: {
+          "application/json": components["schemas"]["RunComparison"];
         };
       };
       /** @description Bad Request */
