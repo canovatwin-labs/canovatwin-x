@@ -101,3 +101,18 @@ def test_v03_archive_can_be_read_without_rewriting_it(tmp_path):
             HistoryService(repo).replay(record.run_id)
     with closing(sqlite3.connect(path)) as connection:
         assert connection.execute("SELECT payload FROM analysis_runs").fetchone()[0] == raw
+
+
+def test_other_assets_do_not_starve_an_assets_historical_case_limit(tmp_path, request_factory):
+    with SQLiteRepository(tmp_path / "assets.sqlite3", create=True) as repo:
+        service = HistoryService(repo)
+        request = request_factory(Scenario.FAN_LOSS)
+        old = service.analyze(earlier(request))
+        for index in range(101):
+            other = earlier(request).model_copy(
+                update={"window": earlier(request).window.model_copy(update={"asset_id": f"other-{index}"})}
+            )
+            service.analyze(other)
+        extended = request.model_copy(update={"research": ResearchInputs(documents=demo_documents())})
+        captured = capture_history(repo, extended)
+        assert [case.run_id for case in captured.research.historical_cases] == [old.run_id]

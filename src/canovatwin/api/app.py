@@ -11,10 +11,11 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from starlette.exceptions import HTTPException
 
+from ..assets import AssetDefinition, AssetDetail, AssetSummary
 from ..contracts import AnalysisRequest, ResearchInputs
 from ..history import HistoryService
 from ..knowledge import demo_documents
-from ..operating import GenerationMetadata, generate_operating_case
+from ..operating import GenerationMetadata, OperatingConditions, generate_operating_case
 from ..persistence.errors import (
     Conflict,
     InvalidTransition,
@@ -212,15 +213,63 @@ def create_app(settings: APISettings) -> FastAPI:
     def agents(user: Annotated[Principal, Depends(reader)]):
         return REGISTRY
 
+    def configured_asset(asset_id: str) -> AssetDefinition:
+        for asset in settings.assets:
+            if asset.asset_id == asset_id:
+                return asset
+        raise APIProblem(422, "INVALID_REQUEST", "Synthetic experiments require a configured asset")
+
+    def summarize_asset(rollup):
+        definition = next((asset for asset in settings.assets if asset.asset_id == rollup.asset_id), None)
+        return AssetSummary(**rollup.model_dump(), definition=definition)
+
+    def operating_conditions(asset: AssetDefinition, override: OperatingConditions | None):
+        return OperatingConditions.model_validate(
+            asset.default_conditions.model_dump()
+            | (override.model_dump(exclude_unset=True) if override else {})
+        )
+
+    @app.get("/api/v1/assets", response_model=Page[AssetSummary])
+    def assets(
+        user: Annotated[Principal, Depends(reader)],
+        limit: Limit = 20,
+        offset: Offset = 0,
+        configured_only: bool = False,
+    ):
+        with SQLiteRepository(settings.database, read_only=True) as repo:
+            items = repo.asset_inventory(
+                tuple(asset.asset_id for asset in settings.assets),
+                limit=limit,
+                offset=offset,
+                configured_only=configured_only,
+            )
+        return Page[AssetSummary](
+            items=tuple(summarize_asset(item) for item in items), limit=limit, offset=offset
+        )
+
+    @app.get("/api/v1/assets/detail", response_model=AssetDetail)
+    def asset_detail(
+        asset_id: Annotated[str, Query(min_length=1, max_length=100)],
+        user: Annotated[Principal, Depends(reader)],
+    ):
+        with SQLiteRepository(settings.database, read_only=True) as repo:
+            items = repo.asset_inventory(
+                tuple(asset.asset_id for asset in settings.assets), asset_id=asset_id, limit=1
+            )
+        if not items:
+            raise NotFound("Asset was not found in configuration or recorded history")
+        return AssetDetail(asset=summarize_asset(items[0]))
+
     @app.get("/api/v1/incidents", response_model=Page[IncidentSummary])
     def incidents(
         user: Annotated[Principal, Depends(reader)],
         status: IncidentStatus | None = None,
         limit: Limit = 20,
         offset: Offset = 0,
+        asset_id: Annotated[str | None, Query(min_length=1, max_length=100)] = None,
     ):
         with SQLiteRepository(settings.database, read_only=True) as repo:
-            items = repo.list_incidents(status=status, limit=limit, offset=offset)
+            items = repo.list_incidents(status=status, limit=limit, offset=offset, asset_id=asset_id)
         return Page[IncidentSummary](items=items, limit=limit, offset=offset)
 
     @app.get("/api/v1/incidents/{incident_id}", response_model=IncidentSummary)
@@ -283,6 +332,7 @@ def create_app(settings: APISettings) -> FastAPI:
     def analyze_scenario(
         body: Annotated[ScenarioBody, Depends(scenario_body)], user: Annotated[Principal, Depends(writer)]
     ):
+        asset = configured_asset(body.asset_id)
         if body.profile == "core6" and body.documents is not None:
             raise APIProblem(422, "INVALID_REQUEST", "Documents require the mvp12 profile")
         generation = None
@@ -293,11 +343,14 @@ def create_app(settings: APISettings) -> FastAPI:
                 count=body.count,
                 seed=body.seed,
                 start=start,
-                conditions=body.conditions,
+                conditions=operating_conditions(asset, body.conditions),
+                asset_id=body.asset_id,
             )
             case = generate_operating_case(generation)
         else:
-            case = generate_case(Scenario(body.scenario), count=body.count, seed=body.seed, start=start)
+            case = generate_case(
+                Scenario(body.scenario), count=body.count, seed=body.seed, start=start, asset_id=body.asset_id
+            )
         research = (
             ResearchInputs(documents=body.documents if body.documents is not None else demo_documents())
             if body.profile == "mvp12"
@@ -318,13 +371,15 @@ def create_app(settings: APISettings) -> FastAPI:
     def analyze_stream(
         body: Annotated[StreamBody, Depends(stream_body)], user: Annotated[Principal, Depends(writer)]
     ):
+        asset = configured_asset(body.asset_id)
         recipe = StreamRecipe(
             generation=GenerationMetadata(
                 scenario=body.scenario,
                 count=body.count,
                 seed=body.seed,
                 start=body.start or datetime.now(UTC),
-                conditions=body.conditions,
+                conditions=operating_conditions(asset, body.conditions),
+                asset_id=body.asset_id,
             ),
             delivery=body.delivery,
         )

@@ -12,6 +12,7 @@ from pathlib import Path
 
 from pydantic import ValidationError
 
+from ..assets import AssetRollup
 from ..contracts import Contract
 from .errors import (
     Conflict,
@@ -304,17 +305,75 @@ class SQLiteRepository:
         return _decode_row(IncidentSummary, row)
 
     def list_incidents(
-        self, *, status: IncidentStatus | None = None, limit: int = 20, offset: int = 0
+        self,
+        *,
+        status: IncidentStatus | None = None,
+        limit: int = 20,
+        offset: int = 0,
+        asset_id: str | None = None,
     ) -> tuple[IncidentSummary, ...]:
         _page(limit, offset)
         if status is not None and not isinstance(status, IncidentStatus):
             raise ValueError("status must be an IncidentStatus")
-        where = " WHERE i.status=?" if status is not None else ""
-        parameters = (status.value, limit, offset) if status is not None else (limit, offset)
+        filters = []
+        parameters = []
+        if status is not None:
+            filters.append("i.status=?")
+            parameters.append(status.value)
+        if asset_id is not None:
+            if not isinstance(asset_id, str) or not 1 <= len(asset_id) <= 100:
+                raise ValueError("Invalid asset identifier")
+            filters.append("i.asset_id=?")
+            parameters.append(asset_id)
+        where = " WHERE " + " AND ".join(filters) if filters else ""
         rows = self._execute(
-            _SUMMARY_SQL + where + " ORDER BY r.sequence DESC LIMIT ? OFFSET ?", parameters
+            _SUMMARY_SQL + where + " ORDER BY r.sequence DESC LIMIT ? OFFSET ?",
+            tuple(parameters + [limit, offset]),
         ).fetchall()
         return tuple(_decode_row(IncidentSummary, row) for row in rows)
+
+    def asset_inventory(
+        self,
+        configured_ids: tuple[str, ...],
+        *,
+        asset_id: str | None = None,
+        limit: int = 20,
+        offset: int = 0,
+        configured_only: bool = False,
+    ) -> tuple[AssetRollup, ...]:
+        _page(limit, offset)
+        if not 1 <= len(configured_ids) <= 100 or any(
+            not isinstance(value, str) or not 1 <= len(value) <= 100 for value in configured_ids
+        ):
+            raise ValueError("Expected 1–100 configured asset identifiers")
+        if asset_id is not None and (not isinstance(asset_id, str) or not 1 <= len(asset_id) <= 100):
+            raise ValueError("Invalid asset identifier")
+        values = ",".join("(?)" for _ in configured_ids)
+        observed = "" if configured_only else " UNION SELECT asset_id FROM incidents"
+        sql = f"""WITH configured(asset_id) AS (VALUES {values}),
+            assets AS (SELECT asset_id FROM configured{observed}),
+            incident_stats AS (
+                SELECT asset_id, count(*) AS incident_count,
+                    sum(CASE WHEN status!='closed' THEN 1 ELSE 0 END) AS open_incident_count
+                FROM incidents GROUP BY asset_id),
+            run_stats AS (
+                SELECT i.asset_id, count(*) AS run_count, max(r.sequence) AS latest_sequence
+                FROM analysis_runs r JOIN incidents i ON i.incident_id=r.incident_id GROUP BY i.asset_id)
+            SELECT a.asset_id, coalesce(i.incident_count,0) AS incident_count,
+                coalesce(i.open_incident_count,0) AS open_incident_count,
+                coalesce(s.run_count,0) AS run_count,
+                r.run_id AS latest_run_id, r.recorded_at AS last_recorded_at
+            FROM assets a LEFT JOIN incident_stats i ON i.asset_id=a.asset_id
+            LEFT JOIN run_stats s ON s.asset_id=a.asset_id
+            LEFT JOIN analysis_runs r ON r.sequence=s.latest_sequence"""
+        parameters = list(configured_ids)
+        if asset_id is not None:
+            sql += " WHERE a.asset_id=?"
+            parameters.append(asset_id)
+        rows = self._execute(
+            sql + " ORDER BY a.asset_id LIMIT ? OFFSET ?", tuple(parameters + [limit, offset])
+        ).fetchall()
+        return tuple(_decode_row(AssetRollup, row) for row in rows)
 
     def list_runs(self, incident_id: str, *, limit: int = 20, offset: int = 0) -> tuple[RunSummary, ...]:
         _page(limit, offset)

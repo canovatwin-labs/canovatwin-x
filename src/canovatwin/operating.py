@@ -11,7 +11,7 @@ from typing import Literal
 
 from pydantic import AwareDatetime, Field
 
-from .contracts import Contract, SensorSample, TelemetryWindow
+from .contracts import Contract, Identifier, SensorSample, TelemetryWindow
 from .telemetry import Scenario, ScenarioCase, TwinConfig, scenario_labels, thermal_step
 
 
@@ -31,6 +31,7 @@ class GenerationMetadata(Contract):
     seed: int
     start: AwareDatetime
     conditions: OperatingConditions
+    asset_id: Identifier = "synthetic-unit-01"
 
 
 class ExperimentVariation(Contract):
@@ -143,7 +144,7 @@ def _generate(metadata: GenerationMetadata, variation: ExperimentVariation | Non
     if scenario == Scenario.COMMUNICATION_LOSS:
         observation_time = max(observation_time, samples[-1].timestamp + timedelta(seconds=61))
     return ScenarioCase(
-        window=TelemetryWindow(samples=tuple(samples)),
+        window=TelemetryWindow(asset_id=metadata.asset_id, samples=tuple(samples)),
         fault_labels=scenario_labels(scenario),
         fault_started_at=None if scenario == Scenario.NORMAL else metadata.start + timedelta(seconds=onset),
         observation_time=observation_time,

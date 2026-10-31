@@ -1,4 +1,4 @@
-import { fireEvent, render, screen, within } from '@testing-library/react';
+import { waitFor, fireEvent, render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { expect, it, vi } from 'vitest';
 import { NewAnalysis, IncidentList } from '../src/pages';
@@ -11,6 +11,10 @@ it('sends editable dynamic settings and updates the experiment briefing', async 
   const analyze = vi.spyOn(current.api, 'analyze').mockResolvedValue(data.record);
   const user = userEvent.setup();
   render(<NewAnalysis session={current} />);
+  await screen.findByLabelText('Ekipman');
+  await waitFor(() =>
+    expect(screen.getByRole('button', { name: 'Analizi başlat ve kaydet' })).toBeEnabled(),
+  );
   await user.selectOptions(screen.getByLabelText('İş yükü profili'), 'batch');
   fireEvent.change(screen.getByLabelText('Temel IT yükü (kW)'), { target: { value: '6.4' } });
   fireEvent.change(screen.getByLabelText('Ortam sıcaklığı (°C)'), { target: { value: '35' } });
@@ -29,10 +33,15 @@ it('reference mode omits dynamic settings and retains the original generator', a
   const analyze = vi.spyOn(current.api, 'analyze').mockResolvedValue(data.record);
   const user = userEvent.setup();
   render(<NewAnalysis session={current} />);
+  await screen.findByLabelText('Ekipman');
+  await waitFor(() =>
+    expect(screen.getByRole('button', { name: 'Analizi başlat ve kaydet' })).toBeEnabled(),
+  );
   await user.selectOptions(screen.getByLabelText('Simülasyon modeli'), 'reference');
   expect(screen.queryByLabelText('İş yükü profili')).toBeNull();
   await user.click(screen.getByRole('button', { name: 'Analizi başlat ve kaydet' }));
   expect(analyze).toHaveBeenCalledExactlyOnceWith({
+    asset_id: 'synthetic-unit-01',
     scenario: 'fan_loss',
     count: 360,
     seed: 42,
@@ -44,6 +53,10 @@ it.each(['', '41'])('rejects invalid conditions (%s) without issuing a mutation'
   const current = session();
   const analyze = vi.spyOn(current.api, 'analyze');
   render(<NewAnalysis session={current} />);
+  await screen.findByLabelText('Ekipman');
+  await waitFor(() =>
+    expect(screen.getByRole('button', { name: 'Analizi başlat ve kaydet' })).toBeEnabled(),
+  );
   fireEvent.change(screen.getByLabelText('Ortam sıcaklığı (°C)'), { target: { value } });
   fireEvent.submit(
     screen.getByRole('button', { name: 'Analizi başlat ve kaydet' }).closest('form')!,
@@ -66,6 +79,7 @@ it('shows missing last observations and warns about a stale snapshot', () => {
 it('shows persisted experiment conditions rather than form defaults', async () => {
   const record = structuredClone(data.record);
   record.generation = {
+    asset_id: 'synthetic-unit-01',
     generator_version: 'dynamic-1.0',
     scenario: 'fan_loss',
     seed: 17,

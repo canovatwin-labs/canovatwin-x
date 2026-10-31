@@ -7,7 +7,7 @@ reduced thermal model, deterministic specialist roles, evidence verification,
 and a local investigation workspace. The current release runs entirely on
 synthetic data, without cloud services or LLM calls.
 
-Developed within **CanovaTwin Labs**. Current application: **0.14.0** ·
+Developed within **CanovaTwin Labs**. Current application: **0.15.0** ·
 Analysis engine: **0.4.0** · Status: **research prototype**.
 
 [Current status](docs/PROJECT_STATUS.md) · [Roadmap](docs/ROADMAP.md) ·
@@ -206,6 +206,13 @@ jitter/duplicate packets or an outage. It saves the transport recipe, acceptance
 trace and exact analyzed window together, with a saved-result link and JSON
 download. Connection/freshness refer to the experiment's virtual clock.
 See [the replay experiment contract](docs/STREAM.md#kayıtlı-aktarım-deneyi).
+
+The **Ekipmanlar** workspace lists configured synthetic units alongside assets
+observed only in history. Each unit has scoped counts, its latest saved window,
+sensor units/quality ranges and incident history. Scenario and stream forms
+carry the selected asset into generation metadata and replay. Configure local
+definitions through [the asset catalog contract](docs/ASSETS.md); these are
+independent model runs and do not represent a coupled physical facility.
 
 ## Repository layout
 

@@ -21,6 +21,14 @@ export interface paths {
     /** Analyze Stream */
     post: operations["analyze_stream_api_v1_analyses_stream_post"];
   };
+  "/api/v1/assets": {
+    /** Assets */
+    get: operations["assets_api_v1_assets_get"];
+  };
+  "/api/v1/assets/detail": {
+    /** Asset Detail */
+    get: operations["asset_detail_api_v1_assets_detail_get"];
+  };
   "/api/v1/health": {
     /** Readiness */
     get: operations["readiness_api_v1_health_get"];
@@ -239,6 +247,151 @@ export interface components {
       /** Observations */
       observations: components["schemas"]["Observation"][];
     };
+    /** AssetDefinition */
+    AssetDefinition: {
+      /** Asset Id */
+      asset_id: string;
+      /**
+       * @default {
+       *   "ambient_c": 30,
+       *   "baseline_load_kw": 4.2,
+       *   "fan_response_s": 6,
+       *   "workload": "cyclic"
+       * }
+       */
+      default_conditions: components["schemas"]["OperatingConditions"];
+      /**
+       * Expected Interval S
+       * @default 1
+       * @constant
+       */
+      expected_interval_s: 1;
+      /** Location */
+      location: string;
+      /**
+       * Model
+       * @default single-zone-10kW
+       * @constant
+       */
+      model: "single-zone-10kW";
+      /** Name */
+      name: string;
+      /**
+       * Source
+       * @default synthetic
+       * @constant
+       */
+      source: "synthetic";
+    };
+    /** AssetDetail */
+    AssetDetail: {
+      asset: components["schemas"]["AssetSummary"];
+      /**
+       * Catalog Version
+       * @default catalog-1.0
+       * @constant
+       */
+      catalog_version: "catalog-1.0";
+      /**
+       * Channels
+       * @default [
+       *   {
+       *     "field": "inlet_c",
+       *     "illustrative_max": 80,
+       *     "illustrative_min": -20,
+       *     "name": "Giriş sıcaklığı",
+       *     "unit": "°C"
+       *   },
+       *   {
+       *     "field": "reference_inlet_c",
+       *     "illustrative_max": 80,
+       *     "illustrative_min": -20,
+       *     "name": "Referans giriş sıcaklığı",
+       *     "unit": "°C"
+       *   },
+       *   {
+       *     "field": "return_c",
+       *     "illustrative_max": 100,
+       *     "illustrative_min": -20,
+       *     "name": "Dönüş sıcaklığı",
+       *     "unit": "°C"
+       *   },
+       *   {
+       *     "field": "supply_c",
+       *     "illustrative_max": 80,
+       *     "illustrative_min": -20,
+       *     "name": "Besleme sıcaklığı",
+       *     "unit": "°C"
+       *   },
+       *   {
+       *     "field": "ambient_c",
+       *     "illustrative_max": 80,
+       *     "illustrative_min": -40,
+       *     "name": "Ortam sıcaklığı",
+       *     "unit": "°C"
+       *   },
+       *   {
+       *     "field": "humidity_pct",
+       *     "illustrative_max": 100,
+       *     "illustrative_min": 0,
+       *     "name": "Bağıl nem",
+       *     "unit": "%"
+       *   },
+       *   {
+       *     "field": "fan_command_pct",
+       *     "illustrative_max": 100,
+       *     "illustrative_min": 0,
+       *     "name": "Fan komutu",
+       *     "unit": "%"
+       *   },
+       *   {
+       *     "field": "fan_feedback_pct",
+       *     "illustrative_max": 100,
+       *     "illustrative_min": 0,
+       *     "name": "Fan geri bildirimi",
+       *     "unit": "%"
+       *   },
+       *   {
+       *     "field": "airflow_m3s",
+       *     "illustrative_max": 20,
+       *     "illustrative_min": 0,
+       *     "name": "Hava debisi",
+       *     "unit": "m³/sn"
+       *   },
+       *   {
+       *     "field": "it_load_kw",
+       *     "illustrative_max": 1000,
+       *     "illustrative_min": 0,
+       *     "name": "IT yükü",
+       *     "unit": "kW"
+       *   },
+       *   {
+       *     "field": "cooling_kw",
+       *     "illustrative_max": 1000,
+       *     "illustrative_min": 0,
+       *     "name": "Termal soğutma gücü",
+       *     "unit": "kW"
+       *   }
+       * ]
+       */
+      channels: components["schemas"]["ChannelDefinition"][];
+    };
+    /** AssetSummary */
+    AssetSummary: {
+      /** Asset Id */
+      asset_id: string;
+      definition?: components["schemas"]["AssetDefinition"] | null;
+      /** Incident Count */
+      incident_count: number;
+      /** Last Recorded At */
+      last_recorded_at: string | null;
+      /** Latest Run Id */
+      latest_run_id: string | null;
+      /** Open Incident Count */
+      open_incident_count: number;
+      /** Run Count */
+      run_count: number;
+    };
     /** AuditEvent */
     AuditEvent: {
       /**
@@ -265,6 +418,19 @@ export interface components {
       revision: number;
       /** Run Id */
       run_id: string | null;
+    };
+    /** ChannelDefinition */
+    ChannelDefinition: {
+      /** Field */
+      field: string;
+      /** Illustrative Max */
+      illustrative_max: number;
+      /** Illustrative Min */
+      illustrative_min: number;
+      /** Name */
+      name: string;
+      /** Unit */
+      unit: string;
     };
     /** CritiqueResult */
     CritiqueResult: {
@@ -389,6 +555,11 @@ export interface components {
      * @description Experiment provenance, deliberately outside AnalysisRequest/agent inputs.
      */
     GenerationMetadata: {
+      /**
+       * Asset Id
+       * @default synthetic-unit-01
+       */
+      asset_id: string;
       conditions: components["schemas"]["OperatingConditions"];
       /** Count */
       count: number;
@@ -416,7 +587,7 @@ export interface components {
       api_version: string;
       /**
        * Application Version
-       * @default 0.14.0
+       * @default 0.15.0
        */
       application_version: string;
       /**
@@ -632,6 +803,15 @@ export interface components {
        */
       workload: "steady" | "cyclic" | "batch";
     };
+    /** Page[AssetSummary] */
+    Page_AssetSummary_: {
+      /** Items */
+      items: components["schemas"]["AssetSummary"][];
+      /** Limit */
+      limit: number;
+      /** Offset */
+      offset: number;
+    };
     /** Page[AuditEvent] */
     Page_AuditEvent_: {
       /** Items */
@@ -791,7 +971,7 @@ export interface components {
       api_version: string;
       /**
        * Application Version
-       * @default 0.14.0
+       * @default 0.15.0
        */
       application_version: string;
       /**
@@ -984,6 +1164,11 @@ export interface components {
     /** ScenarioBody */
     ScenarioBody: {
       /**
+       * Asset Id
+       * @default synthetic-unit-01
+       */
+      asset_id: string;
+      /**
        * Capture History
        * @default true
        */
@@ -1168,14 +1353,12 @@ export interface components {
     /** StreamBody */
     StreamBody: {
       /**
-       * @default {
-       *   "ambient_c": 30,
-       *   "baseline_load_kw": 4.2,
-       *   "fan_response_s": 6,
-       *   "workload": "cyclic"
-       * }
+       * Asset Id
+       * @default synthetic-unit-01
        */
-      conditions: components["schemas"]["OperatingConditions"];
+      asset_id: string;
+      /** @default null */
+      conditions: components["schemas"]["OperatingConditions"] | null;
       /**
        * Count
        * @default 120
@@ -1719,6 +1902,172 @@ export interface operations {
       };
     };
   };
+  /** Assets */
+  assets_api_v1_assets_get: {
+    parameters: {
+      query?: {
+        limit?: number;
+        offset?: number;
+        configured_only?: boolean;
+      };
+    };
+    responses: {
+      /** @description Successful Response */
+      200: {
+        content: {
+          "application/json": components["schemas"]["Page_AssetSummary_"];
+        };
+      };
+      /** @description Bad Request */
+      400: {
+        content: {
+          "application/json": components["schemas"]["ErrorEnvelope"];
+        };
+      };
+      /** @description Unauthorized */
+      401: {
+        content: {
+          "application/json": components["schemas"]["ErrorEnvelope"];
+        };
+      };
+      /** @description Forbidden */
+      403: {
+        content: {
+          "application/json": components["schemas"]["ErrorEnvelope"];
+        };
+      };
+      /** @description Not Found */
+      404: {
+        content: {
+          "application/json": components["schemas"]["ErrorEnvelope"];
+        };
+      };
+      /** @description Method Not Allowed */
+      405: {
+        content: {
+          "application/json": components["schemas"]["ErrorEnvelope"];
+        };
+      };
+      /** @description Conflict */
+      409: {
+        content: {
+          "application/json": components["schemas"]["ErrorEnvelope"];
+        };
+      };
+      /** @description Content Too Large */
+      413: {
+        content: {
+          "application/json": components["schemas"]["ErrorEnvelope"];
+        };
+      };
+      /** @description Unsupported Media Type */
+      415: {
+        content: {
+          "application/json": components["schemas"]["ErrorEnvelope"];
+        };
+      };
+      /** @description Unprocessable Content */
+      422: {
+        content: {
+          "application/json": components["schemas"]["ErrorEnvelope"];
+        };
+      };
+      /** @description Internal Server Error */
+      500: {
+        content: {
+          "application/json": components["schemas"]["ErrorEnvelope"];
+        };
+      };
+      /** @description Service Unavailable */
+      503: {
+        content: {
+          "application/json": components["schemas"]["ErrorEnvelope"];
+        };
+      };
+    };
+  };
+  /** Asset Detail */
+  asset_detail_api_v1_assets_detail_get: {
+    parameters: {
+      query: {
+        asset_id: string;
+      };
+    };
+    responses: {
+      /** @description Successful Response */
+      200: {
+        content: {
+          "application/json": components["schemas"]["AssetDetail"];
+        };
+      };
+      /** @description Bad Request */
+      400: {
+        content: {
+          "application/json": components["schemas"]["ErrorEnvelope"];
+        };
+      };
+      /** @description Unauthorized */
+      401: {
+        content: {
+          "application/json": components["schemas"]["ErrorEnvelope"];
+        };
+      };
+      /** @description Forbidden */
+      403: {
+        content: {
+          "application/json": components["schemas"]["ErrorEnvelope"];
+        };
+      };
+      /** @description Not Found */
+      404: {
+        content: {
+          "application/json": components["schemas"]["ErrorEnvelope"];
+        };
+      };
+      /** @description Method Not Allowed */
+      405: {
+        content: {
+          "application/json": components["schemas"]["ErrorEnvelope"];
+        };
+      };
+      /** @description Conflict */
+      409: {
+        content: {
+          "application/json": components["schemas"]["ErrorEnvelope"];
+        };
+      };
+      /** @description Content Too Large */
+      413: {
+        content: {
+          "application/json": components["schemas"]["ErrorEnvelope"];
+        };
+      };
+      /** @description Unsupported Media Type */
+      415: {
+        content: {
+          "application/json": components["schemas"]["ErrorEnvelope"];
+        };
+      };
+      /** @description Unprocessable Content */
+      422: {
+        content: {
+          "application/json": components["schemas"]["ErrorEnvelope"];
+        };
+      };
+      /** @description Internal Server Error */
+      500: {
+        content: {
+          "application/json": components["schemas"]["ErrorEnvelope"];
+        };
+      };
+      /** @description Service Unavailable */
+      503: {
+        content: {
+          "application/json": components["schemas"]["ErrorEnvelope"];
+        };
+      };
+    };
+  };
   /** Readiness */
   readiness_api_v1_health_get: {
     responses: {
@@ -1803,6 +2152,7 @@ export interface operations {
         status?: components["schemas"]["IncidentStatus"] | null;
         limit?: number;
         offset?: number;
+        asset_id?: string | null;
       };
     };
     responses: {

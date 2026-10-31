@@ -6,6 +6,7 @@ import { useRoute } from './hooks';
 import { IncidentList, NewAnalysis, AgentCatalog } from './pages';
 import { IncidentDetail } from './IncidentDetail';
 import { StreamLab, StreamRun } from './StreamLab';
+import { AssetList, AssetWorkspace } from './Assets';
 
 export type Session = { api: ApiClient; principal: Principal; health: Schema['Readiness'] };
 
@@ -14,6 +15,18 @@ export function App() {
   const [expired, setExpired] = useState(false);
   const current = useRef<ApiClient | undefined>(undefined);
   const route = useRoute();
+  const routePath = route.split('?')[0];
+  const selectedAsset =
+    new URLSearchParams(route.includes('?') ? route.slice(route.indexOf('?') + 1) : '').get(
+      'asset',
+    ) ?? undefined;
+  let assetId: string | undefined;
+  try {
+    const match = /^\/assets\/(.+)$/.exec(routePath ?? '');
+    if (match?.[1]) assetId = decodeURIComponent(match[1]);
+  } catch {
+    /* Invalid encoded routes render the normal not-found page. */
+  }
   const logout = () => {
     current.current?.close();
     current.current = undefined;
@@ -37,12 +50,24 @@ export function App() {
   const incident = /^\/incidents\/([A-Za-z0-9_-]{1,100})$/.exec(route)?.[1];
   const streamRun = /^\/stream\/([A-Za-z0-9_-]{1,100})$/.exec(route)?.[1];
   const page =
-    route === '/stream' ? (
-      <StreamLab session={session} />
+    routePath === '/assets' ? (
+      <AssetList api={session.api} />
+    ) : assetId ? (
+      <AssetWorkspace key={assetId} session={session} id={assetId} />
+    ) : routePath === '/stream' ? (
+      <StreamLab
+        key={selectedAsset ?? 'default-stream'}
+        session={session}
+        initialAsset={selectedAsset}
+      />
     ) : streamRun ? (
       <StreamRun session={session} id={streamRun} />
-    ) : route === '/new' ? (
-      <NewAnalysis session={session} />
+    ) : routePath === '/new' ? (
+      <NewAnalysis
+        key={selectedAsset ?? 'default-analysis'}
+        session={session}
+        initialAsset={selectedAsset}
+      />
     ) : route === '/agents' ? (
       <AgentCatalog api={session.api} />
     ) : incident ? (
@@ -78,10 +103,13 @@ export function App() {
         </a>
         <p className="sidebar-caption">ÇALIŞMA ALANI</p>
         <nav aria-label="Ana gezinme">
+          <a href="#/assets" aria-current={routePath?.startsWith('/assets') ? 'page' : undefined}>
+            <span aria-hidden="true">00</span>Ekipmanlar
+          </a>
           <a href="#/incidents" aria-current={route.startsWith('/incidents') ? 'page' : undefined}>
             <span aria-hidden="true">01</span>Olay incelemeleri
           </a>
-          <a href="#/new" aria-current={route === '/new' ? 'page' : undefined}>
+          <a href="#/new" aria-current={routePath === '/new' ? 'page' : undefined}>
             <span aria-hidden="true">02</span>Yeni analiz
           </a>
           <a href="#/agents" aria-current={route === '/agents' ? 'page' : undefined}>
