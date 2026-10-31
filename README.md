@@ -201,6 +201,12 @@ the pending buffer, committed window, watermark and connection state. Writes
 are transactional and concurrent handles cannot silently overwrite one another.
 See the [journal contract](docs/JOURNAL.md).
 
+The panel's **Akış laboratuvarı** runs the dynamic plant with ordered delivery,
+jitter/duplicate packets or an outage. It saves the transport recipe, acceptance
+trace and exact analyzed window together, with a saved-result link and JSON
+download. Connection/freshness refer to the experiment's virtual clock.
+See [the replay experiment contract](docs/STREAM.md#kayıtlı-aktarım-deneyi).
+
 ## Repository layout
 
 ```text

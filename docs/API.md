@@ -39,6 +39,7 @@ Yanlış/eksik anahtar 401, okuma anahtarıyla yazma 403 döndürür. Anahtar UR
 - `GET /api/v1/runs/{run_id}`: saklanan girdi, politika, sonuç ve kaynak snapshot'ları.
 - `POST /api/v1/analyses`: açık JSON girdisini analiz edip kaydeder.
 - `POST /api/v1/analyses/scenario`: sentetik senaryo üretir, analiz edip kaydeder.
+- `POST /api/v1/analyses/stream`: dinamik fiziksel senaryoya aktarım profili uygular; kabul edilen pencereyi analiz edip reçete ve aktarım iziyle kaydeder.
 - `POST /api/v1/incidents/{incident_id}/status`: gerekçeli, revizyon kontrollü durum değişimi.
 - `POST /api/v1/runs/{run_id}/replay`: saklanan girdilerle yeni çalışma üretir.
 

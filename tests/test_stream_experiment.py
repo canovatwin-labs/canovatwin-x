@@ -36,7 +36,7 @@ def test_jitter_rejects_duplicate_and_late_packets_and_only_analyzes_sorted_samp
     report = run_stream_experiment(recipe("jitter"))
     reasons = {e.reason for e in report.events if e.outcome == "rejected"}
     assert "late" in reasons
-    assert reasons & {"duplicate_id", "late"}
+    assert "duplicate_id" in reasons
     assert report.accepted + report.rejected == report.generated + 8
     timestamps = [sample.timestamp for sample in report.window.samples]
     assert timestamps == sorted(set(timestamps))

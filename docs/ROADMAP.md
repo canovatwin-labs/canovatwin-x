@@ -1,8 +1,8 @@
 # Ürün ve araştırma yol haritası
 
 Bu belge özgün proje kapsamı ile çalışan 0.14.0 sürümü arasındaki farkı açık tutar.
-Yerel Sprint 1–12'nin kapanmış olması, ilk önerideki bütün araştırma programının
-veya 36 rolün tamamlandığı anlamına gelmez.
+Sprint 1–14 çıktıları ilk önerideki bütün araştırma programının veya 36 rolün
+tamamlandığı anlamına gelmez. Geliştirme dalı ve ana dal ayrımı PR incelemeleriyle korunur.
 
 ## Mevcut temel
 
@@ -74,6 +74,10 @@ uzun süreli arşiv/rotasyon ve fiziksel kalibrasyon hâlâ açık.
 Soğutma gücü elektrik tüketimi değildir. Toplam tesis ve IT elektrik gücü
 olmadan PUE hesaplanmış gibi gösterilmez. Çoklu kabin ve CFD ayrı kapsamdır.
 
+Sprint 14, aynı dinamik fiziksel koşumu üç aktarım profiliyle çalıştırıp kabul
+edilen pencereyi reçete ve olay iziyle birlikte kaydetti. Kesinti, geç/tekrar
+paketler ve tazelik kayıtta görünür; fiziksel ağ oturumu hâlâ açık kapsamdır.
+
 ## Öncelik 3 — Operatör çalışma alanı
 
 - Asset Explorer, Digital Twin Lab ve Experiment Lab iş akışları.
@@ -81,6 +85,11 @@ olmadan PUE hesaplanmış gibi gösterilmez. Çoklu kabin ve CFD ayrı kapsamdı
 - Sürekli telemetri geldiğinde bağlantı durumu ve tazelik göstergeleri.
 - Kabul: gerçekçi operatör görevleri, klavye erişimi, dar ekran, yüklenme/hata/boş
   durumlar ve uçtan uca kullanıcı akışları; yalnızca görsel kart eklemek yeterli değildir.
+
+Sprint 14'ün akış laboratuvarı, kayıtlı sonuca dönme, rapor bağlantısı, zaman
+grafiği, sayfalanmış aktarım izi ve JSON dışa aktarma yolunu tamamladı. Çoklu
+varlık kataloğu, deneyleri yan yana karşılaştırma ve sürekli canlı kaynak
+izleme henüz yok. [Kabul raporu](SPRINT_14_REPORT.md) kapsamı ve sınırları kaydeder.
 
 ## Öncelik 4 — Bilgi erişimi ve uzman hiyerarşisi
 

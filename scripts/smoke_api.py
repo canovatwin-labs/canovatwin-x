@@ -239,7 +239,7 @@ def main() -> int:
         args.output.parent.mkdir(parents=True, exist_ok=True)
         args.output.write_text(json.dumps(result, ensure_ascii=False, indent=2))
     print(
-        "Real loopback API checks passed: 22 reference + 33 dynamic combinations, auth, history, lifecycle, replay and four concurrent writes."
+        "Real loopback API checks passed: 22 reference + 33 dynamic combinations, three transport profiles, auth, history, lifecycle, replay and four concurrent writes."
     )
     return 0
 
