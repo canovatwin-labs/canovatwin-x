@@ -12,6 +12,9 @@ updates:
     ignore:
       - dependency-name: typescript
         update-types: [version-update:semver-major]
+      # Version 7 pulls an unpatched resolver; see docs/DEPENDENCY_REVIEW.md.
+      - dependency-name: openapi-typescript
+        update-types: [version-update:semver-major]
     schedule:
       interval: weekly
     open-pull-requests-limit: 3
