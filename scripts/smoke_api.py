@@ -102,7 +102,7 @@ def verify() -> dict:
                         assert private["write_token"].encode() not in asset
                 call("POST", "/api/v1/analyses/scenario", {}, role="read", expected=403)
                 ready = call("GET", "/api/v1/health", role="read")
-                assert ready["application_version"] == version("canovatwin-x") == "0.15.0"
+                assert ready["application_version"] == version("canovatwin-x") == "0.16.0"
                 assert ready["engine_version"] == "0.4.0"
                 assert len(call("GET", "/api/v1/agents", role="read")) == 36
                 first = last = None
@@ -211,17 +211,31 @@ def verify() -> dict:
                 replay_second = call("POST", f"/api/v1/runs/{second['run_id']}/replay", expected=201)
                 assert replay_second["matches"]
                 call("POST", "/api/v1/analyses/scenario", {"asset_id": "unknown"}, expected=422)
+                comparison_path = f"/api/v1/comparisons?baseline={second['run_id']}&candidate={replay_second['record']['run_id']}"
+                compared = call("GET", comparison_path, role="read")
+                assert compared["differing_inputs"] == []
+                assert compared["same_measurement_timestamps"] is True
+                assert len(compared["channels"]) == 11
+                assert all(channel["mean_delta"] == 0 for channel in compared["channels"])
+                call("GET", comparison_path, role=None, expected=401)
+                call(
+                    "GET",
+                    f"/api/v1/comparisons?baseline={stream['run_id']}&candidate={second['run_id']}",
+                    role="read",
+                    expected=409,
+                )
                 schema = call("GET", "/openapi.json", role=None)
-                assert schema["info"]["version"] == "0.15.0"
-                assert len(schema["paths"]) == 16
+                assert schema["info"]["version"] == "0.16.0"
+                assert len(schema["paths"]) == 17
                 return {
-                    "application_version": "0.15.0",
+                    "application_version": "0.16.0",
                     "engine_version": "0.4.0",
                     "scenario_profile_checks": 22,
                     "dynamic_scenario_workload_checks": 33,
                     "concurrent_writes": 4,
                     "stream_delivery_checks": 3,
                     "asset_isolation_checks": True,
+                    "read_only_comparison_checks": True,
                     "panel_assets": len(parser.paths),
                     "checks": [
                         "authentication",

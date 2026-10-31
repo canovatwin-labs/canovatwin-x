@@ -12,6 +12,7 @@ from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from starlette.exceptions import HTTPException
 
 from ..assets import AssetDefinition, AssetDetail, AssetSummary
+from ..comparison import ComparisonConflict, RunComparison, compare_runs
 from ..contracts import AnalysisRequest, ResearchInputs
 from ..history import HistoryService
 from ..knowledge import demo_documents
@@ -303,6 +304,19 @@ def create_app(settings: APISettings) -> FastAPI:
     def analysis_run(run_id: ResourceId, user: Annotated[Principal, Depends(reader)]):
         with SQLiteRepository(settings.database, read_only=True) as repo:
             return repo.get_run(run_id)
+
+    @app.get("/api/v1/comparisons", response_model=RunComparison)
+    def comparison(
+        baseline: ResourceId,
+        candidate: ResourceId,
+        user: Annotated[Principal, Depends(reader)],
+    ):
+        with SQLiteRepository(settings.database, read_only=True) as repo:
+            before, after = repo.get_run(baseline), repo.get_run(candidate)
+        try:
+            return compare_runs(before, after)
+        except ComparisonConflict as error:
+            raise APIProblem(409, "COMPARISON_INCOMPATIBLE", str(error)) from None
 
     @app.post(
         "/api/v1/analyses",

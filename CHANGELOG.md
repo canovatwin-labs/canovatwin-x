@@ -33,6 +33,16 @@ of stored analyses. The engine version only changes when diagnostic behaviour ch
   Python 3.12 now generates the same panel contract as Python 3.13 and 3.14.
 - Added the missing repository handoff report linked from the README.
 
+## [0.16.0] - 2026-10-31 (engine 0.4.0)
+
+### Added
+- Authenticated, read-only comparison of two distinct persisted runs belonging to one asset.
+- Eleven-channel available-reading statistics and candidate-minus-baseline deltas, explicit missing values, transport counters and input differences.
+- Numeric overflow rejection, deterministic replay comparison and read-only history regression tests; installed-wheel HTTP coverage and generated panel contracts.
+
+### Scope
+- Comparison is descriptive; no causal ranking, electrical savings or PUE inference. Panel selection/visualization follows separately. No new agents, dependencies or database migration.
+
 ## [0.15.0] - 2026-10-31 (engine 0.4.0)
 
 ### Added
