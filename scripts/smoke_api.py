@@ -102,7 +102,7 @@ def verify() -> dict:
                         assert private["write_token"].encode() not in asset
                 call("POST", "/api/v1/analyses/scenario", {}, role="read", expected=403)
                 ready = call("GET", "/api/v1/health", role="read")
-                assert ready["application_version"] == version("canovatwin-x") == "0.13.0"
+                assert ready["application_version"] == version("canovatwin-x") == "0.14.0"
                 assert ready["engine_version"] == "0.4.0"
                 assert len(call("GET", "/api/v1/agents", role="read")) == 36
                 first = last = None
@@ -183,15 +183,30 @@ def verify() -> dict:
                 assert len({record["run_id"] for record in records}) == 4
                 identifier = records[0]["result"]["incident_id"]
                 assert call("GET", f"/api/v1/incidents/{identifier}", role="read")["run_count"] == 4
+                for delivery in ("ordered", "jitter", "outage"):
+                    stream = call(
+                        "POST",
+                        "/api/v1/analyses/stream",
+                        {"delivery": delivery, "start": "2026-10-31T00:00:00Z"},
+                        expected=201,
+                    )
+                    experiment = stream["stream_experiment"]
+                    assert experiment["window"] == stream["request"]["window"]
+                    assert stream["result"]["commands"] == [] and stream["result"]["llm_calls"] == 0
+                    replay = call("POST", f"/api/v1/runs/{stream['run_id']}/replay", expected=201)
+                    assert replay["matches"]
+                    assert replay["record"]["stream_experiment"] == experiment
+                call("POST", "/api/v1/analyses/stream", {}, role="read", expected=403)
                 schema = call("GET", "/openapi.json", role=None)
-                assert schema["info"]["version"] == "0.13.0"
-                assert len(schema["paths"]) == 13
+                assert schema["info"]["version"] == "0.14.0"
+                assert len(schema["paths"]) == 14
                 return {
-                    "application_version": "0.13.0",
+                    "application_version": "0.14.0",
                     "engine_version": "0.4.0",
                     "scenario_profile_checks": 22,
                     "dynamic_scenario_workload_checks": 33,
                     "concurrent_writes": 4,
+                    "stream_delivery_checks": 3,
                     "panel_assets": len(parser.paths),
                     "checks": [
                         "authentication",

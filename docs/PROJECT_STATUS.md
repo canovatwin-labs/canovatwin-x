@@ -1,6 +1,10 @@
 # CanovaTwin X — Güncel yetenek ve tamamlanma durumu
 
-**31 Ekim 2026 · Uygulama 0.13.0 / Motor 0.4.0 · Sprint 12 geliştirme dalında**
+**31 Ekim 2026 · Uygulama 0.14.0 / Motor 0.4.0 · Sprint 14 yerel geliştirme dalında**
+
+Bu dalın yeni akış çalışma alanı henüz teslimat kapısından geçmedi. Son durum
+ve kalan kabul işleri: [SPRINT_14_WORKING_NOTES.md](SPRINT_14_WORKING_NOTES.md).
+Aşağıdaki önceki sprint yetenekleri yeni ekranın tamamlandığı iddiasını taşımaz.
 
 Çalışan çıktı: sentetik veriyle yerel web paneli, API ve CLI ile kullanılabilen, kanıta dayalı rapor ve kalıcı inceleme geçmişi üreten 12 uzmanlı karar destek çekirdeği. Katalog 36 rol içerir. Bu belge tamamlanmış özelliği, kısmi katmanı ve planlı rolü birbirinden ayırır; tamamlanma yüzdesi iddiası taşımaz.
 

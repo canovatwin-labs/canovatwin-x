@@ -1,6 +1,6 @@
 # Ürün ve araştırma yol haritası
 
-Bu belge özgün proje kapsamı ile çalışan 0.13.0 sürümü arasındaki farkı açık tutar.
+Bu belge özgün proje kapsamı ile çalışan 0.14.0 sürümü arasındaki farkı açık tutar.
 Yerel Sprint 1–12'nin kapanmış olması, ilk önerideki bütün araştırma programının
 veya 36 rolün tamamlandığı anlamına gelmez.
 

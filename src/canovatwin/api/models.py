@@ -8,9 +8,11 @@ from ..contracts import AnalysisRequest, Contract, Identifier, TechnicalDocument
 from ..operating import OperatingConditions
 from ..persistence.models import IncidentStatus, Reason
 from ..policy import Policy
+from ..stream_experiment import Delivery
+from ..telemetry import Scenario
 
 API_VERSION = "1.0"
-APPLICATION_VERSION = "0.13.0"
+APPLICATION_VERSION = "0.14.0"
 
 
 class AnalyzeBody(Contract):
@@ -51,6 +53,16 @@ class StatusBody(Contract):
     target: IncidentStatus
     expected_revision: int = Field(ge=1)
     reason: Reason
+
+
+class StreamBody(Contract):
+    scenario: Scenario = Scenario.NORMAL
+    delivery: Delivery = "ordered"
+    profile: Literal["core6", "mvp12"] = "mvp12"
+    count: int = Field(default=120, ge=30, le=600)
+    seed: int = Field(default=42, ge=-(2**53 - 1), le=2**53 - 1)
+    start: AwareDatetime | None = None
+    conditions: OperatingConditions = OperatingConditions()
 
 
 class ReplayBody(Contract):

@@ -17,6 +17,10 @@ export interface paths {
     /** Analyze Scenario */
     post: operations["analyze_scenario_api_v1_analyses_scenario_post"];
   };
+  "/api/v1/analyses/stream": {
+    /** Analyze Stream */
+    post: operations["analyze_stream_api_v1_analyses_stream_post"];
+  };
   "/api/v1/health": {
     /** Readiness */
     get: operations["readiness_api_v1_health_get"];
@@ -273,6 +277,28 @@ export interface components {
       /** Reviews */
       reviews: components["schemas"]["HypothesisReview"][];
     };
+    /** DeliveryEvent */
+    DeliveryEvent: {
+      /**
+       * At
+       * Format: date-time
+       */
+      at: string;
+      /** Measurement At */
+      measurement_at?: string | null;
+      /**
+       * Outcome
+       * @enum {string}
+       */
+      outcome: "accepted" | "rejected" | "dropped" | "disconnect" | "reconnect" | "flush";
+      /** Reason */
+      reason?: ("disconnected" | "arrival_clock" | "future" | "late" | "duplicate_id" | "duplicate_timestamp" | "buffer_full") | null;
+      /** Sample Id */
+      sample_id?: string | null;
+      /** Sequence */
+      sequence: number;
+      state: components["schemas"]["StreamState"];
+    };
     /** DiagnosisResult */
     DiagnosisResult: {
       /** Hypotheses */
@@ -390,7 +416,7 @@ export interface components {
       api_version: string;
       /**
        * Application Version
-       * @default 0.13.0
+       * @default 0.14.0
        */
       application_version: string;
       /**
@@ -765,7 +791,7 @@ export interface components {
       api_version: string;
       /**
        * Application Version
-       * @default 0.13.0
+       * @default 0.14.0
        */
       application_version: string;
       /**
@@ -816,6 +842,7 @@ export interface components {
        * @constant
        */
       schema_version: "1.0";
+      stream_experiment?: components["schemas"]["StreamExperiment"] | null;
     };
     /** ReplayBody */
     ReplayBody: Record<string, never>;
@@ -1138,6 +1165,135 @@ export interface components {
       reason: string;
       target: components["schemas"]["IncidentStatus"];
     };
+    /** StreamBody */
+    StreamBody: {
+      /**
+       * @default {
+       *   "ambient_c": 30,
+       *   "baseline_load_kw": 4.2,
+       *   "fan_response_s": 6,
+       *   "workload": "cyclic"
+       * }
+       */
+      conditions: components["schemas"]["OperatingConditions"];
+      /**
+       * Count
+       * @default 120
+       */
+      count: number;
+      /**
+       * Delivery
+       * @default ordered
+       * @enum {string}
+       */
+      delivery: "ordered" | "jitter" | "outage";
+      /**
+       * Profile
+       * @default mvp12
+       * @enum {string}
+       */
+      profile: "core6" | "mvp12";
+      /** @default normal */
+      scenario: components["schemas"]["Scenario"];
+      /**
+       * Seed
+       * @default 42
+       */
+      seed: number;
+      /**
+       * Start
+       * @default null
+       */
+      start: string | null;
+    };
+    /** StreamConfig */
+    StreamConfig: {
+      /** Asset Id */
+      asset_id: string;
+      /**
+       * Future Tolerance S
+       * @default 5
+       */
+      future_tolerance_s: number;
+      /**
+       * Max Lateness S
+       * @default 2
+       */
+      max_lateness_s: number;
+      /**
+       * Max Pending
+       * @default 600
+       */
+      max_pending: number;
+      /**
+       * Stale After S
+       * @default 60
+       */
+      stale_after_s: number;
+    };
+    /** StreamExperiment */
+    StreamExperiment: {
+      /** Accepted */
+      accepted: number;
+      /**
+       * As Of
+       * Format: date-time
+       */
+      as_of: string;
+      config: components["schemas"]["StreamConfig"];
+      /** Dropped */
+      dropped: number;
+      /** Events */
+      events: components["schemas"]["DeliveryEvent"][];
+      final_state: components["schemas"]["StreamState"];
+      /** Generated */
+      generated: number;
+      recipe: components["schemas"]["StreamRecipe"];
+      /** Rejected */
+      rejected: number;
+      /** Trace Sha256 */
+      trace_sha256: string;
+      window: components["schemas"]["TelemetryWindow"];
+    };
+    /** StreamRecipe */
+    StreamRecipe: {
+      /**
+       * Delivery
+       * @default ordered
+       * @enum {string}
+       */
+      delivery: "ordered" | "jitter" | "outage";
+      generation: components["schemas"]["GenerationMetadata"];
+      /**
+       * Replay Version
+       * @default transport-1.0
+       * @constant
+       */
+      replay_version: "transport-1.0";
+    };
+    /** StreamState */
+    StreamState: {
+      /** Committed */
+      committed: number;
+      /**
+       * Connection
+       * @enum {string}
+       */
+      connection: "connected" | "disconnected";
+      /**
+       * Freshness
+       * @enum {string}
+       */
+      freshness: "fresh" | "stale" | "empty";
+      /** Last Arrival At */
+      last_arrival_at: string | null;
+      /** Last Measurement At */
+      last_measurement_at: string | null;
+      /** Pending */
+      pending: number;
+      /** Watermark At */
+      watermark_at: string | null;
+    };
     /** TechnicalDocument */
     TechnicalDocument: {
       /** Content */
@@ -1404,6 +1560,88 @@ export interface operations {
     requestBody: {
       content: {
         "application/json": components["schemas"]["ScenarioBody"];
+      };
+    };
+    responses: {
+      /** @description Successful Response */
+      201: {
+        content: {
+          "application/json": components["schemas"]["RecordedAnalysis"];
+        };
+      };
+      /** @description Bad Request */
+      400: {
+        content: {
+          "application/json": components["schemas"]["ErrorEnvelope"];
+        };
+      };
+      /** @description Unauthorized */
+      401: {
+        content: {
+          "application/json": components["schemas"]["ErrorEnvelope"];
+        };
+      };
+      /** @description Forbidden */
+      403: {
+        content: {
+          "application/json": components["schemas"]["ErrorEnvelope"];
+        };
+      };
+      /** @description Not Found */
+      404: {
+        content: {
+          "application/json": components["schemas"]["ErrorEnvelope"];
+        };
+      };
+      /** @description Method Not Allowed */
+      405: {
+        content: {
+          "application/json": components["schemas"]["ErrorEnvelope"];
+        };
+      };
+      /** @description Conflict */
+      409: {
+        content: {
+          "application/json": components["schemas"]["ErrorEnvelope"];
+        };
+      };
+      /** @description Content Too Large */
+      413: {
+        content: {
+          "application/json": components["schemas"]["ErrorEnvelope"];
+        };
+      };
+      /** @description Unsupported Media Type */
+      415: {
+        content: {
+          "application/json": components["schemas"]["ErrorEnvelope"];
+        };
+      };
+      /** @description Unprocessable Content */
+      422: {
+        content: {
+          "application/json": components["schemas"]["ErrorEnvelope"];
+        };
+      };
+      /** @description Internal Server Error */
+      500: {
+        content: {
+          "application/json": components["schemas"]["ErrorEnvelope"];
+        };
+      };
+      /** @description Service Unavailable */
+      503: {
+        content: {
+          "application/json": components["schemas"]["ErrorEnvelope"];
+        };
+      };
+    };
+  };
+  /** Analyze Stream */
+  analyze_stream_api_v1_analyses_stream_post: {
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["StreamBody"];
       };
     };
     responses: {

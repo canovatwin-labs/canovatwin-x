@@ -10,6 +10,7 @@ from .persistence.errors import ReplayIncompatible
 from .persistence.models import RecordedAnalysis, ReplayOutcome
 from .persistence.repository import AnalysisRepository
 from .policy import Policy, default_policy
+from .stream_experiment import StreamExperiment
 from .supervisor import Supervisor
 from .version import ENGINE_VERSION
 
@@ -34,6 +35,7 @@ class HistoryService:
         actor: str = "local-user",
         replay_of: str | None = None,
         generation: GenerationMetadata | None = None,
+        stream_experiment: StreamExperiment | None = None,
     ) -> RecordedAnalysis:
         policy = policy or default_policy(request)
         result = Supervisor(policy).run(request)
@@ -47,6 +49,7 @@ class HistoryService:
             result=result,
             replay_of=replay_of,
             generation=generation,
+            stream_experiment=stream_experiment,
         )
         return self.repository.save(record)
 
@@ -60,6 +63,7 @@ class HistoryService:
             actor=actor,
             replay_of=run_id,
             generation=original.generation,
+            stream_experiment=original.stream_experiment,
         )
         differences = compare_results(original.result, record.result)
         return ReplayOutcome(record=record, matches=not differences, differences=differences)

@@ -12,6 +12,16 @@ from pydantic import AwareDatetime, Field
 
 from .contracts import Contract, SensorSample, TelemetryWindow
 
+RejectionReason = Literal[
+    "disconnected", "arrival_clock", "future", "late", "duplicate_id", "duplicate_timestamp", "buffer_full"
+]
+
+
+class StreamRejection(ValueError):
+    def __init__(self, reason: RejectionReason, message: str):
+        super().__init__(message)
+        self.reason = reason
+
 
 class StreamConfig(Contract):
     asset_id: str = Field(min_length=1, max_length=100)
@@ -54,19 +64,19 @@ class StreamCollector:
         self._aware(received_at)
         sample = SensorSample.model_validate(sample.model_dump())
         if not self._connected:
-            raise ValueError("Stream is disconnected")
+            raise StreamRejection("disconnected", "Stream is disconnected")
         if self._last_arrival is not None and received_at < self._last_arrival:
-            raise ValueError("Arrival clock moved backwards")
+            raise StreamRejection("arrival_clock", "Arrival clock moved backwards")
         if sample.timestamp > received_at + timedelta(seconds=self.config.future_tolerance_s):
-            raise ValueError("Measurement is in the future relative to arrival")
+            raise StreamRejection("future", "Measurement is in the future relative to arrival")
         if self._watermark is not None and sample.timestamp <= self._watermark:
-            raise ValueError("Measurement arrived after its event-time watermark")
+            raise StreamRejection("late", "Measurement arrived after its event-time watermark")
         if sample.sample_id in self._ids:
-            raise ValueError("Duplicate sample ID")
+            raise StreamRejection("duplicate_id", "Duplicate sample ID")
         if any(item[0] == sample.timestamp for item in self._pending):
-            raise ValueError("Duplicate measurement timestamp")
+            raise StreamRejection("duplicate_timestamp", "Duplicate measurement timestamp")
         if len(self._pending) >= self.config.max_pending:
-            raise ValueError("Pending buffer is full; caller must drain or retry")
+            raise StreamRejection("buffer_full", "Pending buffer is full; caller must drain or retry")
         insort(self._pending, (sample.timestamp, sample.sample_id, sample))
         self._ids.add(sample.sample_id)
         self._last_arrival = received_at

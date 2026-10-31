@@ -130,6 +130,11 @@ export function IncidentDetail({ session, id }: { session: Session; id: string }
                 </div>
                 <div className="actions">
                   <Badge value={data.incident.status} />
+                  {data.record.stream_experiment && (
+                    <a className="button secondary" href={`#/stream/${data.record.run_id}`}>
+                      Aktarım deneyini incele
+                    </a>
+                  )}
                   <button
                     className="secondary"
                     disabled={busy}

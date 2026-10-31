@@ -5,6 +5,7 @@ import { Empty, ErrorNotice } from './components';
 import { useRoute } from './hooks';
 import { IncidentList, NewAnalysis, AgentCatalog } from './pages';
 import { IncidentDetail } from './IncidentDetail';
+import { StreamLab, StreamRun } from './StreamLab';
 
 export type Session = { api: ApiClient; principal: Principal; health: Schema['Readiness'] };
 
@@ -34,8 +35,13 @@ export function App() {
   if (!session)
     return <Login onConnect={connect} onUnauthorized={unauthorized} expired={expired} />;
   const incident = /^\/incidents\/([A-Za-z0-9_-]{1,100})$/.exec(route)?.[1];
+  const streamRun = /^\/stream\/([A-Za-z0-9_-]{1,100})$/.exec(route)?.[1];
   const page =
-    route === '/new' ? (
+    route === '/stream' ? (
+      <StreamLab session={session} />
+    ) : streamRun ? (
+      <StreamRun session={session} id={streamRun} />
+    ) : route === '/new' ? (
       <NewAnalysis session={session} />
     ) : route === '/agents' ? (
       <AgentCatalog api={session.api} />
@@ -80,6 +86,9 @@ export function App() {
           </a>
           <a href="#/agents" aria-current={route === '/agents' ? 'page' : undefined}>
             <span aria-hidden="true">03</span>Ajan kataloğu
+          </a>
+          <a href="#/stream" aria-current={route.startsWith('/stream') ? 'page' : undefined}>
+            <span aria-hidden="true">04</span>Akış laboratuvarı
           </a>
         </nav>
         <div className="sidebar-bottom">
