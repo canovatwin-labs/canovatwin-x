@@ -33,6 +33,21 @@ of stored analyses. The engine version only changes when diagnostic behaviour ch
   Python 3.12 now generates the same panel contract as Python 3.13 and 3.14.
 - Added the missing repository handoff report linked from the README.
 
+## [0.13.0] - 2026-10-31 (engine 0.4.0)
+
+Sprint 12: publisher-pinned AAU server-room measurement case study.
+
+### Added
+- Offline adapter for two small Zenodo v5 supplementary CSVs, pinned to
+  publisher checksums and explicit fixed UTC offset assumption.
+- Exact timestamp join, time-separated three-way split with embargo, canonical
+  intake validation and provenance-bound exploratory review.
+- Dataset-specific documentation of real measurement results and limitations.
+
+### Notes
+- No raw third-party data is committed. Missing cooling and fan channels remain
+  absent; unknown fault labels prevent diagnostic accuracy claims.
+
 ## [0.12.0] - 2026-10-30 (engine 0.4.0)
 
 Sprint 11: recoverable, bounded offline telemetry journal.
