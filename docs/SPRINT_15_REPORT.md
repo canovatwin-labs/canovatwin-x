@@ -40,9 +40,11 @@ oluşturulan kalıcı veri üzerinde regresyon testi bunu doğruladı.
   dar sayfa viewport genişliğini aşmadı.
 - Tam npm audit sıfır bulgu verdi. Python kilit dosyasının geliştirme araçları
   dahil pip-audit denetiminde bilinen zafiyet bulunmadı. Son commitin GitHub
-  kontrolleri PR'da ayrıca izlenir. GitHub'ın eski minimatch uyarısı kaynak
-  kilit dosyası ve güncel SBOM'da paket bulunmamasına rağmen açık görünmüştü;
-  bu arayüz kaydı elle gizlenmedi ve koruma eşiği düşürülmedi.
+  kontrolleri PR'da ayrıca izlenir. GitHub'ın eski #1 uyarısı kaldırılmış
+  minimatch 5.1.9 içindi: `main` 9b2182e kilit dosyasında ve güncel 187 paketlik
+  GitHub SBOM'da bu paket yok. Kayıt bu kanıtlar yorumuna eklenerek `not_used`
+  gerekçesiyle sınıflandırıldı; açık uyarı listesi boş döndü. Güvenlik taraması,
+  zamanlanmış denetimler ve kontrol eşikleri değiştirilmedi.
 
 ## Tamamlanan katmanlar ve açık kapsam
 
