@@ -27,6 +27,7 @@ Yerel yapılandırmadaki `read_token` ile geçmişi ve raporları okuyabilirsini
 - **Ajan izi:** O çalışmadaki tamamlanan/başarısız adım kayıtları, araç sayıları, süre, hata kodu ve uzman çıktısı.
 - **Geçmiş:** Çalışma seçimi, ayrı sayfalanan çalışma/denetim kayıtları, gerekçeler ve revizyonlar.
 - **Ajan kataloğu:** 36 rol; 12 uygulanmış, 24 planlı. Global Supervisor ayrı gösterilir. Katalogdan uygulanmamış rol etkinleştirme yoktur.
+- **Akış laboratuvarı:** Fiziksel senaryo ve aktarım profili ayrı seçilir. Kaydedilen sonuç kaynak/kabul/ret/düşen sayıları, sanal bağlantı ve tazelik, grafik, filtreli aktarım izi ve JSON indirme içerir. Olay raporu ve deney sonucu arasında iki yönlü bağlantı vardır. Kaydın adresi `#/stream/RUN_ID` biçimindedir; sayfa yenilenince yeniden oturum açılması gerekir.
 
 İnceleme durumu analiz sonucundan bağımsızdır. Açık → inceleniyor, inceleniyor → açık/kapalı, kapalı → açık geçişleri vardır. Durum değişimi gerekçe ve beklenen revizyon ister. Çakışmada güncel revizyon alınır, yazılan gerekçe korunur ve işlem otomatik yeniden gönderilmez.
 

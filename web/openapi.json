@@ -576,6 +576,87 @@
         "title": "CritiqueResult",
         "type": "object"
       },
+      "DeliveryEvent": {
+        "additionalProperties": false,
+        "properties": {
+          "at": {
+            "format": "date-time",
+            "title": "At",
+            "type": "string"
+          },
+          "measurement_at": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Measurement At"
+          },
+          "outcome": {
+            "enum": [
+              "accepted",
+              "rejected",
+              "dropped",
+              "disconnect",
+              "reconnect",
+              "flush"
+            ],
+            "title": "Outcome",
+            "type": "string"
+          },
+          "reason": {
+            "anyOf": [
+              {
+                "enum": [
+                  "disconnected",
+                  "arrival_clock",
+                  "future",
+                  "late",
+                  "duplicate_id",
+                  "duplicate_timestamp",
+                  "buffer_full"
+                ],
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Reason"
+          },
+          "sample_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Sample Id"
+          },
+          "sequence": {
+            "minimum": 1.0,
+            "title": "Sequence",
+            "type": "integer"
+          },
+          "state": {
+            "$ref": "#/components/schemas/StreamState"
+          }
+        },
+        "required": [
+          "sequence",
+          "at",
+          "outcome",
+          "state"
+        ],
+        "title": "DeliveryEvent",
+        "type": "object"
+      },
       "DiagnosisResult": {
         "additionalProperties": false,
         "properties": {
@@ -875,7 +956,7 @@
             "type": "string"
           },
           "application_version": {
-            "default": "0.13.0",
+            "default": "0.14.0",
             "title": "Application Version",
             "type": "string"
           },
@@ -1697,7 +1778,7 @@
             "type": "string"
           },
           "application_version": {
-            "default": "0.13.0",
+            "default": "0.14.0",
             "title": "Application Version",
             "type": "string"
           },
@@ -1799,6 +1880,16 @@
             "default": "1.0",
             "title": "Schema Version",
             "type": "string"
+          },
+          "stream_experiment": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/StreamExperiment"
+              },
+              {
+                "type": "null"
+              }
+            ]
           }
         },
         "required": [
@@ -2634,6 +2725,296 @@
         "title": "StatusBody",
         "type": "object"
       },
+      "StreamBody": {
+        "additionalProperties": false,
+        "properties": {
+          "conditions": {
+            "$ref": "#/components/schemas/OperatingConditions",
+            "default": {
+              "ambient_c": 30.0,
+              "baseline_load_kw": 4.2,
+              "fan_response_s": 6.0,
+              "workload": "cyclic"
+            }
+          },
+          "count": {
+            "default": 120,
+            "maximum": 600,
+            "minimum": 30,
+            "title": "Count",
+            "type": "integer"
+          },
+          "delivery": {
+            "default": "ordered",
+            "enum": [
+              "ordered",
+              "jitter",
+              "outage"
+            ],
+            "title": "Delivery",
+            "type": "string"
+          },
+          "profile": {
+            "default": "mvp12",
+            "enum": [
+              "core6",
+              "mvp12"
+            ],
+            "title": "Profile",
+            "type": "string"
+          },
+          "scenario": {
+            "$ref": "#/components/schemas/Scenario",
+            "default": "normal"
+          },
+          "seed": {
+            "default": 42,
+            "maximum": 9007199254740991,
+            "minimum": -9007199254740991,
+            "title": "Seed",
+            "type": "integer"
+          },
+          "start": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Start"
+          }
+        },
+        "title": "StreamBody",
+        "type": "object"
+      },
+      "StreamConfig": {
+        "additionalProperties": false,
+        "properties": {
+          "asset_id": {
+            "maxLength": 100,
+            "minLength": 1,
+            "title": "Asset Id",
+            "type": "string"
+          },
+          "future_tolerance_s": {
+            "default": 5,
+            "maximum": 60.0,
+            "minimum": 0.0,
+            "title": "Future Tolerance S",
+            "type": "number"
+          },
+          "max_lateness_s": {
+            "default": 2,
+            "maximum": 300.0,
+            "minimum": 0.0,
+            "title": "Max Lateness S",
+            "type": "number"
+          },
+          "max_pending": {
+            "default": 600,
+            "maximum": 600.0,
+            "minimum": 3.0,
+            "title": "Max Pending",
+            "type": "integer"
+          },
+          "stale_after_s": {
+            "default": 60,
+            "exclusiveMinimum": 0.0,
+            "maximum": 3600.0,
+            "title": "Stale After S",
+            "type": "number"
+          }
+        },
+        "required": [
+          "asset_id"
+        ],
+        "title": "StreamConfig",
+        "type": "object"
+      },
+      "StreamExperiment": {
+        "additionalProperties": false,
+        "properties": {
+          "accepted": {
+            "maximum": 600.0,
+            "minimum": 3.0,
+            "title": "Accepted",
+            "type": "integer"
+          },
+          "as_of": {
+            "format": "date-time",
+            "title": "As Of",
+            "type": "string"
+          },
+          "config": {
+            "$ref": "#/components/schemas/StreamConfig"
+          },
+          "dropped": {
+            "maximum": 600.0,
+            "minimum": 0.0,
+            "title": "Dropped",
+            "type": "integer"
+          },
+          "events": {
+            "items": {
+              "$ref": "#/components/schemas/DeliveryEvent"
+            },
+            "maxItems": 650,
+            "minItems": 1,
+            "title": "Events",
+            "type": "array"
+          },
+          "final_state": {
+            "$ref": "#/components/schemas/StreamState"
+          },
+          "generated": {
+            "maximum": 600.0,
+            "minimum": 3.0,
+            "title": "Generated",
+            "type": "integer"
+          },
+          "recipe": {
+            "$ref": "#/components/schemas/StreamRecipe"
+          },
+          "rejected": {
+            "minimum": 0.0,
+            "title": "Rejected",
+            "type": "integer"
+          },
+          "trace_sha256": {
+            "pattern": "^[a-f0-9]{64}$",
+            "title": "Trace Sha256",
+            "type": "string"
+          },
+          "window": {
+            "$ref": "#/components/schemas/TelemetryWindow"
+          }
+        },
+        "required": [
+          "recipe",
+          "config",
+          "as_of",
+          "generated",
+          "accepted",
+          "rejected",
+          "dropped",
+          "events",
+          "final_state",
+          "window",
+          "trace_sha256"
+        ],
+        "title": "StreamExperiment",
+        "type": "object"
+      },
+      "StreamRecipe": {
+        "additionalProperties": false,
+        "properties": {
+          "delivery": {
+            "default": "ordered",
+            "enum": [
+              "ordered",
+              "jitter",
+              "outage"
+            ],
+            "title": "Delivery",
+            "type": "string"
+          },
+          "generation": {
+            "$ref": "#/components/schemas/GenerationMetadata"
+          },
+          "replay_version": {
+            "const": "transport-1.0",
+            "default": "transport-1.0",
+            "title": "Replay Version",
+            "type": "string"
+          }
+        },
+        "required": [
+          "generation"
+        ],
+        "title": "StreamRecipe",
+        "type": "object"
+      },
+      "StreamState": {
+        "additionalProperties": false,
+        "properties": {
+          "committed": {
+            "title": "Committed",
+            "type": "integer"
+          },
+          "connection": {
+            "enum": [
+              "connected",
+              "disconnected"
+            ],
+            "title": "Connection",
+            "type": "string"
+          },
+          "freshness": {
+            "enum": [
+              "fresh",
+              "stale",
+              "empty"
+            ],
+            "title": "Freshness",
+            "type": "string"
+          },
+          "last_arrival_at": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Last Arrival At"
+          },
+          "last_measurement_at": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Last Measurement At"
+          },
+          "pending": {
+            "title": "Pending",
+            "type": "integer"
+          },
+          "watermark_at": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Watermark At"
+          }
+        },
+        "required": [
+          "connection",
+          "freshness",
+          "pending",
+          "committed",
+          "last_measurement_at",
+          "last_arrival_at",
+          "watermark_at"
+        ],
+        "title": "StreamState",
+        "type": "object"
+      },
       "TechnicalDocument": {
         "additionalProperties": false,
         "properties": {
@@ -2861,7 +3242,7 @@
   },
   "info": {
     "title": "CanovaTwin X",
-    "version": "0.13.0"
+    "version": "0.14.0"
   },
   "openapi": "3.1.0",
   "paths": {
@@ -3286,6 +3667,149 @@
           }
         ],
         "summary": "Analyze Scenario"
+      }
+    },
+    "/api/v1/analyses/stream": {
+      "post": {
+        "operationId": "analyze_stream_api_v1_analyses_stream_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/StreamBody"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RecordedAnalysis"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Bad Request"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "405": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Method Not Allowed"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "413": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Content Too Large"
+          },
+          "415": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Unsupported Media Type"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Unprocessable Content"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Internal Server Error"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Service Unavailable"
+          }
+        },
+        "security": [
+          {
+            "LocalBearer": []
+          }
+        ],
+        "summary": "Analyze Stream"
       }
     },
     "/api/v1/health": {

@@ -7,7 +7,7 @@ reduced thermal model, deterministic specialist roles, evidence verification,
 and a local investigation workspace. The current release runs entirely on
 synthetic data, without cloud services or LLM calls.
 
-Developed within **CanovaTwin Labs**. Current application: **0.13.0** ·
+Developed within **CanovaTwin Labs**. Current application: **0.14.0** ·
 Analysis engine: **0.4.0** · Status: **research prototype**.
 
 [Current status](docs/PROJECT_STATUS.md) · [Roadmap](docs/ROADMAP.md) ·
@@ -200,6 +200,12 @@ in a separate SQLite database. Reopening verifies the event chain and rebuilds
 the pending buffer, committed window, watermark and connection state. Writes
 are transactional and concurrent handles cannot silently overwrite one another.
 See the [journal contract](docs/JOURNAL.md).
+
+The panel's **Akış laboratuvarı** runs the dynamic plant with ordered delivery,
+jitter/duplicate packets or an outage. It saves the transport recipe, acceptance
+trace and exact analyzed window together, with a saved-result link and JSON
+download. Connection/freshness refer to the experiment's virtual clock.
+See [the replay experiment contract](docs/STREAM.md#kayıtlı-aktarım-deneyi).
 
 ## Repository layout
 

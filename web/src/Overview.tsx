@@ -10,7 +10,7 @@ export function PlantSnapshot({ record }: { record: RecordAnalysis }) {
   const samples = record.request.window.samples;
   const last = samples.at(-1)!;
   const age = Math.max(0, (Date.parse(record.request.as_of) - Date.parse(last.timestamp)) / 1000);
-  const generation = record.generation;
+  const generation = record.generation ?? record.stream_experiment?.recipe.generation;
   return (
     <>
       <div className="snapshot-heading">

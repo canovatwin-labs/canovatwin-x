@@ -1,6 +1,10 @@
 # CanovaTwin X — Güncel yetenek ve tamamlanma durumu
 
-**31 Ekim 2026 · Uygulama 0.13.0 / Motor 0.4.0 · Sprint 12 geliştirme dalında**
+**31 Ekim 2026 · Uygulama 0.14.0 / Motor 0.4.0 · Sprint 14 yerel geliştirme dalında**
+
+Bu dalın akış çalışma alanı yerel kabul testlerini tamamladı; ana dala alınması
+GitHub kontrolleri ve geliştirici incelemesiyle yönetilir. Sonuç ve kapsam:
+[SPRINT_14_REPORT.md](SPRINT_14_REPORT.md).
 
 Çalışan çıktı: sentetik veriyle yerel web paneli, API ve CLI ile kullanılabilen, kanıta dayalı rapor ve kalıcı inceleme geçmişi üreten 12 uzmanlı karar destek çekirdeği. Katalog 36 rol içerir. Bu belge tamamlanmış özelliği, kısmi katmanı ve planlı rolü birbirinden ayırır; tamamlanma yüzdesi iddiası taşımaz.
 
@@ -34,6 +38,10 @@
 
 19. CC BY 4.0 lisanslı AAU sunucu odası Zenodo v5 kaydının iki küçük yardımcı CSV dosyasını çevrimdışı ve yayıncı checksum'larıyla doğrulayarak 1.521 gerçek eşzamanlı sıcaklık çiftini içe alır. Açık saat dilimi varsayımı ve zaman ayrımlı train/validation/test raporu üretir. İki kanal dışında ölçüm ve arıza etiketi olmadığından keşif incelemesi çekimser kalır; saha teşhis puanı oluşturulmaz.
 
+20. Figshare v3 hastane AHU dosyasını yayıncı checksum'ıyla eşleyip makalenin satır, yıl ve etiket sayılarıyla karşılaştırır. Yıl farkı, yinelenen cihaz/saat anahtarları ve boş hücreleri raporlar. Bu kaynak denetimi tanı puanı üretmez.
+
+21. Akış laboratuvarında aynı dinamik fiziksel senaryoyu düzenli aktarım, gecikme/tekrar veya bağlantı kesintisi altında çalıştırır. Sadece kabul edilen sıralı pencere analiz edilir; reçete, ret gerekçeleri, geliş/ölçüm saatleri ve tazelik izi SQLite kaydında korunur. Panel sonucu, grafiği, filtreli olay izini ve JSON indirmeyi sunar. Bu hızlandırılmış sanal saatli tekrar, canlı cihaz bağlantısı değildir.
+
 ## Yedi katmanın durumu
 
 ### L1 — Fiziksel veya sanal cihaz: sanal pilot tamamlandı
@@ -62,7 +70,11 @@ Global Supervisor, ortak fabrika, izinli araçlar, görev/araç/süre bütçeler
 
 ### L7 — Kullanıcı erişimi: CLI, API ve operasyon/deney paneli çalışıyor
 
-Analiz, katalog, geçmiş, ayrıntı, durum değişikliği, denetim ve replay komutları var. FastAPI ile 13 HTTP yolu, okuma/yazma anahtarları ve yerel OpenAPI çalışır. Aynı servisten açılan React paneli, 11 senaryo, iki profil, olay filtresi/sayfalama, rapor, telemetri grafiği/tablosu, kanıtlar, ajan izi, durum yönetimi ve yeniden analizi sunar. Operasyon görünümünde gerçek kayıtla doldurulan tesis şeması, sayfaya ait sayaçlar ve sıcaklık/güç eğrileri vardır. Deney formu çalışma koşullarını düzenler; telemetri ekranı ayrıca fan grafiğini sunar. Çevrimdışı deney CLI'si üç yöntemi karşılaştırıp raporlar; veri seti CLI'si dış CSV dosyalarını doğrular ve isteğe bağlı sınırlı keşif incelemesi yapar. Henüz panelde bir karşılaştırma veya dış veri ekranı yok. Eski ölçümler canlı olarak sunulmaz. Ayrı kapsamlı Agent Workbench, çoklu deney karşılaştırmalı Digital Twin Lab ve kişisel kullanıcı yönetimi henüz yoktur.
+Analiz, katalog, geçmiş, ayrıntı, durum değişikliği, denetim ve replay komutları var. FastAPI ile 14 HTTP yolu, okuma/yazma anahtarları ve yerel OpenAPI çalışır. Aynı servisten açılan React paneli, 11 senaryo, iki profil, olay filtresi/sayfalama, rapor, telemetri grafiği/tablosu, kanıtlar, ajan izi, durum yönetimi ve yeniden analizi sunar. Operasyon görünümünde gerçek kayıtla doldurulan tesis şeması, sayfaya ait sayaçlar ve sıcaklık/güç eğrileri vardır. Deney formu çalışma koşullarını düzenler; telemetri ekranı ayrıca fan grafiğini sunar. Çevrimdışı deney CLI'si üç yöntemi karşılaştırıp raporlar; veri seti CLI'si dış CSV dosyalarını doğrular ve isteğe bağlı sınırlı keşif incelemesi yapar. Henüz panelde bir karşılaştırma veya dış veri ekranı yok. Eski ölçümler canlı olarak sunulmaz. Ayrı kapsamlı Agent Workbench, çoklu deney karşılaştırmalı Digital Twin Lab ve kişisel kullanıcı yönetimi henüz yoktur.
+
+Akış laboratuvarı, L3'ün çevrimdışı aktarım deneyini L4'te kayıtlı reçete ve
+L7'de operatör akışına bağlar. Toplam 14 HTTP yolu vardır. Gerçek gateway,
+çoklu varlık kataloğu ve arka planda sürekli oturum hâlâ uygulanmadı.
 
 ## 36 ajan rolünün tek tek durumu
 
@@ -149,11 +161,15 @@ Python testlerinin bulunması bu PLC uzmanlarının tamamlandığı anlamına ge
 
 - Sprint 12: lisansı ve sürümü kayıtlı bağımsız AAU sunucu odası sıcaklıklarını kaynak hash'leriyle içe alma, aynı anda ölçülmüş iki kanal ve zaman ayrımlı deney kümeleri; sınırlı keşif analizi ve açık yetersiz veri sonucu. Arıza etiketi ve saha teşhis puanı yok.
 
+- Sprint 13: yayıncı sürümüne sabit hastane AHU kaynak denetimi; tarihin makaleyle uyuşmaması, çift kayıtlar ve boş ölçümler görünür. Bağımsız teşhis doğrulaması açık.
+
+- Sprint 14: üç aktarım profili, katı olay izi ve pencere eşleşmesi, kalıcı deney metadatası, yeni API yolu, akış çalışma alanı ve JSON dışa aktarma. Ajan sayısı değişmedi.
+
 ## Doğrulama ve sınırlar
 
-549 Python testi ve 39 arayüz testi geçti; kod/biçim, TypeScript ve üretim derlemesi temiz. Python toplam satır+dal kapsamı %95,58; bu oran arayüz kapsam oranı veya bilimsel teşhis başarısı değildir. Dış veri doğrulama/inceleme için 17, AAU adaptörü için 9, akış toplayıcısı için 7, kalıcı günlük için 9 odaklı test normal ve hata sınırlarını kapsar. 11 senaryo × 3 iş yükü profili için kayıt, replay ve beklenen rapor/aday davranışları önceki testlerle korunuyor.
+606 Python testi ve 45 arayüz testi geçti; kod/biçim, TypeScript ve Vite 8 üretim derlemesi temiz. Python toplam satır+dal kapsamı %94,91; bu oran bilimsel teşhis başarısı değildir. 11 fiziksel senaryo × 3 aktarım profili, sınır örnek sayıları, bozuk iz, yetki, kayıt sonrası uygulamayı yeniden açma ve yeniden analiz sınandı. Tam npm audit sıfır bulgu verdi. Önceki 11 senaryo × 3 iş yükü profili testleri korunuyor.
 
-Temiz ortamda kurulu dağıtım paketi ve gerçek HTTP üzerinden 22 referans + 33 dinamik birleşim, kimlik/yetki, kalıcı kayıt, durum, replay, sürüm/şema, panel varlıkları ve dört eşzamanlı yazma doğrulandı. Aynı kurulu pakette 66 yöntem/vaka değerlendirmesi tamamlandı; Sprint 7'nin süreler dışındaki sonuç hash'i değişmedi. Dış veri CLI'si üç parçalı yerel test dosyasında içe alma ve keşif incelemesi yaptı. Önceki sprintin kayıtları yeni deney metadatası olmadan okunup yeniden analiz edilebilir. WebKit'te Sprint 6 kapsamında dinamik ayarlarla deney, iletişim eskimesi uyarısı, üç grafik, replay, oturum temizliği ve dar/yatay/geniş ekran akışları kontrol edildi. Sprint 9 yeni panel akışı eklemedi.
+Temiz ortamda kurulu 0.14.0 paketi ve gerçek HTTP üzerinden 22 referans + 33 dinamik birleşim ve üç aktarım profili, kimlik/yetki, kalıcı kayıt, durum, replay, sürüm/şema, panel varlıkları ve dört eşzamanlı yazma doğrulandı. Aynı kurulu pakette 66 yöntem/vaka değerlendirmesi tamamlandı; Sprint 7'nin süreler dışındaki sonuç hash'i değişmedi. Dış veri CLI'si üç parçalı yerel test dosyasında içe alma ve keşif incelemesi yaptı. Önceki sprintin kayıtları yeni deney metadatası olmadan okunup yeniden analiz edilebilir. WebKit'te Sprint 6 kapsamında dinamik ayarlarla deney, iletişim eskimesi uyarısı, üç grafik, replay, oturum temizliği ve dar/yatay/geniş ekran akışları kontrol edildi. Sprint 9 yeni panel akışı eklemedi.
 
 Henüz yapılmayanlar: çok kanallı ve arıza etiketli bağımsız HVAC veri kümesiyle teşhis doğrulaması, LLM/klasik ML baseline karşılaştırması, bağımsız veri üzerinde Macro-F1/Top-3 doğruluk, bilimsel güven aralıkları, gerçek şirket verisi ve donanım validasyonu. AAU veri kümesinin saat dilimi varsayımı yayıncı tarafından doğrulanmış değildir. Tüm ajanlar bu sürümde deterministik araç kullanır; eğitilmiş model veya 36 LLM çağrısı yoktur.
 

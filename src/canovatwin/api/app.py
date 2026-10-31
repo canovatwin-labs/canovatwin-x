@@ -36,6 +36,7 @@ from ..persistence.sqlite import SQLiteRepository
 from ..policy import Policy, default_policy
 from ..registry import ACTIVE_IDS, REGISTRY, AgentDefinition
 from ..snapshots import capture_history
+from ..stream_experiment import StreamRecipe, run_stream_experiment
 from ..telemetry import Scenario, generate_case
 from ..version import ENGINE_VERSION
 from .boundary import APIProblem, RequestBoundaryMiddleware, decode_body, error_response, safe_issues
@@ -51,6 +52,7 @@ from .models import (
     ResourceId,
     ScenarioBody,
     StatusBody,
+    StreamBody,
 )
 from .panel import register_panel
 from .settings import APISettings
@@ -139,6 +141,9 @@ def create_app(settings: APISettings) -> FastAPI:
 
     async def status_body(request: Request, user: Annotated[Principal, Depends(writer)]) -> StatusBody:
         return await decode_body(request, StatusBody)
+
+    async def stream_body(request: Request, user: Annotated[Principal, Depends(writer)]) -> StreamBody:
+        return await decode_body(request, StreamBody)
 
     async def replay_body(request: Request, user: Annotated[Principal, Depends(writer)]) -> ReplayBody:
         return await decode_body(request, ReplayBody, optional=True)
@@ -305,6 +310,36 @@ def create_app(settings: APISettings) -> FastAPI:
             return HistoryService(repo).analyze(request, actor=user.actor, generation=generation)
 
     @app.post(
+        "/api/v1/analyses/stream",
+        response_model=RecordedAnalysis,
+        status_code=201,
+        openapi_extra=_body_schema("StreamBody"),
+    )
+    def analyze_stream(
+        body: Annotated[StreamBody, Depends(stream_body)], user: Annotated[Principal, Depends(writer)]
+    ):
+        recipe = StreamRecipe(
+            generation=GenerationMetadata(
+                scenario=body.scenario,
+                count=body.count,
+                seed=body.seed,
+                start=body.start or datetime.now(UTC),
+                conditions=body.conditions,
+            ),
+            delivery=body.delivery,
+        )
+        try:
+            experiment = run_stream_experiment(recipe)
+        except ValueError:
+            raise APIProblem(
+                422, "INVALID_REQUEST", "Transport replay has insufficient valid samples"
+            ) from None
+        research = ResearchInputs(documents=demo_documents()) if body.profile == "mvp12" else None
+        request = AnalysisRequest(window=experiment.window, as_of=experiment.as_of, research=research)
+        with SQLiteRepository(settings.database) as repo:
+            return HistoryService(repo).analyze(request, actor=user.actor, stream_experiment=experiment)
+
+    @app.post(
         "/api/v1/incidents/{incident_id}/status",
         response_model=IncidentSummary,
         openapi_extra=_body_schema("StatusBody"),
@@ -345,7 +380,7 @@ def create_app(settings: APISettings) -> FastAPI:
     def openapi():
         schema = original_openapi()
         definitions = schema.setdefault("components", {}).setdefault("schemas", {})
-        for model in (AnalyzeBody, ScenarioBody, StatusBody, ReplayBody):
+        for model in (AnalyzeBody, ScenarioBody, StatusBody, ReplayBody, StreamBody):
             generated = model.model_json_schema(ref_template="#/components/schemas/{model}")
             definitions.update(generated.pop("$defs", {}))
             definitions[model.__name__] = generated

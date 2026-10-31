@@ -113,6 +113,8 @@ export class ApiClient {
   run = (id: string) => this.request<RecordAnalysis>(`/runs/${encodeURIComponent(id)}`);
   analyze = (body: Pick<Schema['ScenarioBody'], 'scenario' | 'profile' | 'count' | 'seed'>) =>
     this.request<RecordAnalysis>('/analyses/scenario', body);
+  streamExperiment = (body: Schema['StreamBody']) =>
+    this.request<RecordAnalysis>('/analyses/stream', body);
   transition = (id: string, body: Schema['StatusBody']) =>
     this.request<Incident>(`/incidents/${encodeURIComponent(id)}/status`, body);
   replay = (id: string) =>

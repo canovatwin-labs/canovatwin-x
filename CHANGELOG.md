@@ -33,6 +33,14 @@ of stored analyses. The engine version only changes when diagnostic behaviour ch
   Python 3.12 now generates the same panel contract as Python 3.13 and 3.14.
 - Added the missing repository handoff report linked from the README.
 
+## [0.14.0] - 2026-10-31 (engine 0.4.0)
+
+### Added
+- Deterministic transport replay over the dynamic plant: ordered, jitter/duplicate and outage profiles.
+- Strict saved transport recipe, event trace, fingerprint and accepted-window consistency checks; metadata survives analysis replay and application restart.
+- Authenticated stream analysis API and operator workspace with virtual connection/freshness, telemetry graph, paginated delivery trace and JSON export.
+- Backward-compatible optional transport metadata for existing history records.
+
 ## [0.13.0] - 2026-10-31 (engine 0.4.0)
 
 Sprint 12: publisher-pinned AAU server-room measurement case study.

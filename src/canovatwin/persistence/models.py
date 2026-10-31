@@ -10,6 +10,7 @@ from ..contracts import AnalysisRequest, AnalysisRun, Contract, Identifier, Veri
 from ..identity import incident_identifier
 from ..operating import GenerationMetadata
 from ..policy import Policy
+from ..stream_experiment import StreamExperiment
 
 Actor = Annotated[str, StringConstraints(strip_whitespace=True, min_length=1, max_length=100)]
 Reason = Annotated[str, StringConstraints(strip_whitespace=True, min_length=1, max_length=2000)]
@@ -32,6 +33,7 @@ class RecordedAnalysis(Contract):
     result: AnalysisRun
     replay_of: Identifier | None = None
     generation: GenerationMetadata | None = None
+    stream_experiment: StreamExperiment | None = None
 
     @field_validator("recorded_at")
     @classmethod
@@ -40,6 +42,14 @@ class RecordedAnalysis(Contract):
 
     @model_validator(mode="after")
     def coherent_identity(self):
+        if self.stream_experiment is not None:
+            if self.generation is not None:
+                raise ValueError("Stream generation belongs inside its transport recipe")
+            if (
+                self.stream_experiment.window != self.request.window
+                or self.stream_experiment.as_of != self.request.as_of
+            ):
+                raise ValueError("Stream experiment does not match the analyzed window and clock")
         expected = incident_identifier(self.request, self.policy)
         if self.result.incident_id != expected:
             raise ValueError("Result does not belong to the recorded request and policy")
