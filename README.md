@@ -176,6 +176,17 @@ publisher-pinned public CSVs with explicit timezone assumptions. It runs the
 full intake and exploratory review path on real measurements without bundling
 the third-party data or claiming a fault-diagnosis score.
 
+
+The separate, read-only Figshare hospital AHU audit checks the publisher's
+exact v3 file against its checksum and the paper's reported counts. It does
+not run diagnostics or report model accuracy:
+
+```sh
+.venv/bin/canovatwin-hospital-audit /path/to/hosptial_scientific_data.csv --output .local/hospital-audit.json
+```
+
+See the [source audit and observed discrepancies](docs/FIGSHARE_HOSPITAL_AUDIT.md).
+
 ## Offline telemetry stream
 
 `StreamCollector` provides a bounded, in-memory event-time ordering contract

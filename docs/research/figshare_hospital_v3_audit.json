@@ -1,0 +1,109 @@
+{
+  "schema_version": "1.0",
+  "source_url": "https://doi.org/10.6084/m9.figshare.27147678.v3",
+  "article_url": "https://doi.org/10.1038/s41597-025-05825-9",
+  "license_identifier": "CC-BY-4.0",
+  "file_name": "hosptial_scientific_data.csv",
+  "publisher_md5": "3be98fc565727053878c205de03ffb4f",
+  "sha256": "66feab7fe66d77ca1c632315a61a7a93412ff00dc2fb0cd9b2485394cecca9f7",
+  "rows": 66048,
+  "first_local": "2023-01-01T00:00:00",
+  "last_local": "2023-12-21T23:00:00",
+  "years": {
+    "2023": 66048
+  },
+  "labels": {
+    "Cooling supply temperature fault": 1,
+    "Normal condition": 53757,
+    "Return air temperature fault": 8835,
+    "Supply air temperature fault": 9,
+    "Supply fan fault": 1921,
+    "Valve position fault": 1525
+  },
+  "missing_by_column": {
+    "Return temperature": 24,
+    "Heat Exchanger": 28416,
+    "Heating supply temperature": 28416,
+    "Cooling supply temperature": 37632,
+    "cooling pump": 37632
+  },
+  "assets": {
+    "AHU-N01": {
+      "rows": 8256,
+      "unique_hours": 8233,
+      "duplicate_asset_hours": 23,
+      "missing_hourly_slots": 287,
+      "first_local": "2023-01-01T00:00:00",
+      "last_local": "2023-12-21T23:00:00"
+    },
+    "AHU-N02": {
+      "rows": 8256,
+      "unique_hours": 8233,
+      "duplicate_asset_hours": 23,
+      "missing_hourly_slots": 287,
+      "first_local": "2023-01-01T00:00:00",
+      "last_local": "2023-12-21T23:00:00"
+    },
+    "AHU-N03": {
+      "rows": 8256,
+      "unique_hours": 8233,
+      "duplicate_asset_hours": 23,
+      "missing_hourly_slots": 287,
+      "first_local": "2023-01-01T00:00:00",
+      "last_local": "2023-12-21T23:00:00"
+    },
+    "AHU-N04": {
+      "rows": 8256,
+      "unique_hours": 8233,
+      "duplicate_asset_hours": 23,
+      "missing_hourly_slots": 287,
+      "first_local": "2023-01-01T00:00:00",
+      "last_local": "2023-12-21T23:00:00"
+    },
+    "AHU-N05": {
+      "rows": 8256,
+      "unique_hours": 8233,
+      "duplicate_asset_hours": 23,
+      "missing_hourly_slots": 287,
+      "first_local": "2023-01-01T00:00:00",
+      "last_local": "2023-12-21T23:00:00"
+    },
+    "AHU-N06": {
+      "rows": 8256,
+      "unique_hours": 8233,
+      "duplicate_asset_hours": 23,
+      "missing_hourly_slots": 287,
+      "first_local": "2023-01-01T00:00:00",
+      "last_local": "2023-12-21T23:00:00"
+    },
+    "AHU-N07": {
+      "rows": 8256,
+      "unique_hours": 8233,
+      "duplicate_asset_hours": 23,
+      "missing_hourly_slots": 287,
+      "first_local": "2023-01-01T00:00:00",
+      "last_local": "2023-12-21T23:00:00"
+    },
+    "AHU-N08": {
+      "rows": 8256,
+      "unique_hours": 8233,
+      "duplicate_asset_hours": 23,
+      "missing_hourly_slots": 287,
+      "first_local": "2023-01-01T00:00:00",
+      "last_local": "2023-12-21T23:00:00"
+    }
+  },
+  "published_rows": 66048,
+  "published_year": 2022,
+  "row_count_matches_paper": true,
+  "year_matches_paper": false,
+  "label_counts_match_paper": true,
+  "duplicate_asset_hours": 184,
+  "evaluation_status": "source_audit_only",
+  "findings": [
+    "collection_year_differs_from_paper",
+    "duplicate_asset_hour_keys",
+    "missing_hourly_slots",
+    "blank_sensor_cells"
+  ]
+}
