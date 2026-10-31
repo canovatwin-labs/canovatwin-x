@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "canovatwin-x"
-version = "0.10.0"
+version = "0.13.0"
 readme = "README.md"
 license = "MIT"
 license-files = ["LICENSE"]
@@ -20,6 +20,8 @@ canovatwin = "canovatwin.cli:main"
 canovatwin-api = "canovatwin.api.server:main"
 canovatwin-evaluate = "canovatwin.evaluation.cli:main"
 canovatwin-dataset = "canovatwin.dataset_intake.cli:main"
+canovatwin-aau = "canovatwin.dataset_intake.aau_cli:main"
+
 canovatwin-hospital-audit = "canovatwin.dataset_intake.figshare_hospital_cli:main"
 
 [tool.setuptools.package-data]
