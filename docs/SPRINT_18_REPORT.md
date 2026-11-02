@@ -31,9 +31,9 @@ metrikleri veya canlı ajan sayıları CanovaTwin'e taşınmadı.
 
 ## Kontroller
 
-629 Python / 64 panel testi geçti; satır+dal kapsamı %94,95. Ruff, Prettier,
-TypeScript ve Vite üretim derlemesi temiz. Beş yeni test operasyon merkezi
-boş/kayıtlı/hata durumlarını, grafik seri görünürlüğünü ve eksik okuma seçimini sınar.
+629 Python / 65 panel testi geçti; satır+dal kapsamı %94,95. Ruff, Prettier,
+TypeScript ve Vite üretim derlemesi temiz. Altı yeni test operasyon merkezi
+boş/kayıtlı/gözlenen kimlik/hata durumlarını, grafik seri görünürlüğünü ve eksik okuma seçimini sınar.
 
 Gerçek tarayıcıda okuyucu girişi, veriyle dolan operasyon kartları, kayıtlı
 sıcaklık/güç grafikleri ve ölçüm seçimi kontrol edildi. 375 pikselde belge genişliği

@@ -7,7 +7,7 @@ Kapsam ve sınırlar: [SPRINT_17_REPORT.md](SPRINT_17_REPORT.md).
 
 Çalışan çıktı: sentetik veriyle yerel web paneli, API ve CLI ile kullanılabilen, kanıta dayalı rapor ve kalıcı inceleme geçmişi üreten 12 uzmanlı karar destek çekirdeği. Katalog 36 rol içerir. Bu belge tamamlanmış özelliği, kısmi katmanı ve planlı rolü birbirinden ayırır; tamamlanma yüzdesi iddiası taşımaz.
 
-Yeni görsel kapsam: koyu operasyon merkezi, ekipman filosu, kayıtlı olay dağılımı, ajan uygulama haritası ve etkileşimli ölçüm grafikleri. Güncel doğrulama: 629 Python / 64 panel testi. [Tasarım kabul raporu](SPRINT_18_REPORT.md).
+Yeni görsel kapsam: koyu operasyon merkezi, ekipman filosu, kayıtlı olay dağılımı, ajan uygulama haritası ve etkileşimli ölçüm grafikleri. Güncel doğrulama: 629 Python / 65 panel testi. [Tasarım kabul raporu](SPRINT_18_REPORT.md).
 
 ## Proje bugün neler yapabiliyor?
 

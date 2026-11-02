@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
 import { Operations } from '../src/Operations';
-import { data, session } from './fixtures';
+import { assetPage, data, session } from './fixtures';
 
 describe('operations center', () => {
   it('shows recorded counts and honest empty states without fabricated telemetry', async () => {
@@ -27,6 +27,18 @@ describe('operations center', () => {
     expect(await screen.findByText('Canlı bağlantı yok')).toBeVisible();
     expect(run).toHaveBeenCalledWith(data.incident.latest_run_id);
     expect(screen.getByText('Son 10 olayın açık ve incelenen kayıtları')).toBeVisible();
+  });
+  it('does not invent a model for an observed-only asset', async () => {
+    const api = session().api;
+    vi.mocked(api.assets).mockResolvedValue({
+      ...assetPage,
+      items: [{ ...assetPage.items[0]!, definition: null }],
+    });
+    vi.spyOn(api, 'agents').mockResolvedValue(data.agents);
+    vi.spyOn(api, 'incidents').mockResolvedValue({ items: [], limit: 10, offset: 0 });
+    render(<Operations api={api} />);
+    expect(await screen.findByText('GÖZLENEN KİMLİK')).toBeVisible();
+    expect(screen.queryByText('SANAL ÜNİTE')).not.toBeInTheDocument();
   });
   it('surfaces failed overview requests with a retry action', async () => {
     const api = session().api;

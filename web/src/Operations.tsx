@@ -80,8 +80,8 @@ export function Operations({ api }: { api: ApiClient }) {
                   <a href="#/assets">Tüm ekipmanlar ↗</a>
                 </div>
                 <p className="muted">
-                  Her hedef bağımsız tek bölgeli modeldir. Aşağıdaki kartlar fiziksel tesis
-                  topolojisi değildir.
+                  Yapılandırılmış hedefler bağımsız sanal modellerdir. Gözlenen kimliklerde model
+                  tanımı olmayabilir; kartlar fiziksel tesis topolojisi değildir.
                 </p>
                 {data.assets.items.length ? (
                   <div className="fleet-map">
@@ -96,7 +96,9 @@ export function Operations({ api }: { api: ApiClient }) {
                             className={`status-light ${asset.latest_run_id ? 'recorded' : ''}`}
                           />
                           <span>{asset.latest_run_id ? 'KAYIT VAR' : 'ÖLÇÜM BEKLENİYOR'}</span>
-                          <span className="unit-model">SANAL ÜNİTE</span>
+                          <span className="unit-model">
+                            {asset.definition ? 'SANAL ÜNİTE' : 'GÖZLENEN KİMLİK'}
+                          </span>
                         </div>
                         <div className="rack-visual" aria-hidden="true">
                           {[0, 1, 2, 3].map((i) => (
