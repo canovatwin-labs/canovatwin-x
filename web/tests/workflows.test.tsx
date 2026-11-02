@@ -195,6 +195,28 @@ describe('operator workflows', () => {
     expect(screen.getByRole('status')).toHaveTextContent('farklar var');
     expect(replay).toHaveBeenCalledOnce();
   });
+  it('links a selected recorded run to a different history run for comparison', async () => {
+    const current = detailMocks(session('reader'));
+    vi.mocked(current.api.runs).mockResolvedValue({
+      ...data.runs,
+      items: [
+        { ...data.runs.items[0]!, run_id: data.record.run_id },
+        { ...data.runs.items[0]!, run_id: 'RUN-older' },
+      ],
+    });
+    render(<IncidentDetail session={current} id={data.incident.incident_id} />);
+    expect(await screen.findByRole('link', { name: 'Temel olarak karşılaştır' })).toHaveAttribute(
+      'href',
+      `#/compare?baseline=${data.record.run_id}`,
+    );
+    await userEvent.click(screen.getByRole('tab', { name: 'Geçmiş' }));
+    const link = screen.getByRole('link', { name: 'Seçili kayıtla karşılaştır' });
+    expect(link).toHaveAttribute(
+      'href',
+      `#/compare?baseline=${data.record.run_id}&candidate=RUN-older`,
+    );
+    expect(screen.getAllByRole('link', { name: 'Seçili kayıtla karşılaştır' })).toHaveLength(1);
+  });
   it('supports arrow-key tabs and exposes selected tab semantics', async () => {
     const user = userEvent.setup();
     render(<IncidentDetail session={detailMocks()} id={data.incident.incident_id} />);

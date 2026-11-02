@@ -1,0 +1,300 @@
+{
+  "comparison_version": "comparison-1.0",
+  "asset_id": "synthetic-unit-01",
+  "baseline": {
+    "run_id": "RUN-baseline",
+    "incident_id": "INC-99cb2b798a5f7dda",
+    "recorded_at": "2026-11-01T10:16:15.493149Z",
+    "engine_version": "0.4.0",
+    "source": "synthetic",
+    "kind": "reference_or_custom",
+    "sample_count": 30,
+    "window_start": "2026-11-01T00:00:00Z",
+    "window_end": "2026-11-01T00:00:29Z",
+    "analysis_status": "completed",
+    "report_status": "clear",
+    "transport_accepted": null,
+    "transport_rejected": null,
+    "transport_dropped": null
+  },
+  "candidate": {
+    "run_id": "RUN-candidate",
+    "incident_id": "INC-10f6088fb7712573",
+    "recorded_at": "2026-11-01T10:16:15.495132Z",
+    "engine_version": "0.4.0",
+    "source": "synthetic",
+    "kind": "reference_or_custom",
+    "sample_count": 30,
+    "window_start": "2026-11-01T00:00:00Z",
+    "window_end": "2026-11-01T00:00:29Z",
+    "analysis_status": "completed",
+    "report_status": "insufficient_data",
+    "transport_accepted": null,
+    "transport_rejected": null,
+    "transport_dropped": null
+  },
+  "channels": [
+    {
+      "field": "inlet_c",
+      "name": "Giriş sıcaklığı",
+      "unit": "°C",
+      "baseline": {
+        "valid_count": 30,
+        "missing_count": 0,
+        "minimum": 22.970178192167957,
+        "maximum": 23.025274475223405,
+        "mean": 22.992834671094137,
+        "final": 22.975613911109875
+      },
+      "candidate": {
+        "valid_count": 29,
+        "missing_count": 1,
+        "minimum": 22.970178192167957,
+        "maximum": 23.025274475223405,
+        "mean": 22.99342849040394,
+        "final": null
+      },
+      "mean_delta": 0.0005938193098025124,
+      "final_delta": null
+    },
+    {
+      "field": "reference_inlet_c",
+      "name": "Referans giriş sıcaklığı",
+      "unit": "°C",
+      "baseline": {
+        "valid_count": 30,
+        "missing_count": 0,
+        "minimum": 22.97298632890493,
+        "maximum": 23.030047742414435,
+        "mean": 23.000547671170054,
+        "final": 22.97298632890493
+      },
+      "candidate": {
+        "valid_count": 30,
+        "missing_count": 0,
+        "minimum": 22.97298632890493,
+        "maximum": 23.030047742414435,
+        "mean": 23.000547671170054,
+        "final": 22.97298632890493
+      },
+      "mean_delta": 0.0,
+      "final_delta": 0.0
+    },
+    {
+      "field": "return_c",
+      "name": "Dönüş sıcaklığı",
+      "unit": "°C",
+      "baseline": {
+        "valid_count": 30,
+        "missing_count": 0,
+        "minimum": 25.844250053305057,
+        "maximum": 25.870492643612522,
+        "mean": 25.85776747673084,
+        "final": 25.857422046540794
+      },
+      "candidate": {
+        "valid_count": 30,
+        "missing_count": 0,
+        "minimum": 25.844250053305057,
+        "maximum": 25.870492643612522,
+        "mean": 25.85776747673084,
+        "final": 25.857422046540794
+      },
+      "mean_delta": 0.0,
+      "final_delta": 0.0
+    },
+    {
+      "field": "supply_c",
+      "name": "Besleme sıcaklığı",
+      "unit": "°C",
+      "baseline": {
+        "valid_count": 30,
+        "missing_count": 0,
+        "minimum": 19.66643688905897,
+        "maximum": 19.66712524252718,
+        "mean": 19.666821598179872,
+        "final": 19.666826013046116
+      },
+      "candidate": {
+        "valid_count": 30,
+        "missing_count": 0,
+        "minimum": 19.66643688905897,
+        "maximum": 19.66712524252718,
+        "mean": 19.666821598179872,
+        "final": 19.666826013046116
+      },
+      "mean_delta": 0.0,
+      "final_delta": 0.0
+    },
+    {
+      "field": "ambient_c",
+      "name": "Ortam sıcaklığı",
+      "unit": "°C",
+      "baseline": {
+        "valid_count": 30,
+        "missing_count": 0,
+        "minimum": 30.0,
+        "maximum": 30.0,
+        "mean": 30.0,
+        "final": 30.0
+      },
+      "candidate": {
+        "valid_count": 30,
+        "missing_count": 0,
+        "minimum": 30.0,
+        "maximum": 30.0,
+        "mean": 30.0,
+        "final": 30.0
+      },
+      "mean_delta": 0.0,
+      "final_delta": 0.0
+    },
+    {
+      "field": "humidity_pct",
+      "name": "Bağıl nem",
+      "unit": "%",
+      "baseline": {
+        "valid_count": 30,
+        "missing_count": 0,
+        "minimum": 45.0,
+        "maximum": 45.0,
+        "mean": 45.0,
+        "final": 45.0
+      },
+      "candidate": {
+        "valid_count": 0,
+        "missing_count": 30,
+        "minimum": null,
+        "maximum": null,
+        "mean": null,
+        "final": null
+      },
+      "mean_delta": null,
+      "final_delta": null
+    },
+    {
+      "field": "fan_command_pct",
+      "name": "Fan komutu",
+      "unit": "%",
+      "baseline": {
+        "valid_count": 30,
+        "missing_count": 0,
+        "minimum": 48.996553335884556,
+        "maximum": 49.0068786379077,
+        "mean": 49.002323972698086,
+        "final": 49.00239019569172
+      },
+      "candidate": {
+        "valid_count": 30,
+        "missing_count": 0,
+        "minimum": 48.996553335884556,
+        "maximum": 49.0068786379077,
+        "mean": 49.002323972698086,
+        "final": 49.00239019569172
+      },
+      "mean_delta": 0.0,
+      "final_delta": 0.0
+    },
+    {
+      "field": "fan_feedback_pct",
+      "name": "Fan geri bildirimi",
+      "unit": "%",
+      "baseline": {
+        "valid_count": 30,
+        "missing_count": 0,
+        "minimum": 48.996553335884556,
+        "maximum": 49.0068786379077,
+        "mean": 49.002323972698086,
+        "final": 49.00239019569172
+      },
+      "candidate": {
+        "valid_count": 30,
+        "missing_count": 0,
+        "minimum": 48.996553335884556,
+        "maximum": 49.0068786379077,
+        "mean": 49.002323972698086,
+        "final": 49.00239019569172
+      },
+      "mean_delta": 0.0,
+      "final_delta": 0.0
+    },
+    {
+      "field": "airflow_m3s",
+      "name": "Hava debisi",
+      "unit": "m³/sn",
+      "baseline": {
+        "valid_count": 30,
+        "missing_count": 0,
+        "minimum": 1.224913833397114,
+        "maximum": 1.2251719659476925,
+        "mean": 1.2250580993174522,
+        "final": 1.2250597548922928
+      },
+      "candidate": {
+        "valid_count": 30,
+        "missing_count": 0,
+        "minimum": 1.224913833397114,
+        "maximum": 1.2251719659476925,
+        "mean": 1.2250580993174522,
+        "final": 1.2250597548922928
+      },
+      "mean_delta": 0.0,
+      "final_delta": 0.0
+    },
+    {
+      "field": "it_load_kw",
+      "name": "IT yükü",
+      "unit": "kW",
+      "baseline": {
+        "valid_count": 30,
+        "missing_count": 0,
+        "minimum": 4.181061438787355,
+        "maximum": 4.219580934025464,
+        "mean": 4.200889479190253,
+        "final": 4.200381051747058
+      },
+      "candidate": {
+        "valid_count": 30,
+        "missing_count": 0,
+        "minimum": 4.181061438787355,
+        "maximum": 4.219580934025464,
+        "mean": 4.200889479190253,
+        "final": 4.200381051747058
+      },
+      "mean_delta": 0.0,
+      "final_delta": 0.0
+    },
+    {
+      "field": "cooling_kw",
+      "name": "Termal soğutma gücü",
+      "unit": "kW",
+      "baseline": {
+        "valid_count": 30,
+        "missing_count": 0,
+        "minimum": 4.899655333588456,
+        "maximum": 4.90068786379077,
+        "mean": 4.900232397269809,
+        "final": 4.900239019569171
+      },
+      "candidate": {
+        "valid_count": 30,
+        "missing_count": 0,
+        "minimum": 4.899655333588456,
+        "maximum": 4.90068786379077,
+        "mean": 4.900232397269809,
+        "final": 4.900239019569171
+      },
+      "mean_delta": 0.0,
+      "final_delta": 0.0
+    }
+  ],
+  "differing_inputs": ["telemetry_sha256"],
+  "same_measurement_timestamps": true,
+  "limitations": [
+    "Descriptive comparison only; deltas are candidate minus baseline, not a causal improvement score.",
+    "Means use available readings without imputation or time weighting; missingness can change them.",
+    "Unequal windows and changed inputs may confound comparison; no pointwise alignment is performed.",
+    "Cooling power is thermal power; electrical consumption, energy savings and PUE are not inferred.",
+    "Candidate fault labels and report statuses are unconfirmed, not diagnostic ground truth."
+  ]
+}

@@ -1,3 +1,4 @@
+import { comparisonLink } from './Comparison';
 import { useRef, useState, type FormEvent } from 'react';
 import { ApiError } from './api/client';
 import type { Incident, Status } from './api/types';
@@ -135,6 +136,9 @@ export function IncidentDetail({ session, id }: { session: Session; id: string }
                 </div>
                 <div className="actions">
                   <Badge value={data.incident.status} />
+                  <a className="button secondary" href={comparisonLink(data.record.run_id)}>
+                    Temel olarak karşılaştır
+                  </a>
                   {data.record.stream_experiment && (
                     <a className="button secondary" href={`#/stream/${data.record.run_id}`}>
                       Aktarım deneyini incele
@@ -295,6 +299,14 @@ export function IncidentDetail({ session, id }: { session: Session; id: string }
                                 >
                                   Aç
                                 </button>
+                                {run.run_id !== data.record.run_id && (
+                                  <a
+                                    className="button secondary"
+                                    href={comparisonLink(data.record.run_id, run.run_id)}
+                                  >
+                                    Seçili kayıtla karşılaştır
+                                  </a>
+                                )}
                               </td>
                             </tr>
                           ))}

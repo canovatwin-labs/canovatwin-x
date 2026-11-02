@@ -33,6 +33,13 @@ of stored analyses. The engine version only changes when diagnostic behaviour ch
   Python 3.12 now generates the same panel contract as Python 3.13 and 3.14.
 - Added the missing repository handoff report linked from the README.
 
+## [0.17.0] - 2026-11-02 (engine 0.4.0)
+
+### Added
+- Reader-accessible recorded-run comparison panel, incident-history selection links, explicit missing values, input differences and measurement-window warnings.
+- Versioned JSON comparison export, minimum/maximum readings and accessible field-specific validation.
+- UI regression coverage for reader routes, history selection, validation, missing values, incompatible runs/retry, stale responses, JSON content and credential-free URL encoding.
+
 ## [0.16.0] - 2026-10-31 (engine 0.4.0)
 
 ### Added

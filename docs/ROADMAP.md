@@ -1,7 +1,7 @@
 # Ürün ve araştırma yol haritası
 
-Bu belge özgün proje kapsamı ile geliştirme dalındaki 0.16.0 sürümü arasındaki farkı açık tutar.
-Sprint 1–16 çıktıları ilk önerideki bütün araştırma programının veya 36 rolün
+Bu belge özgün proje kapsamı ile geliştirme dalındaki 0.17.0 sürümü arasındaki farkı açık tutar.
+Sprint 1–17 çıktıları ilk önerideki bütün araştırma programının veya 36 rolün
 tamamlandığı anlamına gelmez. Geliştirme dalı ve ana dal ayrımı PR incelemeleriyle korunur.
 
 ## Mevcut temel
@@ -97,6 +97,8 @@ Sprint 16, kayıtlı aynı-ekipman koşumları için salt okunur karşılaştır
 aşama panel karşılaştırması veya iyileşme sıralaması içermez. Sıradaki iş bu
 sözleşmeye bağlı panelden koşum seçimi ve yan yana gösterimdir.
 [Kabul raporu](SPRINT_16_REPORT.md).
+
+Sprint 17, salt okunur karşılaştırmayı panelden seçim ve yan yana ölçüm özetine bağlar. Sürümlü JSON dışa aktarma da vardır. Çoklu olaylar arasında görsel koşum tarayıcısı ve eğri bindirme sonraki kapsamdır. [Kabul raporu](SPRINT_17_REPORT.md).
 
 ## Öncelik 4 — Bilgi erişimi ve uzman hiyerarşisi
 

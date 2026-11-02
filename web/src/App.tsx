@@ -6,6 +6,7 @@ import { useRoute } from './hooks';
 import { IncidentList, NewAnalysis, AgentCatalog } from './pages';
 import { IncidentDetail } from './IncidentDetail';
 import { StreamLab, StreamRun } from './StreamLab';
+import { Comparison } from './Comparison';
 import { AssetList, AssetWorkspace } from './Assets';
 
 export type Session = { api: ApiClient; principal: Principal; health: Schema['Readiness'] };
@@ -16,6 +17,7 @@ export function App() {
   const current = useRef<ApiClient | undefined>(undefined);
   const route = useRoute();
   const routePath = route.split('?')[0];
+  const compareParams = new URLSearchParams(route.split('?')[1] ?? '');
   const selectedAsset =
     new URLSearchParams(route.includes('?') ? route.slice(route.indexOf('?') + 1) : '').get(
       'asset',
@@ -50,7 +52,14 @@ export function App() {
   const incident = /^\/incidents\/([A-Za-z0-9_-]{1,100})$/.exec(route)?.[1];
   const streamRun = /^\/stream\/([A-Za-z0-9_-]{1,100})$/.exec(route)?.[1];
   const page =
-    routePath === '/assets' ? (
+    routePath === '/compare' ? (
+      <Comparison
+        key={route}
+        api={session.api}
+        initialBaseline={compareParams.get('baseline') ?? ''}
+        initialCandidate={compareParams.get('candidate') ?? ''}
+      />
+    ) : routePath === '/assets' ? (
       <AssetList api={session.api} />
     ) : assetId ? (
       <AssetWorkspace key={assetId} session={session} id={assetId} />
@@ -117,6 +126,9 @@ export function App() {
           </a>
           <a href="#/stream" aria-current={route.startsWith('/stream') ? 'page' : undefined}>
             <span aria-hidden="true">04</span>Akış laboratuvarı
+          </a>
+          <a href="#/compare" aria-current={routePath === '/compare' ? 'page' : undefined}>
+            <span aria-hidden="true">05</span>Koşum karşılaştırması
           </a>
         </nav>
         <div className="sidebar-bottom">
