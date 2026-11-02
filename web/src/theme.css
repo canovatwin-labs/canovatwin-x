@@ -668,3 +668,7 @@ tr:hover td {
     min-height: 44px;
   }
 }
+
+.comparison-curve svg {
+  min-width: 760px;
+}
