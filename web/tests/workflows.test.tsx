@@ -5,7 +5,7 @@ import { App } from '../src/App';
 import { ApiClient, ApiError } from '../src/api/client';
 import { IncidentDetail } from '../src/IncidentDetail';
 import { AgentCatalog, IncidentList, NewAnalysis } from '../src/pages';
-import { data, deferred, session } from './fixtures';
+import { assetPage, data, deferred, session } from './fixtures';
 
 function detailMocks(current = session()) {
   vi.spyOn(current.api, 'incident').mockResolvedValue(data.incident);
@@ -24,7 +24,11 @@ describe('operator workflows', () => {
         ? { role: 'reader', actor: 'api-reader' }
         : path.endsWith('/health')
           ? data.health
-          : { items: [], limit: 10, offset: 0 };
+          : path.endsWith('/agents')
+            ? data.agents
+            : path.includes('/assets?')
+              ? assetPage
+              : { items: [], limit: 10, offset: 0 };
       return new Response(JSON.stringify(value), { status: 200 });
     });
     const close = vi.spyOn(ApiClient.prototype, 'close');
@@ -194,6 +198,28 @@ describe('operator workflows', () => {
     expect(await screen.findByText('report.summary')).toBeVisible();
     expect(screen.getByRole('status')).toHaveTextContent('farklar var');
     expect(replay).toHaveBeenCalledOnce();
+  });
+  it('links a selected recorded run to a different history run for comparison', async () => {
+    const current = detailMocks(session('reader'));
+    vi.mocked(current.api.runs).mockResolvedValue({
+      ...data.runs,
+      items: [
+        { ...data.runs.items[0]!, run_id: data.record.run_id },
+        { ...data.runs.items[0]!, run_id: 'RUN-older' },
+      ],
+    });
+    render(<IncidentDetail session={current} id={data.incident.incident_id} />);
+    expect(await screen.findByRole('link', { name: 'Temel olarak karşılaştır' })).toHaveAttribute(
+      'href',
+      `#/compare?baseline=${data.record.run_id}`,
+    );
+    await userEvent.click(screen.getByRole('tab', { name: 'Geçmiş' }));
+    const link = screen.getByRole('link', { name: 'Seçili kayıtla karşılaştır' });
+    expect(link).toHaveAttribute(
+      'href',
+      `#/compare?baseline=${data.record.run_id}&candidate=RUN-older`,
+    );
+    expect(screen.getAllByRole('link', { name: 'Seçili kayıtla karşılaştır' })).toHaveLength(1);
   });
   it('supports arrow-key tabs and exposes selected tab semantics', async () => {
     const user = userEvent.setup();

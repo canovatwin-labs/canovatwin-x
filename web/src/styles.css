@@ -1716,3 +1716,10 @@ details > summary {
     grid-template-columns: minmax(0, 1fr);
   }
 }
+
+.comparison-form > button {
+  margin-top: 16px;
+}
+.comparison-result {
+  margin-top: 20px;
+}

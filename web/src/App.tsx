@@ -6,6 +6,9 @@ import { useRoute } from './hooks';
 import { IncidentList, NewAnalysis, AgentCatalog } from './pages';
 import { IncidentDetail } from './IncidentDetail';
 import { StreamLab, StreamRun } from './StreamLab';
+import { Operations } from './Operations';
+import { NavIcon } from './Icons';
+import { Comparison } from './Comparison';
 import { AssetList, AssetWorkspace } from './Assets';
 
 export type Session = { api: ApiClient; principal: Principal; health: Schema['Readiness'] };
@@ -16,6 +19,7 @@ export function App() {
   const current = useRef<ApiClient | undefined>(undefined);
   const route = useRoute();
   const routePath = route.split('?')[0];
+  const compareParams = new URLSearchParams(route.split('?')[1] ?? '');
   const selectedAsset =
     new URLSearchParams(route.includes('?') ? route.slice(route.indexOf('?') + 1) : '').get(
       'asset',
@@ -50,7 +54,16 @@ export function App() {
   const incident = /^\/incidents\/([A-Za-z0-9_-]{1,100})$/.exec(route)?.[1];
   const streamRun = /^\/stream\/([A-Za-z0-9_-]{1,100})$/.exec(route)?.[1];
   const page =
-    routePath === '/assets' ? (
+    routePath === '/operations' ? (
+      <Operations api={session.api} />
+    ) : routePath === '/compare' ? (
+      <Comparison
+        key={route}
+        api={session.api}
+        initialBaseline={compareParams.get('baseline') ?? ''}
+        initialCandidate={compareParams.get('candidate') ?? ''}
+      />
+    ) : routePath === '/assets' ? (
       <AssetList api={session.api} />
     ) : assetId ? (
       <AssetWorkspace key={assetId} session={session} id={assetId} />
@@ -92,7 +105,7 @@ export function App() {
         İçeriğe geç
       </a>
       <aside className="sidebar">
-        <a href="#/incidents" className="brand">
+        <a href="#/operations" className="brand">
           <span className="brand-mark" aria-hidden="true">
             CX
           </span>
@@ -103,20 +116,33 @@ export function App() {
         </a>
         <p className="sidebar-caption">ÇALIŞMA ALANI</p>
         <nav aria-label="Ana gezinme">
+          <a href="#/operations" aria-current={routePath === '/operations' ? 'page' : undefined}>
+            <NavIcon name="operations" />
+            Operasyon merkezi
+          </a>
           <a href="#/assets" aria-current={routePath?.startsWith('/assets') ? 'page' : undefined}>
-            <span aria-hidden="true">00</span>Ekipmanlar
+            <NavIcon name="assets" />
+            Ekipmanlar
           </a>
           <a href="#/incidents" aria-current={route.startsWith('/incidents') ? 'page' : undefined}>
-            <span aria-hidden="true">01</span>Olay incelemeleri
+            <NavIcon name="incidents" />
+            Olay incelemeleri
           </a>
           <a href="#/new" aria-current={routePath === '/new' ? 'page' : undefined}>
-            <span aria-hidden="true">02</span>Yeni analiz
+            <NavIcon name="new" />
+            Yeni analiz
           </a>
           <a href="#/agents" aria-current={route === '/agents' ? 'page' : undefined}>
-            <span aria-hidden="true">03</span>Ajan kataloğu
+            <NavIcon name="agents" />
+            Ajan kataloğu
           </a>
           <a href="#/stream" aria-current={route.startsWith('/stream') ? 'page' : undefined}>
-            <span aria-hidden="true">04</span>Akış laboratuvarı
+            <NavIcon name="stream" />
+            Akış laboratuvarı
+          </a>
+          <a href="#/compare" aria-current={routePath === '/compare' ? 'page' : undefined}>
+            <NavIcon name="compare" />
+            Koşum karşılaştırması
           </a>
         </nav>
         <div className="sidebar-bottom">

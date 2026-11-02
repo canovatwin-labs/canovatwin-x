@@ -11,8 +11,7 @@ Okuma veya yazma yetkili bearer anahtarıyla:
 `GET /api/v1/comparisons?baseline=RUN-...&candidate=RUN-...`
 
 Kimlikler mevcut çalışma ayrıntısından veya olayın `/runs` listesinden alınır.
-Bu sürüm karşılaştırma API'sini sağlar; panelden seçim ve yan yana gösterim
-sonraki ayrı geliştirmedir. Anahtar URL'ye konmaz.
+0.17.0 panelinde `#/compare` ekranı veya olay geçmişindeki karşılaştırma bağlantıları kullanılır. Seçili kayıt temel, geçmişten seçilen diğer kayıt aday olur. Farklı olaylardaki aynı ekipman koşumları kimlikleri girilerek seçilebilir. Anahtar URL'ye konmaz. Paneldeki JSON indirme aynı `comparison-1.0` yanıtını korur; oturum anahtarı eklemez.
 
 - Tam olarak iki kayıt okunur; kimlikler 1–100 URL güvenli karakterle sınırlıdır.
 - Kayıt bulunamazsa 404; aynı kayıt veya farklı ekipman seçilirse

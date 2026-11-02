@@ -23,9 +23,9 @@ export function useLoad<T>(load: () => Promise<T>, dependencies: DependencyList)
 }
 
 export function useRoute() {
-  const [route, setRoute] = useState(window.location.hash.slice(1) || '/incidents');
+  const [route, setRoute] = useState(window.location.hash.slice(1) || '/operations');
   useEffect(() => {
-    const update = () => setRoute(window.location.hash.slice(1) || '/incidents');
+    const update = () => setRoute(window.location.hash.slice(1) || '/operations');
     window.addEventListener('hashchange', update);
     return () => window.removeEventListener('hashchange', update);
   }, []);

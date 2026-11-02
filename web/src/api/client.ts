@@ -1,6 +1,8 @@
 import type { Schema, Principal, Incident, RecordAnalysis, Agent, Page, Run, Audit } from './types';
 
 const messages: Record<string, string> = {
+  COMPARISON_INCOMPATIBLE:
+    'Bu kayıtlar karşılaştırılamıyor. Aynı ekipmanın iki farklı kaydını seçin; sayısal değerlerin desteklenen aralıkta olması gerekir.',
   AUTHENTICATION_REQUIRED: 'Anahtar geçersiz veya oturum sona erdi. Yeniden bağlantı kurun.',
   WRITE_PERMISSION_REQUIRED: 'Bu işlem için yazma yetkili anahtar gerekiyor.',
   INVALID_REQUEST: 'Girilen bilgiler beklenen biçimde değil. Alanları kontrol edin.',
@@ -96,6 +98,10 @@ export class ApiClient {
       this.pending.delete(controller);
     }
   }
+  compare = (baseline: string, candidate: string) =>
+    this.request<Schema['RunComparison']>(
+      `/comparisons?${new URLSearchParams({ baseline, candidate })}`,
+    );
   session = () => this.request<Principal>('/session');
   health = () => this.request<Schema['Readiness']>('/health');
   agents = () => this.request<Agent[]>('/agents');
