@@ -5,7 +5,7 @@ import { App } from '../src/App';
 import { ApiClient, ApiError } from '../src/api/client';
 import { IncidentDetail } from '../src/IncidentDetail';
 import { AgentCatalog, IncidentList, NewAnalysis } from '../src/pages';
-import { data, deferred, session } from './fixtures';
+import { assetPage, data, deferred, session } from './fixtures';
 
 function detailMocks(current = session()) {
   vi.spyOn(current.api, 'incident').mockResolvedValue(data.incident);
@@ -24,7 +24,11 @@ describe('operator workflows', () => {
         ? { role: 'reader', actor: 'api-reader' }
         : path.endsWith('/health')
           ? data.health
-          : { items: [], limit: 10, offset: 0 };
+          : path.endsWith('/agents')
+            ? data.agents
+            : path.includes('/assets?')
+              ? assetPage
+              : { items: [], limit: 10, offset: 0 };
       return new Response(JSON.stringify(value), { status: 200 });
     });
     const close = vi.spyOn(ApiClient.prototype, 'close');

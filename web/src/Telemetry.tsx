@@ -73,6 +73,8 @@ export function TelemetryChart({
   interval?: number;
 }) {
   const id = useId();
+  const [selectedIndex, setSelectedIndex] = useState(0);
+  const [hidden, setHidden] = useState<string[]>([]);
   const config = chartKinds[kind];
   const container = useRef<HTMLElement>(null);
   const [width, setWidth] = useState(740);
@@ -98,6 +100,7 @@ export function TelemetryChart({
           : `${config.title}: gösterilebilecek ölçüm yok.`}
       </Empty>
     );
+  const selected = samples[Math.min(selectedIndex, samples.length - 1)]!;
   const min = Math.floor(Math.min(...points.map((point) => point.y)) - 1);
   const max = Math.ceil(Math.max(...points.map((point) => point.y)) + 1);
   const duration = Math.max(1, ...points.map((point) => point.x));
@@ -108,8 +111,22 @@ export function TelemetryChart({
       <div className="section-heading">
         <h3>{config.title}</h3>
         <div className="legend">
-          <span className="inlet">{config.names[0]}</span>
-          <span className="reference">{config.names[1]}</span>
+          {(['inlet', 'reference'] as const).map((name, index) => (
+            <button
+              key={name}
+              className={`chart-toggle ${name}`}
+              aria-pressed={!hidden.includes(name)}
+              onClick={() =>
+                setHidden((current) =>
+                  current.includes(name)
+                    ? current.filter((item) => item !== name)
+                    : [...current, name],
+                )
+              }
+            >
+              {config.names[index]}
+            </button>
+          ))}
         </div>
       </div>
       <svg viewBox={`0 0 ${width} 265`} role="img" aria-labelledby={`${id}-title ${id}-desc`}>
@@ -145,7 +162,11 @@ export function TelemetryChart({
           ] as const
         ).map(([name, segments]) =>
           segments.map((segment, index) => (
-            <g key={`${name}-${index}`} className={`series ${name}`}>
+            <g
+              key={`${name}-${index}`}
+              className={`series ${name}`}
+              visibility={hidden.includes(name) ? 'hidden' : undefined}
+            >
               {segment.length > 1 ? (
                 <path
                   d={segment
@@ -162,6 +183,24 @@ export function TelemetryChart({
           )),
         )}
       </svg>
+      <div className="chart-inspector">
+        <label htmlFor={`${id}-sample`}>
+          Ölçüm seç <span className="mono">{date(selected.timestamp)}</span>
+        </label>
+        <input
+          id={`${id}-sample`}
+          aria-label={`${config.title} ölçüm seçimi`}
+          type="range"
+          min={0}
+          max={samples.length - 1}
+          value={Math.min(selectedIndex, samples.length - 1)}
+          onChange={(event) => setSelectedIndex(Number(event.target.value))}
+        />
+        <output>
+          {config.names[0]}: {number(selected[config.fields[0]])} {config.unit} · {config.names[1]}:{' '}
+          {number(selected[config.fields[1]])} {config.unit}
+        </output>
+      </div>
       <figcaption>
         Kayıtlı pencere · {config.unit} · Eksik ölçümler ve zaman boşlukları birleştirilmez.
       </figcaption>

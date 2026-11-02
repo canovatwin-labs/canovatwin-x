@@ -1,11 +1,13 @@
 # CanovaTwin X — Güncel yetenek ve tamamlanma durumu
 
-**2 Kasım 2026 · Uygulama 0.17.0 / Motor 0.4.0 · Sprint 17 geliştirme dalı**
+**2 Kasım 2026 · Uygulama 0.17.0 / Motor 0.4.0 · Sprint 18 tasarım kabulü / geliştirme dalı**
 
 Kayıtlı koşumların karşılaştırma paneli eklendi; ana dala alınması PR incelemesine bağlıdır.
 Kapsam ve sınırlar: [SPRINT_17_REPORT.md](SPRINT_17_REPORT.md).
 
 Çalışan çıktı: sentetik veriyle yerel web paneli, API ve CLI ile kullanılabilen, kanıta dayalı rapor ve kalıcı inceleme geçmişi üreten 12 uzmanlı karar destek çekirdeği. Katalog 36 rol içerir. Bu belge tamamlanmış özelliği, kısmi katmanı ve planlı rolü birbirinden ayırır; tamamlanma yüzdesi iddiası taşımaz.
+
+Yeni görsel kapsam: koyu operasyon merkezi, ekipman filosu, kayıtlı olay dağılımı, ajan uygulama haritası ve etkileşimli ölçüm grafikleri. Güncel doğrulama: 629 Python / 64 panel testi. [Tasarım kabul raporu](SPRINT_18_REPORT.md).
 
 ## Proje bugün neler yapabiliyor?
 

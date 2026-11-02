@@ -33,6 +33,10 @@ of stored analyses. The engine version only changes when diagnostic behaviour ch
   Python 3.12 now generates the same panel contract as Python 3.13 and 3.14.
 - Added the missing repository handoff report linked from the README.
 
+### Operator interface refresh (0.17.0 candidate)
+- Shared dark operational theme and SVG navigation, recorded-data operations center, fleet visuals, bounded incident distribution and agent implementation map.
+- Accessible chart series toggles and stored-sample inspection with explicit missing readings.
+
 ## [0.17.0] - 2026-11-02 (engine 0.4.0)
 
 ### Added

@@ -40,7 +40,8 @@ company telemetry or real equipment credentials are included.
   reader-accessible history links and versioned JSON export, without causal or savings claims. [Contract](docs/COMPARISON.md).
 - **Local API:** validated request/response contracts, separate read/write
   credentials and loopback-only serving by default.
-- **Investigation panel:** overview, incidents, telemetry charts, evidence,
+- **Investigation panel:** dark operations center, asset fleet visuals, bounded
+  incident distribution, agent implementation map, interactive telemetry charts, evidence,
   execution traces and scenario configuration in a self-hosted React interface.
 - **Reproducible evaluation:** a versioned, seed-disjoint synthetic manifest and
   offline comparison of a threshold baseline, `core6` and `mvp12`.
