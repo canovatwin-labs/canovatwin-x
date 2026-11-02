@@ -261,6 +261,21 @@ def create_app(settings: APISettings) -> FastAPI:
             raise NotFound("Asset was not found in configuration or recorded history")
         return AssetDetail(asset=summarize_asset(items[0]))
 
+    @app.get("/api/v1/assets/runs", response_model=Page[RunSummary])
+    def asset_runs(
+        asset_id: Annotated[str, Query(min_length=1, max_length=100)],
+        user: Annotated[Principal, Depends(reader)],
+        limit: Limit = 20,
+        offset: Offset = 0,
+    ):
+        with SQLiteRepository(settings.database, read_only=True) as repo:
+            if not repo.asset_inventory(
+                tuple(asset.asset_id for asset in settings.assets), asset_id=asset_id, limit=1
+            ):
+                raise NotFound("Asset was not found")
+            items = repo.list_asset_runs(asset_id, limit=limit, offset=offset)
+        return Page[RunSummary](items=items, limit=limit, offset=offset)
+
     @app.get("/api/v1/incidents", response_model=Page[IncidentSummary])
     def incidents(
         user: Annotated[Principal, Depends(reader)],

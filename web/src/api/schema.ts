@@ -29,6 +29,10 @@ export interface paths {
     /** Asset Detail */
     get: operations["asset_detail_api_v1_assets_detail_get"];
   };
+  "/api/v1/assets/runs": {
+    /** Asset Runs */
+    get: operations["asset_runs_api_v1_assets_runs_get"];
+  };
   "/api/v1/comparisons": {
     /** Comparison */
     get: operations["comparison_api_v1_comparisons_get"];
@@ -670,7 +674,7 @@ export interface components {
       api_version: string;
       /**
        * Application Version
-       * @default 0.17.0
+       * @default 0.18.0
        */
       application_version: string;
       /**
@@ -1054,7 +1058,7 @@ export interface components {
       api_version: string;
       /**
        * Application Version
-       * @default 0.17.0
+       * @default 0.18.0
        */
       application_version: string;
       /**
@@ -2111,6 +2115,90 @@ export interface operations {
       200: {
         content: {
           "application/json": components["schemas"]["AssetDetail"];
+        };
+      };
+      /** @description Bad Request */
+      400: {
+        content: {
+          "application/json": components["schemas"]["ErrorEnvelope"];
+        };
+      };
+      /** @description Unauthorized */
+      401: {
+        content: {
+          "application/json": components["schemas"]["ErrorEnvelope"];
+        };
+      };
+      /** @description Forbidden */
+      403: {
+        content: {
+          "application/json": components["schemas"]["ErrorEnvelope"];
+        };
+      };
+      /** @description Not Found */
+      404: {
+        content: {
+          "application/json": components["schemas"]["ErrorEnvelope"];
+        };
+      };
+      /** @description Method Not Allowed */
+      405: {
+        content: {
+          "application/json": components["schemas"]["ErrorEnvelope"];
+        };
+      };
+      /** @description Conflict */
+      409: {
+        content: {
+          "application/json": components["schemas"]["ErrorEnvelope"];
+        };
+      };
+      /** @description Content Too Large */
+      413: {
+        content: {
+          "application/json": components["schemas"]["ErrorEnvelope"];
+        };
+      };
+      /** @description Unsupported Media Type */
+      415: {
+        content: {
+          "application/json": components["schemas"]["ErrorEnvelope"];
+        };
+      };
+      /** @description Unprocessable Content */
+      422: {
+        content: {
+          "application/json": components["schemas"]["ErrorEnvelope"];
+        };
+      };
+      /** @description Internal Server Error */
+      500: {
+        content: {
+          "application/json": components["schemas"]["ErrorEnvelope"];
+        };
+      };
+      /** @description Service Unavailable */
+      503: {
+        content: {
+          "application/json": components["schemas"]["ErrorEnvelope"];
+        };
+      };
+    };
+  };
+  /** Asset Runs */
+  asset_runs_api_v1_assets_runs_get: {
+    parameters: {
+      query: {
+        asset_id: string;
+        limit?: number;
+        offset?: number;
+      };
+    };
+    responses: {
+      /** @description Successful Response */
+      200: {
+        content: {
+          "application/json": components["schemas"]["Page_RunSummary_"];
         };
       };
       /** @description Bad Request */

@@ -48,6 +48,15 @@ Eşit olmayan süreler ve eksik veri dağılımı farkları yanıltabilir. Terma
 gücü elektrik tüketimi değildir; enerji integrali, tasarruf veya PUE hesaplanmaz.
 Bağımsız etiketli doğrulama ve fiziksel kalibrasyon gereksinimleri sürer.
 
+## Arşivden seçim ve eğriler (0.18.0)
+
+Ekipman ve koşum listeleri 10 kayıtlık sayfalarla seçilir. İki farklı koşum
+temel/aday olarak işaretlenir. Ekipman değişimi seçimi temizler. Eğriler
+isteğe bağlı açılır; dört kanal için ortak ölçekte yalnızca iki kayıt okunur.
+Her koşumun ilk kaydedilen ölçümü 0 sn kabul edilir; bu duvar saati/arıza
+başlangıcı hizalaması değildir. Eksik ve zaman boşlukları korunur;
+interpolasyon ve nedensel iyileşme puanı yoktur.
+
 ## İzlenebilirlik
 
 Aynı iki değişmez kayıt aynı yanıtı üretir; sunum zamanı veya rastgele kimlik

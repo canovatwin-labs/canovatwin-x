@@ -385,6 +385,19 @@ class SQLiteRepository:
         ).fetchall()
         return tuple(_decode_row(RunSummary, row) for row in rows)
 
+    def list_asset_runs(self, asset_id: str, *, limit: int = 20, offset: int = 0) -> tuple[RunSummary, ...]:
+        _page(limit, offset)
+        if not isinstance(asset_id, str) or not 1 <= len(asset_id) <= 100:
+            raise ValueError("Invalid asset identifier")
+        rows = self._execute(
+            """SELECT r.run_id, r.incident_id, r.recorded_at, r.engine_version,
+            r.status, r.report_status, r.replay_of FROM analysis_runs r
+            JOIN incidents i ON i.incident_id=r.incident_id
+            WHERE i.asset_id=? ORDER BY r.sequence DESC LIMIT ? OFFSET ?""",
+            (asset_id, limit, offset),
+        ).fetchall()
+        return tuple(_decode_row(RunSummary, row) for row in rows)
+
     def transition(self, change: Transition) -> IncidentSummary:
         change = Transition.model_validate(change.model_dump())
         now = self._clock()

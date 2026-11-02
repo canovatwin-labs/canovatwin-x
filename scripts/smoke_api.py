@@ -102,7 +102,7 @@ def verify() -> dict:
                         assert private["write_token"].encode() not in asset
                 call("POST", "/api/v1/analyses/scenario", {}, role="read", expected=403)
                 ready = call("GET", "/api/v1/health", role="read")
-                assert ready["application_version"] == version("canovatwin-x") == "0.17.0"
+                assert ready["application_version"] == version("canovatwin-x") == "0.18.0"
                 assert ready["engine_version"] == "0.4.0"
                 assert len(call("GET", "/api/v1/agents", role="read")) == 36
                 first = last = None
@@ -224,11 +224,21 @@ def verify() -> dict:
                     role="read",
                     expected=409,
                 )
+                archive = call("GET", "/api/v1/assets/runs?asset_id=synthetic-unit-02&limit=1", role="read")
+                assert archive["items"][0]["run_id"] == replay_second["record"]["run_id"]
+                assert (
+                    len(
+                        call("GET", "/api/v1/assets/runs?asset_id=synthetic-unit-02&offset=1", role="read")[
+                            "items"
+                        ]
+                    )
+                    == 1
+                )
                 schema = call("GET", "/openapi.json", role=None)
-                assert schema["info"]["version"] == "0.17.0"
-                assert len(schema["paths"]) == 17
+                assert schema["info"]["version"] == "0.18.0"
+                assert len(schema["paths"]) == 18
                 return {
-                    "application_version": "0.17.0",
+                    "application_version": "0.18.0",
                     "engine_version": "0.4.0",
                     "scenario_profile_checks": 22,
                     "dynamic_scenario_workload_checks": 33,

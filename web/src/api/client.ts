@@ -111,6 +111,10 @@ export class ApiClient {
     );
   asset = (id: string) =>
     this.request<Schema['AssetDetail']>(`/assets/detail?asset_id=${encodeURIComponent(id)}`);
+  assetRuns = (id: string, offset = 0) =>
+    this.request<Page<Run>>(
+      `/assets/runs?${new URLSearchParams({ asset_id: id, limit: '10', offset: String(offset) })}`,
+    );
   assetIncidents = (id: string, offset = 0) =>
     this.request<Page<Incident>>(
       `/incidents?limit=10&offset=${offset}&asset_id=${encodeURIComponent(id)}`,
