@@ -1,3 +1,5 @@
+import { RunPicker } from './RunPicker';
+import { ComparisonCurves } from './ComparisonCurves';
 import { useRef, useState, type FormEvent } from 'react';
 import type { ApiClient } from './api/client';
 import type { Schema } from './api/types';
@@ -32,6 +34,7 @@ export function Comparison({
   );
   const [error, setError] = useState<unknown>();
   const [invalidField, setInvalidField] = useState<'baseline' | 'candidate'>();
+  const [showCurves, setShowCurves] = useState(false);
   const [retry, setRetry] = useState(0);
   const state = useLoad(
     () => (selection ? api.compare(selection[0], selection[1]) : Promise.resolve(null)),
@@ -55,6 +58,7 @@ export function Comparison({
   function edit(value: string, side: 'baseline' | 'candidate') {
     (side === 'baseline' ? setBaseline : setCandidate)(value);
     setSelection(undefined);
+    setShowCurves(false);
     setError(undefined);
     setInvalidField(undefined);
   }
@@ -64,7 +68,21 @@ export function Comparison({
         Aynı ekipmanın iki kaydını inceleyin. Farklar aday − temel yönündedir; iyileşme puanı
         değildir.
       </PageHeading>
-      <section className="card">
+      <RunPicker
+        api={api}
+        baseline={baseline}
+        candidate={candidate}
+        onChoose={(side, id) => edit(id, side)}
+        onAssetChange={() => {
+          setBaseline('');
+          setCandidate('');
+          setSelection(undefined);
+          setShowCurves(false);
+          setError(undefined);
+          setInvalidField(undefined);
+        }}
+      />
+      <section className="card asset-section">
         <h2>Karşılaştırılacak kayıtlar</h2>
         <p id="comparison-help" className="muted">
           Olayın Çalışmalar bölümünden iki kayıt seçebilir veya çalışma kimliklerini buraya
@@ -117,7 +135,24 @@ export function Comparison({
       ) : state.error ? (
         <ErrorNotice error={state.error} retry={() => setRetry((v) => v + 1)} />
       ) : state.data ? (
-        <ComparisonResult result={state.data} />
+        <>
+          <ComparisonResult result={state.data} />
+          <button
+            className="secondary wide"
+            aria-expanded={showCurves}
+            onClick={() => setShowCurves((value) => !value)}
+          >
+            {showCurves ? 'Eğrileri kapat' : 'Karşılaştırmalı eğrileri aç'}
+          </button>
+          {showCurves && (
+            <ComparisonCurves
+              key={selection.join(':')}
+              api={api}
+              baseline={selection[0]}
+              candidate={selection[1]}
+            />
+          )}
+        </>
       ) : null}
     </>
   );

@@ -4,7 +4,7 @@ import { describe, expect, it, vi } from 'vitest';
 import { App } from '../src/App';
 import { Comparison, comparisonLink } from '../src/Comparison';
 import { ApiClient, ApiError } from '../src/api/client';
-import { data, deferred, session } from './fixtures';
+import { assetPage, data, deferred, session } from './fixtures';
 import fixture from './fixtures/comparison.json';
 import type { Schema } from '../src/api/types';
 const result = fixture as Schema['RunComparison'];
@@ -16,6 +16,7 @@ describe('recorded comparison workspace', () => {
       const path = String(input);
       if (path.endsWith('/session'))
         return new Response(JSON.stringify({ role: 'reader', actor: 'api-reader' }));
+      if (path.includes('/assets?')) return new Response(JSON.stringify(assetPage));
       if (path.endsWith('/health')) return new Response(JSON.stringify(data.health));
       if (path === '/api/v1/comparisons?baseline=RUN-baseline&candidate=RUN-candidate')
         return new Response(JSON.stringify(result));

@@ -37,6 +37,13 @@ of stored analyses. The engine version only changes when diagnostic behaviour ch
 - Shared dark operational theme and SVG navigation, recorded-data operations center, fleet visuals, bounded incident distribution and agent implementation map.
 - Accessible chart series toggles and stored-sample inspection with explicit missing readings.
 
+## [0.18.0] - 2026-11-02 (engine 0.4.0)
+
+### Added
+- Read-only, paginated asset run history across incidents/replays and a panel run picker.
+- Shared-scale recorded-run curves for four channels, with explicit elapsed origins and preserved missing/time gaps.
+- API identity/pagination/authorization regressions and UI selection/curve semantics tests. No migration or dependencies.
+
 ## [0.17.0] - 2026-11-02 (engine 0.4.0)
 
 ### Added

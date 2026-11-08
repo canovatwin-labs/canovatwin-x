@@ -1,6 +1,6 @@
 # CanovaTwin X — Güncel yetenek ve tamamlanma durumu
 
-**2 Kasım 2026 · Uygulama 0.17.0 / Motor 0.4.0 · Sprint 18 tasarım kabulü / geliştirme dalı**
+**2 Kasım 2026 · Uygulama 0.18.0 / Motor 0.4.0 · Sprint 19 geliştirme dalı**
 
 Kayıtlı koşumların karşılaştırma paneli eklendi; ana dala alınması PR incelemesine bağlıdır.
 Kapsam ve sınırlar: [SPRINT_17_REPORT.md](SPRINT_17_REPORT.md).
@@ -8,6 +8,8 @@ Kapsam ve sınırlar: [SPRINT_17_REPORT.md](SPRINT_17_REPORT.md).
 Çalışan çıktı: sentetik veriyle yerel web paneli, API ve CLI ile kullanılabilen, kanıta dayalı rapor ve kalıcı inceleme geçmişi üreten 12 uzmanlı karar destek çekirdeği. Katalog 36 rol içerir. Bu belge tamamlanmış özelliği, kısmi katmanı ve planlı rolü birbirinden ayırır; tamamlanma yüzdesi iddiası taşımaz.
 
 Yeni görsel kapsam: koyu operasyon merkezi, ekipman filosu, kayıtlı olay dağılımı, ajan uygulama haritası ve etkileşimli ölçüm grafikleri. Güncel doğrulama: 629 Python / 65 panel testi. [Tasarım kabul raporu](SPRINT_18_REPORT.md).
+
+Güncel adım: ekipman arşivinden koşum seçimi ve dört kanalda ortak ölçekli bağıl zaman eğrileri. 632 Python / 71 panel testi; API 18 yol. [Sprint 19 raporu](SPRINT_19_REPORT.md).
 
 ## Proje bugün neler yapabiliyor?
 
@@ -75,10 +77,10 @@ Global Supervisor, ortak fabrika, izinli araçlar, görev/araç/süre bütçeler
 
 ### L7 — Kullanıcı erişimi: CLI, API ve operasyon/deney paneli çalışıyor
 
-Analiz, katalog, geçmiş, ayrıntı, durum değişikliği, denetim ve replay komutları var. FastAPI ile 17 HTTP yolu, okuma/yazma anahtarları ve yerel OpenAPI çalışır. Aynı servisten açılan React paneli, 11 senaryo, iki profil, olay filtresi/sayfalama, rapor, telemetri grafiği/tablosu, kanıtlar, ajan izi, durum yönetimi ve yeniden analizi sunar. Operasyon görünümünde gerçek kayıtla doldurulan tesis şeması, sayfaya ait sayaçlar ve sıcaklık/güç eğrileri vardır. Deney formu çalışma koşullarını düzenler; telemetri ekranı ayrıca fan grafiğini sunar. Çevrimdışı deney CLI'si üç yöntemi karşılaştırıp raporlar; veri seti CLI'si dış CSV dosyalarını doğrular ve isteğe bağlı sınırlı keşif incelemesi yapar. Panelde aynı ekipmanın iki kayıtlı koşumu karşılaştırılabilir; dış veri ekranı yok. Eski ölçümler canlı olarak sunulmaz. Ayrı kapsamlı Agent Workbench, çoklu deney karşılaştırmalı Digital Twin Lab ve kişisel kullanıcı yönetimi henüz yoktur.
+Analiz, katalog, geçmiş, ayrıntı, durum değişikliği, denetim ve replay komutları var. FastAPI ile 18 HTTP yolu, okuma/yazma anahtarları ve yerel OpenAPI çalışır. Aynı servisten açılan React paneli, 11 senaryo, iki profil, olay filtresi/sayfalama, rapor, telemetri grafiği/tablosu, kanıtlar, ajan izi, durum yönetimi ve yeniden analizi sunar. Operasyon görünümünde gerçek kayıtla doldurulan tesis şeması, sayfaya ait sayaçlar ve sıcaklık/güç eğrileri vardır. Deney formu çalışma koşullarını düzenler; telemetri ekranı ayrıca fan grafiğini sunar. Çevrimdışı deney CLI'si üç yöntemi karşılaştırıp raporlar; veri seti CLI'si dış CSV dosyalarını doğrular ve isteğe bağlı sınırlı keşif incelemesi yapar. Panelde aynı ekipmanın iki kayıtlı koşumu karşılaştırılabilir; dış veri ekranı yok. Eski ölçümler canlı olarak sunulmaz. Ayrı kapsamlı Agent Workbench, çoklu deney karşılaştırmalı Digital Twin Lab ve kişisel kullanıcı yönetimi henüz yoktur.
 
 Akış laboratuvarı, L3'ün çevrimdışı aktarım deneyini L4'te kayıtlı reçete ve
-L7'de operatör akışına bağlar. Toplam 17 HTTP yolu vardır. Varlık kataloğu ve ekipman bazlı geçmiş/deney akışı vardır. Gerçek gateway
+L7'de operatör akışına bağlar. Toplam 18 HTTP yolu vardır. Varlık kataloğu ve ekipman bazlı geçmiş/deney akışı vardır. Gerçek gateway
 ve arka planda sürekli oturum hâlâ uygulanmadı.
 
 ## 36 ajan rolünün tek tek durumu
