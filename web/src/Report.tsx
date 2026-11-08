@@ -1,8 +1,32 @@
-import type { RecordAnalysis, Agent } from './api/types';
-import { Badge, Empty, Stat } from './components';
+import type { RecordAnalysis } from './api/types';
+import { Badge, Stat } from './components';
 import { label, number } from './labels';
 
-export function ReportView({ record }: { record: RecordAnalysis }) {
+function EvidenceLinks({ ids, onSelect }: { ids: string[]; onSelect?: (id: string) => void }) {
+  return (
+    <span className="evidence-links">
+      {ids.length
+        ? ids.map((id) =>
+            onSelect ? (
+              <button className="secondary" key={id} onClick={() => onSelect(id)}>
+                {id}
+              </button>
+            ) : (
+              <span key={id}>{id} </span>
+            ),
+          )
+        : 'Yok'}
+    </span>
+  );
+}
+
+export function ReportView({
+  record,
+  onInspectEvidence,
+}: {
+  record: RecordAnalysis;
+  onInspectEvidence?: (id: string) => void;
+}) {
   const result = record.result;
   const report = result.report;
   const research = report?.research;
@@ -39,7 +63,10 @@ export function ReportView({ record }: { record: RecordAnalysis }) {
               <li key={observation.code}>
                 <span className="mono">{observation.code}</span>
                 <p>{observation.message}</p>
-                <small>Kanıt: {observation.evidence_ids.join(', ')}</small>
+                <small>
+                  Kanıt:{' '}
+                  <EvidenceLinks ids={observation.evidence_ids} onSelect={onInspectEvidence} />
+                </small>
               </li>
             ))}
           </ul>
@@ -58,8 +85,20 @@ export function ReportView({ record }: { record: RecordAnalysis }) {
                   <Badge value={hypothesis.assessment} />
                 </div>
                 <p>{hypothesis.explanation}</p>
-                <small>Destek: {hypothesis.supporting_evidence.join(', ')}</small>
-                <small>Karşı kanıt: {hypothesis.contradicting_evidence?.join(', ') || 'Yok'}</small>
+                <small>
+                  Destek:{' '}
+                  <EvidenceLinks
+                    ids={hypothesis.supporting_evidence}
+                    onSelect={onInspectEvidence}
+                  />
+                </small>
+                <small>
+                  Karşı kanıt:{' '}
+                  <EvidenceLinks
+                    ids={hypothesis.contradicting_evidence ?? []}
+                    onSelect={onInspectEvidence}
+                  />
+                </small>
               </article>
             ))}
           </div>
@@ -196,97 +235,4 @@ export function ReportView({ record }: { record: RecordAnalysis }) {
   );
 }
 
-export function EvidenceView({ record }: { record: RecordAnalysis }) {
-  return (
-    <>
-      <h3>Kanıt kayıtları</h3>
-      <p className="muted">Değerler, üretici ajan ve kaynak ölçüm kimlikleriyle saklanır.</p>
-      {record.result.evidence.length ? (
-        <div className="table-scroll">
-          <table>
-            <thead>
-              <tr>
-                <th>Kanıt / metrik</th>
-                <th>Değer</th>
-                <th>Üretici</th>
-                <th>Kaynak</th>
-                <th>Ölçümler</th>
-              </tr>
-            </thead>
-            <tbody>
-              {record.result.evidence.map((evidence) => (
-                <tr key={evidence.evidence_id}>
-                  <td>
-                    <b className="mono">{evidence.evidence_id}</b>
-                    <small>{evidence.metric}</small>
-                  </td>
-                  <td>
-                    {number(evidence.value, 4)} {evidence.unit}
-                  </td>
-                  <td>{evidence.producer}</td>
-                  <td>{label(evidence.source)}</td>
-                  <td>
-                    <details>
-                      <summary>{evidence.sample_ids.length} kimlik</summary>
-                      <p className="mono id-list">{evidence.sample_ids.join(', ')}</p>
-                    </details>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      ) : (
-        <Empty>Kaydedilmiş kanıt yok.</Empty>
-      )}
-    </>
-  );
-}
-
-export function TraceView({ record, agents }: { record: RecordAnalysis; agents: Agent[] }) {
-  const result = record.result;
-  return (
-    <>
-      <h3>Bu çalışmanın ajan izi</h3>
-      <p className="muted">
-        {result.trace.length} adım kaydı ·{' '}
-        {result.trace.filter((step) => step.status === 'completed').length} tamamlanan ·{' '}
-        {result.trace.filter((step) => step.status === 'failed').length} başarısız ·{' '}
-        {result.total_tool_calls} araç çağrısı · {result.llm_calls} LLM çağrısı ·{' '}
-        {result.commands.length} fiziksel komut
-      </p>
-      <ol className="trace">
-        {result.trace.map((step, index) => (
-          <li key={`${step.task_id}-${index}`}>
-            <span className="trace-number">{index + 1}</span>
-            <div>
-              <div className="section-heading">
-                <h4>
-                  <span className="mono">{step.agent_id}</span>{' '}
-                  {agents.find((agent) => agent.agent_id === step.agent_id)?.name}
-                </h4>
-                <Badge value={step.status} />
-              </div>
-              <p>
-                {step.tool_calls} araç çağrısı · {number(step.elapsed_ms, 3)} ms
-              </p>
-              {step.error_code && <p className="error-text">{step.error_code}</p>}
-              <details>
-                <summary>Uzman çıktısını göster</summary>
-                <pre>
-                  {JSON.stringify(
-                    result.outputs.find((output) => output.task_id === step.task_id)?.payload ?? {
-                      error: step.error_code ?? 'Çıktı yok',
-                    },
-                    null,
-                    2,
-                  )}
-                </pre>
-              </details>
-            </div>
-          </li>
-        ))}
-      </ol>
-    </>
-  );
-}
+export { EvidenceView, TraceView } from './EvidenceExplorer';
