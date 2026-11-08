@@ -29,6 +29,8 @@ export function IncidentDetail({ session, id }: { session: Session; id: string }
   const [refresh, setRefresh] = useState(0);
   const [tab, setTab] = useState<Tab>('report');
   const [selectedRun, setSelectedRun] = useState<string>();
+  const [evidenceTarget, setEvidenceTarget] = useState<{ run: string; id: string }>();
+  const [agentTarget, setAgentTarget] = useState<{ run: string; id: string }>();
   const [runsOffset, setRunsOffset] = useState(0);
   const [auditOffset, setAuditOffset] = useState(0);
   const [busy, setBusy] = useState(false);
@@ -202,7 +204,8 @@ export function IncidentDetail({ session, id }: { session: Session; id: string }
               <small className="mono">Çalışma: {data.record.run_id}</small>
               <p className="hint">
                 {data.record.request.research ? 'mvp12' : 'core6'} ·{' '}
-                {data.record.request.window.samples.length} sentetik ölçüm ·{' '}
+                {data.record.request.window.samples.length} ölçüm ·{' '}
+                {label(data.record.request.window.source)} ·{' '}
                 {date(data.record.request.window.samples[0]!.timestamp)} —{' '}
                 {date(data.record.request.window.samples.at(-1)!.timestamp)}
               </p>
@@ -252,15 +255,51 @@ export function IncidentDetail({ session, id }: { session: Session; id: string }
               aria-labelledby={`tab-${tab}`}
               tabIndex={0}
             >
-              {tab === 'report' && <ReportView record={data.record} />}
+              {tab === 'report' && (
+                <ReportView
+                  record={data.record}
+                  onInspectEvidence={(evidenceId) => {
+                    setEvidenceTarget({ run: data.record.run_id, id: evidenceId });
+                    setTab('evidence');
+                    document.getElementById('tab-evidence')?.focus();
+                  }}
+                />
+              )}
               {tab === 'telemetry' && (
                 <Telemetry
                   samples={data.record.request.window.samples}
                   interval={data.record.request.research?.expected_interval_s}
                 />
               )}
-              {tab === 'evidence' && <EvidenceView record={data.record} />}
-              {tab === 'trace' && <TraceView record={data.record} agents={data.agents} />}
+              {tab === 'evidence' && (
+                <EvidenceView
+                  key={data.record.run_id}
+                  record={data.record}
+                  initialId={
+                    evidenceTarget?.run === data.record.run_id ? evidenceTarget.id : undefined
+                  }
+                  onInspectAgent={(agentId) => {
+                    setAgentTarget({ run: data.record.run_id, id: agentId });
+                    setTab('trace');
+                    document.getElementById('tab-trace')?.focus();
+                  }}
+                />
+              )}
+              {tab === 'trace' && (
+                <TraceView
+                  key={data.record.run_id}
+                  record={data.record}
+                  agents={data.agents}
+                  initialAgent={
+                    agentTarget?.run === data.record.run_id ? agentTarget.id : undefined
+                  }
+                  onInspectEvidence={(evidenceId) => {
+                    setEvidenceTarget({ run: data.record.run_id, id: evidenceId });
+                    setTab('evidence');
+                    document.getElementById('tab-evidence')?.focus();
+                  }}
+                />
+              )}
               {tab === 'history' && (
                 <div className="stack">
                   <div>

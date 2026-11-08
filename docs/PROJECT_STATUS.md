@@ -1,15 +1,33 @@
 # CanovaTwin X — Güncel yetenek ve tamamlanma durumu
 
-**2 Kasım 2026 · Uygulama 0.18.0 / Motor 0.4.0 · Sprint 19 geliştirme dalı**
+**8 Kasım 2026 · Uygulama 0.19.0 / Motor 0.4.0 · Sprint 20 geliştirme dalı**
 
-Kayıtlı koşumların karşılaştırma paneli eklendi; ana dala alınması PR incelemesine bağlıdır.
-Kapsam ve sınırlar: [SPRINT_17_REPORT.md](SPRINT_17_REPORT.md).
+Çalışan çıktı: yerel panel, API ve CLI üzerinden kullanılan, kalıcı geçmiş ve
+kanıtlı rapor üreten 12 uzmanlı çevrimdışı karar destek çekirdeği. Son iki adımın
+ana dala alınması GitHub incelemesine bağlıdır; geliştirme dalı ile yayımlanmış
+ana dal aynı şey değildir.
 
-Çalışan çıktı: sentetik veriyle yerel web paneli, API ve CLI ile kullanılabilen, kanıta dayalı rapor ve kalıcı inceleme geçmişi üreten 12 uzmanlı karar destek çekirdeği. Katalog 36 rol içerir. Bu belge tamamlanmış özelliği, kısmi katmanı ve planlı rolü birbirinden ayırır; tamamlanma yüzdesi iddiası taşımaz.
+Sprint 20, rapor → kanıt → üretici ajan → kaynak ölçüm incelemesini bağlar.
+Arama, üretici filtresi, sayfalama ve adım süresi görünümü vardır. Analiz motoru,
+veri şeması ve uzman sayısı değişmedi. [Kabul raporu](SPRINT_20_REPORT.md).
 
-Yeni görsel kapsam: koyu operasyon merkezi, ekipman filosu, kayıtlı olay dağılımı, ajan uygulama haritası ve etkileşimli ölçüm grafikleri. Güncel doğrulama: 629 Python / 65 panel testi. [Tasarım kabul raporu](SPRINT_18_REPORT.md).
+## Ne kadarı tamamlandı?
 
-Güncel adım: ekipman arşivinden koşum seçimi ve dört kanalda ortak ölçekli bağıl zaman eğrileri. 632 Python / 71 panel testi; API 18 yol. [Sprint 19 raporu](SPRINT_19_REPORT.md).
+- **Uzman uygulamaları: 12 / 36 (%33,3).** 24 rol planlıdır. Bu oran yalnızca
+  uzman rol sayısının oranıdır; toplam ürünün veya iş yükünün tamamlanma oranı değildir.
+- **Çevrimdışı inceleme zinciri çalışır:** senaryo/akış üretimi → doğrulama →
+  analiz → kalıcı kayıt → rapor/kanıt inceleme → replay/koşum karşılaştırma.
+- **Yedi mimari katmanın tamamında nihai kapsam bitmiş değildir.** L1/L5 sanal
+  pilot; L2 temel kontrol; L3 çevrimdışı aktarım; L4 yerel kayıt; L6 12 uzmanlı
+  çekirdek; L7 yerel operatör paneli seviyesindedir. Aşağıdaki katman envanteri
+  tamamlanan parçaları ve açık sınırları birlikte gösterir.
+- **Nihai ürün için açık ana işler:** bağımsız etiketli veriyle tanı doğrulaması,
+  fiziksel model kalibrasyonu, sürekli ağ geçidi, sanal kontrolör durum makinesi,
+  kalan 24 uzman ve grup koordinatörleri, değerlendirilmiş semantik bilgi erişimi,
+  üretim işletimi/kişisel yetkilendirme ve Şubat 2027 sonrası saha kabulü.
+- Toplam ürün için yüzde verilmez: özgün araştırma hedeflerinin süre/önem
+  ağırlıkları ve saha kabul ölçümleri belirlenmiş değildir. Sprint sayısı bir
+  toplam tamamlanma yüzdesine dönüştürülmez.
 
 ## Proje bugün neler yapabiliyor?
 
@@ -48,6 +66,11 @@ Güncel adım: ekipman arşivinden koşum seçimi ve dört kanalda ortak ölçek
 22. Yapılandırılmış sentetik ekipmanları ve geçmişte gözlenen kimlikleri listeler. Seçilen ekipmanın olayları, son kayıtlı penceresi, sensör etiket/birim/kalite aralıkları ve eksik değerleri ayrı görünür. Senaryo ve aktarım deneyleri ekipman hedefiyle açılır; kayıtlar ve geçmiş vakalar ekipman bazında ayrılır. Tanımlar yerel ayardan yüklenir; web üzerinden katalog düzenleme yoktur.
 
 23. Aynı ekipmanın iki farklı kayıtlı koşumunu API üzerinden karşılaştırır: 11 kanalda mevcut ölçüm istatistikleri, eksik sayıları, aday − temel farkları, aktarım sayaçları ve değişen girdi alanları görünür. Panelde kimlik girişi veya olay geçmişinden iki kayıt seçimi vardır; karşılaştırma yeni analiz veya geçmiş kaydı üretmez.
+
+24. Kayıtlı rapordaki kanıt bağlantısını seçerek üreticiyi, kaynak ölçümleri ve
+raporda destek/karşı kanıt olarak kullanımını inceler. Ajan adımları, kayıtlı
+sıra/süre/durum ve tam ajan+görev kimliğiyle eşleşen çıktıları gösterir. Eksik
+referanslar görünür; paralel çalışma veya nedensellik çıkarımı yapılmaz.
 
 ## Yedi katmanın durumu
 
@@ -178,7 +201,15 @@ Python testlerinin bulunması bu PLC uzmanlarının tamamlandığı anlamına ge
 
 - Sprint 17: kayıtlı koşumların panelde yan yana karşılaştırılması, olay geçmişinden seçim, eksik/veri farkları ve sürümlü JSON dışa aktarma.
 
+- Sprint 18: ortak koyu tasarım, operasyon merkezi, ekipman görselleri ve etkileşimli telemetri grafikleri.
+
+- Sprint 19: ekipman arşivinden koşum seçimi ve dört kanalda ortak ölçekli bağıl zaman eğrileri.
+
+- Sprint 20: seçilebilir kanıt kaynakları, rapor bağlantıları, filtre/sayfalama, ajan süre/adım incelemesi ve kayda bağlı sekmeler arası geçiş. Uzman sayısı 12/36 kalır.
+
 ## Doğrulama ve sınırlar
+
+Sprint 20: 632 Python / 82 panel testi; toplam satır+dal kapsamı %94,92. Kurulu paket/gerçek HTTP ve salt okunur tarayıcı akışı doğrulandı. Ayrıntı: [SPRINT_20_REPORT.md](SPRINT_20_REPORT.md).
 
 Sprint 17: 629 Python / 59 panel testi; toplam kapsam %94,95. Salt okunur tarayıcı akışı, geçmişten seçim, JSON indirme ve 375 piksel ekran doğrulandı. Ayrıntı: [SPRINT_17_REPORT.md](SPRINT_17_REPORT.md).
 

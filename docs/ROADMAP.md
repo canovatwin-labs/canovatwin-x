@@ -1,7 +1,7 @@
 # Ürün ve araştırma yol haritası
 
-Bu belge özgün proje kapsamı ile geliştirme dalındaki 0.18.0 sürümü arasındaki farkı açık tutar.
-Sprint 1–19 çıktıları ilk önerideki bütün araştırma programının veya 36 rolün
+Bu belge özgün proje kapsamı ile geliştirme dalındaki 0.19.0 sürümü arasındaki farkı açık tutar.
+Sprint 1–20 çıktıları ilk önerideki bütün araştırma programının veya 36 rolün
 tamamlandığı anlamına gelmez. Geliştirme dalı ve ana dal ayrımı PR incelemeleriyle korunur.
 
 ## Mevcut temel
@@ -103,6 +103,14 @@ Sprint 17, salt okunur karşılaştırmayı panelden seçim ve yan yana ölçüm
 Sprint 18, referans ekranlara göre koyu ortak tasarım, ikonlu gezinme, operasyon merkezi, ekipman görselleri ve etkileşimli kayıtlı ölçüm grafikleri ekler. Sonraki sıra koşum seçicisi ve zaman kurallı karşılaştırmalı eğrilerdir. [Tasarım raporu](SPRINT_18_REPORT.md).
 
 Sprint 19, ekipmanın bütün olaylarındaki koşumları sayfalı seçiciye ve dört kanalda bağıl zaman eğrilerine bağlar. Ortak ölçek var; arıza başlangıcı hizalaması ve interpolasyon yok. Sonraki sıra kayıtlı kanıt/ajan yürütme izinin görsel incelemesidir. [Kabul raporu](SPRINT_19_REPORT.md).
+
+Sprint 20, kayıtlı rapor referanslarını kanıt seçicisine, üreticinin ajan izine ve
+kaynak ölçüm tablosuna bağlar. Sıra ve süre görselleştirmesi bağımlılık grafiği
+olarak sunulmaz; eksik referanslar ve başarısız adımlar görünür.
+[Kabul raporu](SPRINT_20_REPORT.md). Sonraki operatör adımı, seçili kanıtın
+kaynak ölçümlerini zaman grafiğinde vurgulayarak anormalliğin zaman bağlamını
+incelemektir. Bu panel işi, Öncelik 1'deki bağımsız doğrulama ve Öncelik 2'deki
+kalibrasyon/ağ geçidi eksiklerini kapatmış sayılmaz.
 
 ## Öncelik 4 — Bilgi erişimi ve uzman hiyerarşisi
 
