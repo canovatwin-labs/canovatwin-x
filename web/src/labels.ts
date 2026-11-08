@@ -22,6 +22,7 @@ export const labels: Record<string, string> = {
   reduction_in_model: 'Modelde azalma',
   no_material_reduction: 'Belirgin azalma yok',
   synthetic: 'Sentetik ölçüm',
+  declared_external: 'Beyanlı dış ölçüm',
   historical_snapshot: 'Dondurulmuş geçmiş',
   document_snapshot: 'Dondurulmuş doküman',
   simulation: 'Simülasyon',

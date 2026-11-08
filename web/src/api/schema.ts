@@ -674,7 +674,7 @@ export interface components {
       api_version: string;
       /**
        * Application Version
-       * @default 0.18.0
+       * @default 0.19.0
        */
       application_version: string;
       /**
@@ -1058,7 +1058,7 @@ export interface components {
       api_version: string;
       /**
        * Application Version
-       * @default 0.18.0
+       * @default 0.19.0
        */
       application_version: string;
       /**

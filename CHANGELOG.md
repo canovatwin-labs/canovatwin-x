@@ -14,6 +14,16 @@ of stored analyses. The engine version only changes when diagnostic behaviour ch
 > in `docs/SPRINT_N_REPORT.md`. They are different from the GitHub milestones
 > (Sprint A1-A6, Phase B), which describe the academic and Canovate roadmap.
 
+## 0.19.0 — 2026-11-08
+
+- Add read-only evidence inspection with search, exact producer filtering,
+  source-reading pagination and explicit final-report references.
+- Link report evidence and producer steps inside the selected recorded run;
+  show recorded durations, failure codes and exact agent/task output matches.
+- Preserve missing readings and distinguish producer-level provenance from task
+  dependencies; keep the engine at 0.4.0 with 12 implemented specialist roles.
+- Document completion by capability and role count without an unsupported overall percentage.
+
 ## [Unreleased]
 
 ### Added
