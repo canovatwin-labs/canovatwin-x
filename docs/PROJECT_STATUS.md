@@ -1,11 +1,11 @@
 # CanovaTwin X — Güncel yetenek ve tamamlanma durumu
 
-**8 Kasım 2026 · Uygulama 0.19.0 / Motor 0.4.0 · Sprint 20 geliştirme dalı**
+**17 Kasım 2026 · Uygulama 0.19.0 / Motor 0.4.0 · Kanıt zaman bağlamı geliştirme dalı**
 
 Çalışan çıktı: yerel panel, API ve CLI üzerinden kullanılan, kalıcı geçmiş ve
-kanıtlı rapor üreten 12 uzmanlı çevrimdışı karar destek çekirdeği. Son iki adımın
-ana dala alınması GitHub incelemesine bağlıdır; geliştirme dalı ile yayımlanmış
-ana dal aynı şey değildir.
+kanıtlı rapor üreten 12 uzmanlı çevrimdışı karar destek çekirdeği. Sprint 19 main üzerinde. Sprint 20 PR #48 ara dala birleştirildi; bu çalışma
+onaylı değişikliği main tabanlı PR içinde korur. Geliştirme dalı ile main aynı
+şey değildir.
 
 Sprint 20, rapor → kanıt → üretici ajan → kaynak ölçüm incelemesini bağlar.
 Arama, üretici filtresi, sayfalama ve adım süresi görünümü vardır. Analiz motoru,
@@ -231,3 +231,9 @@ Python 3.12 sözleşme farkı giderildi; üç Python sürümünde Linux CI doğr
 Ana dalda üç kalite kontrolü zorunlu; mevcut yönetici istisnası korunuyor.
 Ayrıntılar ve sınırlar [GitHub devir raporunda](GITHUB_HANDOFF_REPORT.md).
 Bu altyapı adımı yeni uzman veya saha yeteneği eklemedi.
+
+## Sıradaki mimari dilim
+
+[On bileşenli ajan evrim planı](AGENT_EVOLUTION.md), gerçek uygulama durumunu,
+güven sınırlarını ve kabul kapılarını tanımlar. Kanıt ayrıntısında seçili kaynak
+ölçümleri sıcaklık/yük/fan grafiğinde işaretlenir. Yeni model doğruluğu iddiası yoktur.

@@ -828,3 +828,9 @@ tr:hover td {
   color: var(--cyan);
   min-height: 44px;
 }
+
+.evidence-marker {
+  fill: var(--bg, #0b1424);
+  stroke: #fbbf24;
+  stroke-width: 2;
+}

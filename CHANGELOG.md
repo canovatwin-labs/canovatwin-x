@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased — Kanıt zaman bağlamı
+
+- Seçili kanıtın kaynak ölçümleri üç kanallı zaman grafiğinde işaretlenir.
+- On bileşenli ajan evrim planı ve kabul sınırları belgelendi.
+- opentelemetry-api 1.45.2 güvenlik düzeltmesi.
+
 All notable changes to CanovaTwin X are documented in this file.
 
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and

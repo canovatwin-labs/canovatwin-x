@@ -133,3 +133,5 @@ kalibrasyon/ağ geçidi eksiklerini kapatmış sayılmaz.
 İş tanımı → küçük PR → ilgili testler → tüm kalite kapısı → diğer geliştiricinin
 incelemesi → sonuç ve sınırlamalar raporu. Bulunan hatalar görünür iş olarak
 izlenir; test geçmeden veya engel açıkça kaydedilmeden tamamlandı denmez.
+
+Ajan altyapısının bağımlılık sıralı uygulama planı: [AGENT_EVOLUTION.md](AGENT_EVOLUTION.md).

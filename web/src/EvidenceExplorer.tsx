@@ -2,6 +2,7 @@ import { useRef, useState } from 'react';
 import type { Agent, RecordAnalysis, Sample, Schema } from './api/types';
 import { Badge, Empty, Pager, Stat } from './components';
 import { date, label, number } from './labels';
+import { TelemetryChart } from './Telemetry';
 
 type Evidence = Schema['Evidence'];
 
@@ -199,6 +200,7 @@ function EvidenceDetail({
   onInspectAgent?: (id: string) => void;
 }) {
   const [offset, setOffset] = useState(0);
+  const [channel, setChannel] = useState<'temperature' | 'power' | 'fan'>('temperature');
   const references = evidenceReferences(record, evidence.evidence_id);
   const samples = new Map<string, Sample | null>();
   for (const sample of record.request.window.samples) {
@@ -273,6 +275,31 @@ function EvidenceDetail({
             Bazı ölçüm kimlikleri bu pencerede yok veya tekil değil; değer üretilmedi veya başka
             kayıttan tamamlanmadı.
           </p>
+        )}
+        {present > 0 && (
+          <section aria-label="Kanıtın zaman bağlamı" className="stack">
+            <label>
+              Ölçüm kanalı
+              <select
+                value={channel}
+                onChange={(event) => setChannel(event.target.value as typeof channel)}
+              >
+                <option value="temperature">Sıcaklık</option>
+                <option value="power">Yük ve soğutma</option>
+                <option value="fan">Fan tepkisi</option>
+              </select>
+            </label>
+            <TelemetryChart
+              samples={record.request.window.samples}
+              interval={record.request.research?.expected_interval_s}
+              kind={channel}
+              highlightedIds={evidence.sample_ids}
+            />
+            <p className="muted">
+              Tam pencere bağlam için gösterilir. İşaretler kaynak referansıdır; arıza zamanı veya
+              neden ataması değildir.
+            </p>
+          </section>
         )}
         <div className="table-scroll" role="region" aria-label="Kaynak ölçüm tablosu" tabIndex={0}>
           <table>
