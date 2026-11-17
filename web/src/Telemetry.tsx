@@ -16,21 +16,21 @@ const chartKinds = {
     title: 'Sıcaklık seyri',
     names: ['Giriş', 'Referans'],
     unit: '°C',
-    accessible: 'Sentetik giriş ve referans sıcaklığı',
+    accessible: 'Kayıtlı giriş ve referans sıcaklığı',
   },
   power: {
     fields: ['it_load_kw', 'cooling_kw'],
     title: 'Yük ve soğutma',
     names: ['IT yükü', 'Soğutma'],
     unit: 'kW',
-    accessible: 'Sentetik IT yükü ve soğutma gücü',
+    accessible: 'Kayıtlı IT yükü ve soğutma gücü',
   },
   fan: {
     fields: ['fan_command_pct', 'fan_feedback_pct'],
     title: 'Fan tepkisi',
     names: ['Komut', 'Geri bildirim'],
     unit: '%',
-    accessible: 'Sentetik fan komutu ve geri bildirimi',
+    accessible: 'Kayıtlı fan komutu ve geri bildirimi',
   },
 } as const;
 export type ChartPoint = { x: number; y: number };
@@ -40,6 +40,7 @@ export function seriesSegments(samples: Sample[], field: Metric, interval = 1): 
   const first = samples[0];
   if (!first) return [];
   const start = Date.parse(first.timestamp);
+  if (!Number.isFinite(start)) return [];
   const segments: ChartPoint[][] = [];
   let segment: ChartPoint[] = [];
   let previous: number | undefined;
@@ -67,15 +68,25 @@ export function TelemetryChart({
   samples,
   interval = 1,
   kind = 'temperature',
+  highlightedIds = [],
 }: {
   kind?: keyof typeof chartKinds;
   samples: Sample[];
   interval?: number;
+  highlightedIds?: string[];
 }) {
   const id = useId();
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [hidden, setHidden] = useState<string[]>([]);
   const config = chartKinds[kind];
+  const counts = new Map<string, number>();
+  for (const sample of samples)
+    counts.set(sample.sample_id, (counts.get(sample.sample_id) ?? 0) + 1);
+  const wanted = new Set(highlightedIds);
+  const highlighted = samples.filter(
+    (sample) => wanted.has(sample.sample_id) && counts.get(sample.sample_id) === 1,
+  );
+
   const container = useRef<HTMLElement>(null);
   const [width, setWidth] = useState(740);
   useEffect(() => {
@@ -182,6 +193,34 @@ export function TelemetryChart({
             </g>
           )),
         )}
+        {highlighted.flatMap((sample) =>
+          config.fields.map((field, index) => {
+            const value = sample[field];
+            const elapsed =
+              (Date.parse(sample.timestamp) - Date.parse(samples[0]!.timestamp)) / 1000;
+            if (
+              value == null ||
+              !Number.isFinite(value) ||
+              !Number.isFinite(elapsed) ||
+              hidden.includes(index ? 'reference' : 'inlet')
+            )
+              return null;
+            return (
+              <circle
+                key={`${sample.sample_id}-${field}`}
+                className="evidence-marker"
+                cx={x(elapsed)}
+                cy={y(value)}
+                r="5"
+                data-sample-id={sample.sample_id}
+              >
+                <title>
+                  {sample.sample_id} · {config.names[index]}: {number(value)} {config.unit}
+                </title>
+              </circle>
+            );
+          }),
+        )}
       </svg>
       <div className="chart-inspector">
         <label htmlFor={`${id}-sample`}>
@@ -203,6 +242,8 @@ export function TelemetryChart({
       </div>
       <figcaption>
         Kayıtlı pencere · {config.unit} · Eksik ölçümler ve zaman boşlukları birleştirilmez.
+        {highlightedIds.length > 0 &&
+          ' Halkalar seçili kanıtın tekil ölçüm referanslarını gösterir; eksik kanal değerleri işaretlenmez.'}
       </figcaption>
     </figure>
   );

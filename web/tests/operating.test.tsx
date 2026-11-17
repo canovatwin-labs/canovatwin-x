@@ -104,8 +104,8 @@ it('gives each chart a unique accessible title and preserves missing power readi
       <TelemetryChart samples={samples} kind="fan" />
     </>,
   );
-  const power = screen.getByRole('img', { name: /Sentetik IT yükü ve soğutma gücü/ });
-  const fan = screen.getByRole('img', { name: /Sentetik fan komutu ve geri bildirimi/ });
+  const power = screen.getByRole('img', { name: /Kayıtlı IT yükü ve soğutma gücü/ });
+  const fan = screen.getByRole('img', { name: /Kayıtlı fan komutu ve geri bildirimi/ });
   expect(power.getAttribute('aria-labelledby')).not.toEqual(fan.getAttribute('aria-labelledby'));
 });
 
@@ -118,7 +118,7 @@ it('renders actual latest run data while queue counters remain page scoped', asy
   });
   const run = vi.spyOn(current.api, 'run').mockResolvedValue(data.record);
   render(<IncidentList api={current.api} />);
-  expect(await screen.findByRole('img', { name: /Sentetik IT yükü/ })).toBeVisible();
+  expect(await screen.findByRole('img', { name: /Kayıtlı IT yükü/ })).toBeVisible();
   expect(run).toHaveBeenCalledWith(data.incident.latest_run_id);
   const label = screen.getByText('Görüntülenen kayıt');
   expect(within(label.parentElement!).getByText('1')).toBeVisible();
