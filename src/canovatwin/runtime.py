@@ -48,11 +48,14 @@ class Budget:
     started: float = 0.0
     tool_calls: int = 0
     agents: int = 0
+    cancelled: Callable[[], bool] | None = None
 
     def __post_init__(self):
         self.started = self.clock()
 
     def check_deadline(self):
+        if self.cancelled is not None and self.cancelled():
+            raise ExecutionError("ANALYSIS_CANCELLED", "Analysis was cancelled")
         if self.clock() - self.started >= self.policy.max_elapsed_s:
             raise ExecutionError("DEADLINE_EXCEEDED", "Analysis exceeded its elapsed-time budget")
 

@@ -30,9 +30,9 @@ from .contracts import (
 )
 from .identity import incident_identifier
 from .policy import Policy, default_policy
-from .registry import BY_ID
 from .runtime import Budget, ExecutionError, ToolSession
 from .state import AnalysisContext
+from .task_routing import Capability, CapabilityRouter, LocalDispatcher, TaskEnvelope, task_identifier
 
 _STATE_FIELDS = {
     QualityResult: "quality",
@@ -50,32 +50,46 @@ _STATE_FIELDS = {
 
 
 class Supervisor:
-    def __init__(self, policy: Policy | None = None, *, clock: Callable[[], float] = monotonic):
+    def __init__(
+        self,
+        policy: Policy | None = None,
+        *,
+        clock: Callable[[], float] = monotonic,
+        cancelled: Callable[[], bool] | None = None,
+    ):
         self.policy = policy
         self._clock = clock
+        self._cancelled = cancelled
+        self._router = CapabilityRouter()
 
     def run(self, request: AnalysisRequest) -> AnalysisRun:
         # model_construct / model_copy can bypass validation; validate recursively at ingress.
         request = AnalysisRequest.model_validate(request.model_dump())
         policy = Policy.model_validate((self.policy or default_policy(request)).model_dump())
         incident_id = incident_identifier(request, policy)
-        digest = incident_id[4:]
         ctx = AnalysisContext(incident_id, request, policy)
-        budget = Budget(policy, clock=self._clock)
+        budget = Budget(policy, clock=self._clock, cancelled=self._cancelled)
+        dispatcher = LocalDispatcher(self._router, ctx, budget)
         outputs, trace = [], []
         report = None
         failure = None
-        agent_id = "A02"
-        while agent_id:
-            task_id = f"TASK-{digest}-{agent_id}"
+        capability: Capability | None = "quality"
+        while capability is not None:
+            try:
+                definition = self._router.resolve(capability)
+            except ExecutionError as exc:
+                failure, report = RunFailure(code=exc.code, message=str(exc)), None
+                break
+            agent_id = definition.agent_id
+            task_id = task_identifier(incident_id, definition)
+            task = TaskEnvelope(
+                schema_version="1.0", incident_id=incident_id, task_id=task_id, capability=capability
+            )
             started = self._clock()
             session = None
             error = None
             try:
-                budget.begin_agent()
-                definition = BY_ID[agent_id]
-                if definition.status != "active":
-                    raise ExecutionError("AGENT_DISABLED", "Requested specialist is not active")
+                definition = dispatcher.admit(task)
                 session = ToolSession(definition, ctx, budget)
                 payload = build_specialist(agent_id).execute(session)
                 output = AgentOutput.model_validate(
@@ -156,7 +170,7 @@ class Supervisor:
             if error:
                 failure, report = error, None
                 break
-            agent_id = self._next(agent_id, ctx)
+            capability = self._next(capability, ctx)
         return AnalysisRun(
             incident_id=incident_id,
             mode="external_review" if request.window.source == "declared_external" else "simulation",
@@ -171,30 +185,36 @@ class Supervisor:
         )
 
     @staticmethod
-    def _next(agent_id: str, ctx: AnalysisContext) -> str | None:
+    def _next(capability: Capability, ctx: AnalysisContext) -> Capability | None:
         extended = ctx.request.research is not None
-        if agent_id == "A02":
-            return "A03" if ctx.quality and ctx.quality.usable else "A06" if extended else "F03"
-        if agent_id == "A03":
-            return "B02"
-        if agent_id == "B02":
+        if capability == "quality":
+            return (
+                "signals"
+                if ctx.quality and ctx.quality.usable
+                else "missing_data"
+                if extended
+                else "verification"
+            )
+        if capability == "signals":
+            return "anomaly"
+        if capability == "anomaly":
             if not ctx.anomaly or not ctx.anomaly.detected:
-                return "F03"
+                return "verification"
             if extended and ctx.request.research.historical_cases:
-                return "B05"
+                return "history"
             if extended and ctx.request.research.documents:
-                return "F02"
-            return "B03"
-        if agent_id == "B05":
-            return "F02" if ctx.request.research.documents else "B03"
-        if agent_id == "B03":
-            return "B06" if extended else "F03"
+                return "retrieval"
+            return "diagnosis"
+        if capability == "history":
+            return "retrieval" if ctx.request.research.documents else "diagnosis"
+        if capability == "diagnosis":
+            return "critique" if extended else "verification"
         return {
-            "A06": "F03",
-            "F02": "B03",
-            "B06": "D02",
-            "D02": "D06",
-            "D06": "F03",
-            "F03": "F04",
-            "F04": None,
-        }[agent_id]
+            "missing_data": "verification",
+            "retrieval": "diagnosis",
+            "critique": "simulation",
+            "simulation": "simulation_validation",
+            "simulation_validation": "verification",
+            "verification": "report",
+            "report": None,
+        }[capability]
