@@ -1,15 +1,10 @@
 # CanovaTwin X — Güncel yetenek ve tamamlanma durumu
 
-**17 Kasım 2026 · Uygulama 0.19.0 / Motor 0.4.0 · Kanıt zaman bağlamı geliştirme dalı**
+**18 Kasım 2026 · Uygulama 0.19.0 / Motor 0.4.0 · Sprint 22**
 
-Çalışan çıktı: yerel panel, API ve CLI üzerinden kullanılan, kalıcı geçmiş ve
-kanıtlı rapor üreten 12 uzmanlı çevrimdışı karar destek çekirdeği. Sprint 19 main üzerinde. Sprint 20 PR #48 ara dala birleştirildi; bu çalışma
-onaylı değişikliği main tabanlı PR içinde korur. Geliştirme dalı ile main aynı
-şey değildir.
-
-Sprint 20, rapor → kanıt → üretici ajan → kaynak ölçüm incelemesini bağlar.
-Arama, üretici filtresi, sayfalama ve adım süresi görünümü vardır. Analiz motoru,
-veri şeması ve uzman sayısı değişmedi. [Kabul raporu](SPRINT_20_REPORT.md).
+Ana dalda #55 ile kanıt ve zaman grafiği birleşti. Sprint 22 PR'ı, yerel görev
+zarfı ve yetenek yönlendirme değişikliğini içeriyor. Mevcut 12 uzman yerel panel,
+API ve CLI için kalıcı geçmiş ve kanıtlı rapor üretmeye devam ediyor.
 
 ## Ne kadarı tamamlandı?
 
